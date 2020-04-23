@@ -1,5 +1,5 @@
 from flask import Flask, request, make_response, redirect, jsonify
-from json import loads
+from json import loads, dumps
 from AuthFrameWork import Authenticator
 from CSRFToken import CSRFTokenHandler
 from errors import *
@@ -10,7 +10,7 @@ email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 
 csrf_handler = CSRFTokenHandler()
 auth = Authenticator()
-app = Flask(__name__)
+app = Flask(__name__, static_folder='Sandbox', static_url_path='/')
 csrf_html_response = """
 <!DOCTYPE html>
 <html>
@@ -30,11 +30,11 @@ csrf_html_response = """
 def gen_csrftok():
     tok = csrf_handler.gentok()
     resp = jsonify({'token': tok})
-    resp.set_cookie('csrf_token', tok)
+    resp.set_cookie('csrf_token', tok, max_age=86400)
     return resp
 
 
-@app.route('/register')
+@app.route('/register', methods=['POST'])
 def registeruser():
     response = deepcopy(register_errors_template)
     error = False
@@ -44,12 +44,6 @@ def registeruser():
         username = data.get('username')
         confirm = data.get('confirm')
         passwd = data.get('password')
-        if not email:
-            response['errors']['email'] = "Empty email"
-            error = True
-        if not confirm:
-            response['errors']['confirm'] = "Empty confirm"
-            error = True
         if not username:
             response['errors']['username'] = "Empty username"
             error = True
@@ -68,29 +62,62 @@ def registeruser():
         if confirm != passwd:
             response['errors']['confirm'] = "Passwords do not match"
             error = True
+        if len(passwd) < 8 or sum(c.isdigit() for c in passwd) < 2:
+            response['errors']['password'] = "There must be at least 8 characters and 2 numbers"
+            error = True
         if error:
             return jsonify(response)
         else:
             auth.register(data)
-            resp = jsonify(register_success_template)
-            resp.set_cookie('sessid', auth.authenticate(data))
+            resp = make_response(dumps(register_success_template))
+            resp.set_cookie('sessid', auth.authenticate(data), max_age=86400)
             return resp
     else:
         response['csrf'] = True
-        return jsonify(response)
+        return dumps(response)
 
 
 def csrf_verify():
     csrf_tok = request.headers.get('X-CSRF-Token')
-    return not csrf_tok and csrf_handler.validatetok(csrf_tok)
+    return bool(csrf_tok) and csrf_handler.validatetok(csrf_tok)
 
 
 @app.route('/csrf_fail')
 def csrf_fail():
     return csrf_html_response
 
+
 def isvalidemail(email):
     return bool(email_regex.match(email))
 
+
+@app.route('/getuser')
+def whoami():
+    return auth.sessidtouser(request.cookies.get('sessid'))
+
+
+@app.route('/verify_csrftok')
+def verifytok():
+    csrf_tok = request.data
+    return dumps({'valid': bool(csrf_tok) and csrf_handler.validatetok(csrf_tok)})
+
+
+@app.route('/login')
+def authenticate():
+    if csrf_verify():
+        data = loads(request.data)
+        if True in (not data.get('username'), not data.get('password')):
+            return dumps({'status': 'error', 'csrf': False})
+        sessid = auth.authenticate(data)
+        if sessid:
+            resp = make_response(dumps({'status':'success'}))
+            resp.set_cookie('sessid',sessid)
+            return resp
+        else:
+            return dumps({'status': 'error', 'csrf': False})
+    else:
+        return dumps({'status': 'error', 'csrf': True})
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

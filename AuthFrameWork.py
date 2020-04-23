@@ -27,7 +27,7 @@ class Authenticator:
 
     @staticmethod
     def _hash_pwd(passwd):
-        return sha384(passwd).hexdigest()
+        return sha384(passwd.encode()).hexdigest()
 
     def authenticate(self, authdata):
         passwd = authdata.get('password')
