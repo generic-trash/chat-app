@@ -93,8 +93,8 @@ def isvalidemail(email):
 
 @app.route('/getuser')
 def whoami():
-    return auth.sessidtouser(request.cookies.get('sessid'))
-
+    x = auth.sessidtouser(request.cookies.get('sessid'))
+    return x if x else "<h1>NOT LOGGED IN!!! </h1>"
 
 @app.route('/verify_csrftok')
 def verifytok():
@@ -102,7 +102,7 @@ def verifytok():
     return dumps({'valid': bool(csrf_tok) and csrf_handler.validatetok(csrf_tok)})
 
 
-@app.route('/login')
+@app.route('/login',methods=['POST'])
 def authenticate():
     if csrf_verify():
         data = loads(request.data)
