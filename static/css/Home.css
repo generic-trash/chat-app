@@ -1,0 +1,118 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:hover,
+*:focus {
+  outline: none;
+}
+
+:root {
+  --clr-primary: #0094ff;
+  --clr-neutral: #f2f2f2;
+  --clr-light: #ffffff;
+
+  --fw-extra-light: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+  --fw-extra-bold: 800;
+  --fw-black: 900;
+}
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: var(--clr-primary);
+  font-weight: var(--fw-semi-bold);
+}
+
+.container {
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.user {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: var(--clr-neutral);
+}
+
+.user-name {
+  margin-top: 0.55rem;
+}
+
+.conversation-tab {
+  background-color: var(--clr-neutral);
+}
+
+.conversation {
+  max-width: 96%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+
+.divider2 {
+  content: "";
+  border-bottom: 2px solid var(--clr-primary);
+}
+
+h2 {
+font-family: Nunito;
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 65px;
+color: #0094FF;
+text-align: center;
+}
+.modal-wrapper label {
+
+font-family: Nunito;
+font-style: normal;
+font-weight: normal;
+font-size: 20px;
+line-height: 41px;
+color: #000000;
+}
+input {
+  border-radius: 5px;
+  border: none;
+  padding: 1rem;
+  background-color: var(--clr-neutral);
+}
+
+input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  font-family: "Nunito", sans-serif;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+#startconvo {
+  text-align: center;
+}

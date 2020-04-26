@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, redirect, jsonify
+from flask import Flask, request, make_response, redirect, jsonify, send_file
 from json import loads, dumps
 from AuthFrameWork import Authenticator
 from CSRFToken import CSRFTokenHandler
@@ -10,7 +10,7 @@ email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 
 csrf_handler = CSRFTokenHandler()
 auth = Authenticator()
-app = Flask(__name__, static_folder='Sandbox', static_url_path='/')
+app = Flask(__name__, static_url_path='/assets/')
 csrf_html_response = """
 <!DOCTYPE html>
 <html>
@@ -46,9 +46,6 @@ def registeruser():
         passwd = data.get('password')
         if not username:
             response['errors']['username'] = "Empty username"
-            error = True
-        if not passwd:
-            response['errors']['password'] = "Empty password"
             error = True
         if auth.userexists(username):
             response['errors']['username'] = "Username in use"
@@ -96,13 +93,14 @@ def whoami():
     x = auth.sessidtouser(request.cookies.get('sessid'))
     return x if x else "<h1>NOT LOGGED IN!!! </h1>"
 
+
 @app.route('/verify_csrftok')
 def verifytok():
     csrf_tok = request.data
     return dumps({'valid': bool(csrf_tok) and csrf_handler.validatetok(csrf_tok)})
 
 
-@app.route('/login',methods=['POST'])
+@app.route('/login', methods=['POST'])
 def authenticate():
     if csrf_verify():
         data = loads(request.data)
@@ -110,13 +108,41 @@ def authenticate():
             return dumps({'status': 'error', 'csrf': False})
         sessid = auth.authenticate(data)
         if sessid:
-            resp = make_response(dumps({'status':'success'}))
-            resp.set_cookie('sessid',sessid)
+            resp = make_response(dumps({'status': 'success'}))
+            resp.set_cookie('sessid', sessid)
             return resp
         else:
             return dumps({'status': 'error', 'csrf': False})
     else:
         return dumps({'status': 'error', 'csrf': True})
+
+
+@app.route('/Sign-up.html')
+def signup_html():
+    if auth.sessidtouser(request.cookies.get('sessid')):
+        return redirect('/Home.html')
+    return send_file('Sandbox/Sign-up.html')
+
+@app.route('/Home.html')
+def home_html():
+    if auth.sessidtouser(request.cookies.get('sessid')):
+        return send_file('Sandbox/Home.html')
+    return redirect('/Sign-in.html')
+
+@app.route('/Sign-in.html')
+def signin_html():
+    if auth.sessidtouser(request.cookies.get('sessid')):
+        return redirect('/Home.html')
+    return send_file('Sandbox/Sign-in.html')
+
+@app.route('/Conversation.html')
+def conversation():
+    if auth.sessidtouser(request.cookies.get('sessid')):
+        return send_file('Sandbox/Conversation.html')
+
+@app.route('/')
+def testing():
+    return send_file('Sandbox/Home.html')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,162 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:hover,
+*:focus {
+  outline: none;
+}
+
+:root {
+  --clr-primary: #0094ff;
+  --clr-neutral: #f2f2f2;
+  --clr-light: #ffffff;
+
+  --fw-extra-light: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+  --fw-extra-bold: 800;
+  --fw-black: 900;
+}
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: var(--clr-primary);
+  font-weight: var(--fw-semi-bold);
+}
+
+body {
+  font-family: "Nunito";
+}
+
+.container {
+  max-width: 98%;
+  margin: 0 auto;
+  padding-top: 1rem;
+}
+
+.btn {
+  margin-bottom: 1.5rem;
+  position: relative;
+  float: right;
+}
+
+.chats {
+  display: block;
+}
+
+.chat {
+  border-radius: 5px;
+  display: inline-block;
+  padding: 10px;
+  color: #000;
+  font-weight: var(--fw-regular);
+  font-size: small;
+  margin: 5px;
+  position: relative;
+}
+.chat.u1 {
+  float: left;
+  clear: both;
+  background: #f2f2f2;
+  border-top-left-radius: 0px;
+}
+.chat.u1:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  display: block;
+  border-left: 5px solid transparent;
+  border-right: 5px solid #f2f2f2;
+  border-top: 5px solid #f2f2f2;
+  border-bottom: 5px solid transparent;
+  position: absolute;
+  top: 0px;
+  left: -9px;
+}
+.chat.u2 {
+  float: right;
+  clear: both;
+  border-top-right-radius: 0px;
+  background: #dff2ff;
+}
+.chat.u2:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  display: block;
+  border-left: 5px solid #dff2ff;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #dff2ff;
+  border-bottom: 5px solid transparent;
+  position: absolute;
+  top: 0px;
+  right: -9px;
+}
+
+.chat-area {
+  margin-bottom: 1rem;
+}
+.separator-2 {
+  clear: both;
+  margin-top: 655px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.emoticon {
+  cursor: pointer;
+}
+
+input {
+  height: 77px;
+  width: 1700px;
+  padding: 0 10px;
+  border: none;
+}
+
+input::placeholder {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.attach-f {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.attach-l {
+  cursor: pointer;
+}
+
+footer.container {
+  padding-top: 0;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+footer.sticky {
+  bottom: 0;
+}
+
+footer {
+  background: white;
+  width: 100%;
+}

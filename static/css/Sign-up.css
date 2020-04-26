@@ -1,0 +1,107 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:hover,
+*:focus {
+  outline: none;
+}
+
+:root {
+  --clr-primary: #0094ff;
+  --clr-neutral: #f2f2f2;
+  --clr-light: #ffffff;
+  --clr-danger-light: #ffb4b4;
+  --clr-danger: #bc6262;
+
+  --fw-extra-light: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+  --fw-extra-bold: 800;
+  --fw-black: 900;
+}
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: var(--clr-primary);
+  font-weight: var(--fw-semi-bold);
+}
+
+h6 {
+  font-weight: var(--fw-light);
+  color: var(--clr-danger);
+  margin-top: 1rem;
+}
+
+.container {
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 1.5rem 0 0 0;
+}
+
+.title {
+  margin-bottom: 1.5rem;
+}
+
+.divider {
+  content: "";
+  border-bottom: 2px solid var(--clr-primary);
+  margin-bottom: 1rem;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.form-div {
+  display: flex;
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  margin: 25px 30px 20px 30px;
+}
+
+input {
+  border-radius: 5px;
+  border: none;
+  min-width: 30rem;
+  padding: 1rem;
+  background-color: var(--clr-neutral);
+}
+
+input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  font-family: "Nunito", sans-serif;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: end;
+}
+
+.btn {
+  margin: 30px 30px 30px 0;
+}
+
+.invalid {
+  color: var(--clr-danger);
+  background-color: var(--clr-danger-light);
+}
