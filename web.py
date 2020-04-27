@@ -142,7 +142,7 @@ def conversation():
 
 @app.route('/')
 def testing():
-    return send_file('Sandbox/Sign-in.html')
+    return send_file('Sandbox/Sign-up.html')
 
 
 if __name__ == '__main__':

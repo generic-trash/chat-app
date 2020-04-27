@@ -17,6 +17,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
     <script src="/assets/js/csrf.js"></script>
+    <script src="/assets/js/Sign-up.js"></script>
     <title>Sign up</title>
   </head>
   <body>
@@ -53,7 +54,7 @@
                 placeholder="Enter password"
                 type="password"
               />
-              <h6>There must be at least 8 characters and 2 numbers</h6>
+              <h6 id="pwh6"></h6>
             </div>
             <div class="input">
               <label for="cpassword">Confirm password</label>
@@ -62,6 +63,7 @@
                 placeholder="Re-enter password"
                 type="password"
               />
+              <h6 id="cph6"></h6>
             </div>
           </div>
           <div class="buttons">
