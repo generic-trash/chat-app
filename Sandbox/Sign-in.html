@@ -16,6 +16,7 @@
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
     <script src="/assets/js/csrf.js"></script>
+    <script src="/assets/js/Sign-in.js"></script>
     <title>Sign in</title>
   </head>
   <body>
@@ -28,17 +29,17 @@
         <form action="#">
           <div class="input">
             <label for="username">Username</label>
-            <input placeholder="Enter username" class="" type="text" />
+            <input placeholder="Enter username" class="" type="text" id="username"/>
           </div>
           <div class="input passwords">
             <label for="password">Password</label>
             <input
               id="password"
-              class="password"
+              class=""
               placeholder="Enter password"
               type="password"
             />
-            <!-- <h6>Username and password do not match</h6> -->
+            <h6>Username and password do not match</h6>
           </div>
           <a href="#">Forgot Password</a>
           <div class="buttons">
