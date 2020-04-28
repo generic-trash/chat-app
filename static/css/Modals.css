@@ -17,7 +17,7 @@
 .modal-content {
   position: relative;
   display: inline-block;
-  max-width: 25%;
+  max-width: 340px;
   background-color: #fefefe;
   margin: auto;
   padding: 0;
@@ -58,7 +58,7 @@
 .modal-header {
   padding: 2px 16px;
   border-bottom: 1px solid #BCBCBC;
-  white-space: nowrap;
+  margin-bottom:  20px;
 }
 
 .modal-body {
