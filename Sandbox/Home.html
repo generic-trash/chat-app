@@ -18,7 +18,7 @@
   </head>
   <body>
     <nav class="nav container">
-      <div class="user">
+      <div class="user" id="themetrig">
         <h1 class="user-name">A</h1>
       </div>
       <div class="new-conversation">
@@ -74,7 +74,7 @@
       <div class="modal-wrapper">
         <div class="modal-content">
           <div class="modal-header">
-            <span class="close" id="#close-theme">&times;</span>
+            <span class="close" id="close-theme">&times;</span>
             <div class="flex">
               <div class="user">
                 <h1 class="username">B</h1>
@@ -102,32 +102,34 @@
       </div>
     </div>
     <script>
-      modal2 = $("#themepopup")[0];
-      btn2 = $(".user");
+      modal2 = $("#themepopup");
+      btn2 = $("#themetrig");
       closetheme = $("#close-theme")
-      modal = $("#newconvopopup")[0];
+      modal = $("#newconvopopup");
       btn = $("#newconvo");
+      modal.hide()
+      modal2.hide()
       closeconvo = $("#close-newconvo")
       btn.click(function() {
-        modal.style.display = "block";
+        modal.show();
+      })
+      btn2.click(function() {
+        modal2.show();
+      })
+      closetheme.click( function() {
+        modal2.hide();
       })
       closeconvo.click(function() {
-        modal.style.display = "none";
+        modal.hide();
       })
       window.onclick = function(event) {
         if (event.target == modal) {
-          modal.style.display = "none";
+          modal.hide();
         }
         if (event.target == modal2) {
-          modal2.style.display = "none";
+          modal2.hide();
         }
       }
-      btn2.click(function() {
-        modal2.style.display = "block";
-      })
-      closetheme.click( function() {
-        modal2.style.display = "none";
-      })
     </script>
   </body>
 </html>

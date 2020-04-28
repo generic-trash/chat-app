@@ -139,6 +139,7 @@ def signin_html():
 def conversation():
     if auth.sessidtouser(request.cookies.get('sessid')):
         return send_file('Sandbox/Conversation.html')
+    return redirect('/Sign-in.html')
 
 @app.route('/')
 def testing():
