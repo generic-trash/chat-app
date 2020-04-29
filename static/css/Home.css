@@ -45,7 +45,6 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
 
 .user {
@@ -53,11 +52,10 @@ h1 {
   width: 50px;
   border-radius: 50%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--clr-neutral);
-}
-
-.user-name {
-  margin-top: 0.55rem;
 }
 
 .conversation-tab {
@@ -73,26 +71,25 @@ h1 {
   padding: 1rem;
 }
 
-
 .divider2 {
   content: "";
   border-bottom: 2px solid var(--clr-primary);
 }
 
 h2 {
-font-family: Nunito;
-font-style: normal;
-font-weight: 600;
-text-align: center;
-font-size: 20px;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 600;
+  text-align: center;
+  font-size: 20px;
 }
 .modal-wrapper label {
-margin-left: 15px;
-font-family: Nunito;
-font-style: normal;
-font-weight: normal;
-font-size: calc(1rem+3px);
-color: #000000;
+  margin-left: 15px;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: calc(1rem+3px);
+  color: #000000;
 }
 input {
   border-radius: 5px;
@@ -112,31 +109,33 @@ input::placeholder {
   text-align: center;
 }
 #newconvopopup h2 {
-    font-size: 23px;
-    padding: 14px 0;
-    color: #0094FF;
+  font-size: 23px;
+  padding: 14px 0;
+  color: #0094ff;
 }
 #newconvopopup p {
-    font-size: 1rem;
-    padding-left: 1em;
+  font-size: 1rem;
+  padding-left: 1em;
 }
- #startconvo, #signout {
+#startconvo,
+#signout {
   display: block;
   margin: 20px auto 10px;
 }
 #newconvopopup .modal-header {
-    text-align:center;
+  text-align: center;
 }
 #newconvopopup .modal-content {
-    max-width: 340px;
-  min-width:205px;
+  max-width: 340px;
+  min-width: 205px;
 }
 #themepopup .modal-header {
-    text-align: center;
+  text-align: center;
 }
 .flex .user {
-    margin: 20px auto;
+  margin: 20px auto;
 }
+
 .flex {
   display: flex;
   justify-content: center;
@@ -144,5 +143,5 @@ input::placeholder {
 }
 
 #themepopup .modal-content {
-    padding: .5rem;
+  padding: 0.5rem;
 }
