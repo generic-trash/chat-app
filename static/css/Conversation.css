@@ -105,8 +105,9 @@ body {
 }
 
 .chat-area {
-  margin-bottom: 1rem;
+  background-color: var(--clr-neutral);
 }
+
 .separator-2 {
   clear: both;
   margin-top: 655px;
@@ -123,9 +124,10 @@ body {
 
 input {
   height: 77px;
-  width: 1700px;
+  width: 1800px;
   padding: 0 10px;
   border: none;
+  margin-left: 1rem;
 }
 
 input::placeholder {
@@ -142,10 +144,6 @@ input::placeholder {
   cursor: pointer;
 }
 
-footer.container {
-  padding-top: 0;
-}
-
 .sticky {
   position: sticky;
   top: 0;
@@ -156,7 +154,6 @@ footer.sticky {
   bottom: 0;
 }
 
-footer {
-  background: white;
-  width: 100%;
+.chat:last-of-type {
+  margin-bottom: 3rem;
 }
