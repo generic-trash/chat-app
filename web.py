@@ -143,8 +143,11 @@ def conversation():
 
 @app.route('/')
 def testing():
-    return send_file('Sandbox/Home.html')
+    return send_file('Sandbox/Conversation.html')
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_file('favicon.ico')
 
 if __name__ == '__main__':
     app.run(debug=True)
