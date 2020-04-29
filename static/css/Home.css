@@ -120,10 +120,29 @@ input::placeholder {
     font-size: 1rem;
     padding-left: 1em;
 }
- #startconvo {
+ #startconvo, #signout {
   display: block;
   margin: 20px auto 10px;
 }
 #newconvopopup .modal-header {
     text-align:center;
+}
+#newconvopopup .modal-content {
+    max-width: 340px;
+  min-width:205px;
+}
+#themepopup .modal-header {
+    text-align: center;
+}
+.flex .user {
+    margin: 20px auto;
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#themepopup .modal-content {
+    padding: .5rem;
 }
