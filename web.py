@@ -123,11 +123,13 @@ def signup_html():
         return redirect('/Home.html')
     return send_file('Sandbox/Sign-up.html')
 
+
 @app.route('/Home.html')
 def home_html():
     if auth.sessidtouser(request.cookies.get('sessid')):
         return send_file('Sandbox/Home.html')
     return redirect('/Sign-in.html')
+
 
 @app.route('/Sign-in.html')
 def signin_html():
@@ -135,19 +137,30 @@ def signin_html():
         return redirect('/Home.html')
     return send_file('Sandbox/Sign-in.html')
 
+
 @app.route('/Conversation.html')
 def conversation():
     if auth.sessidtouser(request.cookies.get('sessid')):
         return send_file('Sandbox/Conversation.html')
     return redirect('/Sign-in.html')
 
+
 @app.route('/')
 def testing():
     return send_file('Sandbox/Conversation.html')
 
+
 @app.route('/favicon.ico')
 def favicon():
     return send_file('favicon.ico')
+
+
+@app.route('/signout', methods=['POST'])
+def signout():
+    resp = redirect('/')
+    resp.set_cookie('sessid', '', max_age=0)
+    return resp
+
 
 if __name__ == '__main__':
     app.run(debug=True)
