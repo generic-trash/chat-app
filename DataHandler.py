@@ -15,7 +15,10 @@ class DataHandler:
         self._users[user2].add_conversation(name, conversation)
 
     def user_conversation_add_comment(self, user, conversation, comment):
-        self._users[user].conversation_add_comment(comment, conversation)
+        return self._users[user].conversation_add_comment(comment, conversation)
 
-    def user_get_conversation(self,user,conversation):
-        self._users[user].get_conversation(conversation)
+    def user_get_conversation(self, user, conversation):
+        return self._users[user].get_conversation(conversation)
+
+    def user_get_conversation_info(self, user):
+        return self._users[user].get_user_conversations()
