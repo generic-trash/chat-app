@@ -1,0 +1,22 @@
+from os import urandom
+from base64 import b32encode
+
+
+class UserConversationManager:
+    def __init__(self, username):
+        self.user = username
+        self._userdata = {}
+
+    def add_conversation(self, conversation_name, conversation_handler):
+        self._userdata[b32encode(urandom(64))] = {'name': conversation_name,
+                                                  'handler': conversation_handler}
+        print(self._userdata)
+
+    def conversation_add_comment(self, comment, conversation_id):
+        self._userdata[conversation_id].add_comment({'comment': comment, 'user': self.user})
+
+    def get_conversation(self, conversation_id):
+        return self._userdata[conversation_id].lst
+
+    def get_user_conversations(self):
+        return self._userdata

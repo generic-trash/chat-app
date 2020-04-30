@@ -147,7 +147,7 @@ def conversation():
 
 @app.route('/')
 def testing():
-    return send_file('Sandbox/Conversation.html')
+    return send_file('Sandbox/Home.html')
 
 
 @app.route('/favicon.ico')
@@ -157,9 +157,15 @@ def favicon():
 
 @app.route('/signout', methods=['POST'])
 def signout():
+    auth.deauthenticate(request.cookies.get('sessid'))
     resp = redirect('/')
     resp.set_cookie('sessid', '', max_age=0)
     return resp
+
+
+@app.route('/Conversations/new/')
+def newConversation():
+    pass
 
 
 if __name__ == '__main__':
