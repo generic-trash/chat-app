@@ -84,12 +84,14 @@ body {
   top: 0px;
   left: -9px;
 }
+
 .chat.u2 {
   float: right;
   clear: both;
   border-top-right-radius: 0px;
   background: #dff2ff;
 }
+
 .chat.u2:before {
   content: "";
   width: 0px;
@@ -104,8 +106,13 @@ body {
   right: -9px;
 }
 
+.chat:last-of-type {
+  margin-bottom: 3rem;
+}
+
 .chat-area {
-  background-color: var(--clr-neutral);
+  display: flex;
+  align-items: center;
 }
 
 .separator-2 {
@@ -113,21 +120,12 @@ body {
   margin-top: 655px;
 }
 
-.flex {
-  display: flex;
-  align-items: center;
-}
-
-.emoticon {
-  cursor: pointer;
-}
-
 input {
-  height: 77px;
-  width: 1800px;
-  padding: 0 10px;
+  background-color: var(--clr-neutral);
+  height: 5vh;
+  width: 100vw;
+  padding: 25px 20px;
   border: none;
-  margin-left: 1rem;
 }
 
 input::placeholder {
@@ -135,25 +133,15 @@ input::placeholder {
   color: rgba(0, 0, 0, 0.7);
 }
 
-.attach-f {
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.attach-l {
-  cursor: pointer;
-}
-
 .sticky {
   position: sticky;
-  top: 0;
   z-index: 1;
 }
 
-footer.sticky {
-  bottom: 0;
+.sticky--header {
+  top: 0;
 }
 
-.chat:last-of-type {
-  margin-bottom: 3rem;
+.sticky--footer {
+  bottom: 0;
 }
