@@ -24,29 +24,22 @@
       <h1 class="title">Sign in</h1>
     </div>
     <div class="divider"></div>
-    <div class="container">
-      <div class="form">
-        <form action="#">
-          <div class="input">
-            <label for="username">Username</label>
-            <input placeholder="Enter username" class="" type="text" id="username"/>
-          </div>
-          <div class="input passwords">
-            <label for="password">Password</label>
-            <input
-              id="password"
-              class=""
-              placeholder="Enter password"
-              type="password"
-            />
-            <h6>Username and password do not match</h6>
-          </div>
-          <div class="buttons">
-            <a class="btn btn-secondary" type="button" href="/Sign-up.html">Sign up</a>
-            <button class="btn btn-primary" type="submit">Sign in</button>
-          </div>
-        </form>
-      </div>
+    <div class="container form">
+      <form action="#">
+        <div class="input">
+          <label for="username">Username</label>
+          <input placeholder="Enter username" type="text" id="username" />
+        </div>
+        <div class="input">
+          <label for="password">Password</label>
+          <input id="password" placeholder="Enter password" type="password" />
+          <!-- <h6>Username and password do not match</h6> -->
+        </div>
+        <a class="btn btn-secondary" type="button" href="/Sign-up.html">
+          Sign up
+        </a>
+        <button class="btn btn-primary" type="submit">Sign in</button>
+      </form>
     </div>
   </body>
 </html>
