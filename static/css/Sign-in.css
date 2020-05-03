@@ -101,7 +101,3 @@ label {
   color: var(--clr-danger);
   background-color: var(--clr-danger-light);
 }
-
-a {
-  text-decoration: none;
-}
