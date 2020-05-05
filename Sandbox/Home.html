@@ -24,20 +24,16 @@
       <div class="user" id="themetrig">
         <h1 class="user-name">A</h1>
       </div>
-      <div class="new-conversation">
-        <button class="btn btn-primary conversation-button" id="newconvo">
-          Start new conversation
-        </button>
-      </div>
+      <button class="btn btn-primary" id="newconvo">
+        Start new conversation
+      </button>
     </nav>
     <template>
-      <div class="conversation-tab">
-        <div class="conversation">
-          <h1 class="title">conversation 1</h1>
-          <button class="btn btn-secondary">delete-conversation</button>
-        </div>
+      <div class="conversation">
+        <h1 class="title">conversation 1</h1>
+        <button class="btn btn-secondary">delete-conversation</button>
       </div>
-      <div class="divider2"></div>
+      <div class="divider"></div>
     </template>
     <div class="modal" id="newconvopopup">
       <!-- Modal content -->
@@ -45,22 +41,30 @@
         <div class="modal-content">
           <div class="modal-header">
             <span class="close" id="close-newconvo">&times;</span>
-            <h2>New Conversation</h2>
+            <h1 class="newconvo-heading">New Conversation</h1>
           </div>
           <div class="modal-body">
             <form id="newconvoform">
-              <label for="convoname">Enter name of conversation</label>
+              <label for="convoname" class="input-label"
+                >Enter name of conversation</label
+              >
               <br />
               <input id="convoname" placeholder="Enter name" />
               <br />
-              <label for="convouser">Enter email of user</label>
+              <label for="convouser" class="input-label"
+                >Enter email of user</label
+              >
               <br />
               <input id="convouser" placeholder="Enter email" />
               <p>
                 If you want to chat with the bot (lonely person) enter
                 bot@chatapp.com in the email field
               </p>
-              <button class="btn btn-primary" id="startconvo" type="submit">
+              <button
+                class="btn btn-primary modal-button"
+                id="startconvo"
+                type="submit"
+              >
                 Start conversation
               </button>
             </form>
@@ -68,13 +72,11 @@
         </div>
       </div>
     </div>
-    <div class="conversation-tab">
-      <div class="conversation">
-        <h1 class="title">conversation 1</h1>
-        <button class="btn btn-secondary">delete-conversation</button>
-      </div>
+    <div class="conversation">
+      <h1 class="title">conversation 1</h1>
+      <button class="btn btn-secondary">delete-conversation</button>
     </div>
-    <div class="divider2"></div>
+    <div class="divider"></div>
     <div class="modal" id="themepopup">
       <!-- Modal content -->
       <div class="modal-wrapper">
@@ -82,7 +84,7 @@
           <div class="modal-header">
             <span class="close" id="close-theme">&times;</span>
             <div class="flex">
-              <div class="user">
+              <div class="user modal-user">
                 <h1 class="username">B</h1>
               </div>
             </div>
@@ -93,9 +95,8 @@
           </div>
           <div class="modal-body">
             <div class="dark-mode">
-              <label>
-                <img alt="" id="toggle" src="/assets/Icons/Dark mode.svg" />
-                &nbsp;Dark Mode</label>
+              <img alt="" id="toggle" src="/assets/Icons/Dark mode.svg" />
+              <label>&nbsp;Dark Mode</label>
               <br />
             </div>
           </div>
