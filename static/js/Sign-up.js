@@ -1,16 +1,14 @@
 $(function() {
-inputs = $('input')
+inputs = $('input').attr('class','')
 password = $('#password')
 username = $('#username')
 cpass = $('#cpassword')
 email = $('#email')
-errors = $('h6')
+errors = $('h6').text(null)
 pwerr = $('#pwh6')
 cperr = $('#cph6')
 emerr = $('#emh6')
 userr = $('#ush6')
-errors.text(null)
-inputs.attr('class','')
 $('form').submit(function(e) {
         e.preventDefault();
         errors.text(null)

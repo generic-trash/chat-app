@@ -1,30 +1,28 @@
-$(function() {
-    modal2 = $("#themepopup");
-      btn2 = $("#themetrig");
-      closetheme = $("#close-theme");
-      modal = $("#newconvopopup");
-      btn = $("#newconvo");
-      modal.hide();
-      modal2.hide();
-      closeconvo = $("#close-newconvo");
-      btn.click(function () {
-        modal.show();
-      });
-      btn2.click(function () {
-        modal2.show();
-      });
-      closetheme.click(function () {
-        modal2.hide();
-      });
-      closeconvo.click(function () {
-        modal.hide();
-      });
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.hide();
-        }
-        if (event.target == modal2) {
-          modal2.hide();
-        }
-      };
-})
+modal = $("#newconvopopup");
+modal2 = $("#themepopup");
+function hideModal() {
+    modal.hide();
+}
+function hideModal2() {
+    modal2.hide();
+}
+function showModal() {
+    modal.show();
+}
+function showModal2() {
+    modal2.show();
+}
+hideModal()
+hideModal2()
+$("#newconvo").click(showModal)
+$("#themetrig").click(showModal2);
+$("#close-theme").click(hideModal2);
+$("#close-newconvo").click(hideModal);
+window.onclick = function (event) {
+    if (event.target == modal) {
+      hideModal()
+    }
+    if (event.target == modal2) {
+      hideModal2()
+    }
+};
