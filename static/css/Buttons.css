@@ -30,3 +30,6 @@
   background-color: var(--clr-primary);
 }
 
+a {
+    text-decoration:none;
+}
