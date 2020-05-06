@@ -1,16 +1,23 @@
 #!/usr/bin/python
-from flask import Flask, request, make_response, redirect, jsonify, send_file
+from flask import Flask, request, make_response, redirect, jsonify, send_file, abort
 from json import loads, dumps
 from AuthFrameWork import Authenticator
 from CSRFToken import CSRFTokenHandler
 from errors import *
 from copy import deepcopy
 import re
+from hashlib import sha3_512
+from DataHandler import DataHandler
 
 email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 
 csrf_handler = CSRFTokenHandler()
 auth = Authenticator()
+auth.register({"password": "noobism!", "username": "YEET", "email": "rohroexperiment@gmail.com"})
+auth.register({"password": "noobism!", "username": "YEET2", "email": "rohroexperimenter@gmail.com"})
+datahandler = DataHandler()
+datahandler.adduser('YEET')
+datahandler.adduser('YEET2')
 app = Flask(__name__, static_url_path='/assets/')
 csrf_html_response = """
 <!DOCTYPE html>
@@ -67,6 +74,7 @@ def registeruser():
             return jsonify(response)
         else:
             auth.register(data)
+            datahandler.adduser(username)
             resp = make_response(dumps(register_success_template))
             resp.set_cookie('sessid', auth.authenticate(data), max_age=86400)
             return resp
@@ -164,9 +172,24 @@ def signout():
     return resp
 
 
-@app.route('/Conversations/new/')
-def newConversation():
-    pass
+@app.route('/Conversations/new', methods=['POST'])
+def newconversation():
+    if csrf_verify():
+        data = loads(request.data)
+        datahandler.add_conversation(auth.sessidtouser(request.cookies.get('sessid')),
+                                     auth.emails_to_users[data['email']], data['name'])
+    else:
+        abort(403)
+    return dumps(datahandler.user_get_conversation_info(auth.sessidtouser(request.cookies.get('sessid'))))
+
+
+@app.route('/Conversations/getall')
+def getconvos():
+    res = dumps(datahandler.user_get_conversation_info(auth.sessidtouser(request.cookies.get('sessid'))))
+    etag = sha3_512(res.encode()).hexdigest()
+    res = make_response(res)
+    res.add_etag(etag)
+    return res
 
 
 if __name__ == '__main__':

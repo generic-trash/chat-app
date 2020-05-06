@@ -21,4 +21,8 @@ class DataHandler:
         return self._users[user].get_conversation(conversation)
 
     def user_get_conversation_info(self, user):
-        return self._users[user].get_user_conversations()
+        data = self._users[user].get_user_conversations()
+        data2 = {}
+        for key, val in data.items():
+            data2[key] = data[key]['name']
+        return data2
