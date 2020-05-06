@@ -39,7 +39,7 @@ def gen_csrftok():
     tok = csrf_handler.gentok()
     resp = jsonify({'token': tok})
     resp.set_cookie('csrf_token', tok, max_age=86400)
-    return resp
+    return ''
 
 
 @app.route('/register', methods=['POST'])
