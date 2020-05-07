@@ -188,8 +188,9 @@ def signout():
 def newconversation():
     if csrf_verify():
         data = loads(request.data)
-        datahandler.add_conversation(getuser(),
-                                     auth.emails_to_users[data['email']], data['name'])
+        if getuser() != auth.emails_to_users[data['email']]:
+            datahandler.add_conversation(getuser(),
+                                         auth.emails_to_users[data['email']], data['name'])
     else:
         abort(403)
     return dumps(datahandler.user_get_conversation_info(getuser()))
