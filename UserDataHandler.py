@@ -9,7 +9,7 @@ class UserConversationManager:
 
     def add_conversation(self, conversation_name, conversation_handler):
         self._userdata[b32encode(urandom(65)).decode()] = {'name': conversation_name,
-                                                  'handler': conversation_handler}
+                                                           'handler': conversation_handler}
 
     def conversation_add_comment(self, comment, conversation_id):
         self._userdata[conversation_id].add_comment({'comment': comment, 'user': self.user})
@@ -19,3 +19,6 @@ class UserConversationManager:
 
     def get_user_conversations(self):
         return self._userdata
+
+    def delconvo(self, cid):
+        del self._userdata[cid]

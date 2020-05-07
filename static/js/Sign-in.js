@@ -1,6 +1,8 @@
 $(function() {
-    inputs =  $('input').attr('class', '');
-    err = $('h6').hide();
+    inputs =  $('input')
+    inputs.attr('class', '');
+    err = $('h6')
+    err.hide();
     $('form').submit(function(e) {
         e.preventDefault()
         inputs.attr('class','')

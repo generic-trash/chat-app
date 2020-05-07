@@ -7,7 +7,7 @@ class DataHandler:
         self._users = {}
 
     def adduser(self, user):
-        self._users[user] = UserConversationManager(user)
+        self._users[user.lower()] = UserConversationManager(user)
 
     def add_conversation(self, user1, user2, name):
         conversation = Conversation()
@@ -26,3 +26,9 @@ class DataHandler:
         for key, val in data.items():
             data2[key] = data[key]['name']
         return data2
+
+    def user_delete_conversation(self, user, conversation):
+        self._users[user].delconvo(conversation)
+
+    def get_username(self,user):
+        return self._users[user].user

@@ -26,3 +26,66 @@ window.onclick = function (event) {
       hideModal2()
     }
 };
+function deleteParent() {
+    var xhr2 = new XMLHttpRequest()
+    xhr2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText)
+            update(data)
+        }
+    }
+    xhr2.open('DELETE', '/conversations/'+$(event.target).parent().attr('id'))
+    xhr2.send()
+}
+function navigateTo() {
+    if ($(event.target).attr('class') == 'conversation') {
+       localStorage.setItem('Conversation', $(event.target).attr('id'))
+       window.location.href = '/Conversation.html'
+    }
+}
+function createConversationElement(id, name) {
+    return "<div class='conversation' id='"+id+"' onclick='navigateTo()''> <h1 class='title'>" + name + "</h1> <button class=\"btn btn-secondary deleteconvo\" onclick='deleteParent()' deleteconvo>Delete conversation</button></div><div class='divider'></div> "
+}
+function update(data) {
+    $('.conversation, .divider').remove()
+    for(var key in data) {
+        $('#Home-js').before(createConversationElement(key, data[key]))
+    }
+}
+var xhr = new XMLHttpRequest()
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        data = JSON.parse(this.responseText)
+        update(data)
+    }
+}
+xhr.open('GET', '/Conversations/getall')
+xhr.send()
+
+var xhr = new XMLHttpRequest()
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        data = JSON.parse(this.responseText)
+        $('.content p').text(data.email)
+        $('.content h2').text(data.username)
+        $('.user h1').text(data.username.toUpperCase()[0])
+    }
+}
+xhr.open('GET', '/getuserdata')
+xhr.send()
+$('#newconvoform').submit(function(e) {
+    e.preventDefault()
+    var xhr3 = new XMLHttpRequest()
+    xhr3.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText)
+            update(data)
+            hideModal()
+        } else if (this.readyState == 4 && this.status == 403) {
+            reloadtoken()
+        }
+    }
+    xhr3.open('POST', '/Conversations/new')
+    xhr3.setRequestHeader('X-CSRF-Token', getcsrftok())
+    xhr3.send(JSON.stringify({"email":$('#convouser').val(),'name':$("#convoname").val()}))
+})

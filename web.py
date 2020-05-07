@@ -10,36 +10,43 @@ from hashlib import sha3_512
 from DataHandler import DataHandler
 
 email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
-
 csrf_handler = CSRFTokenHandler()
 auth = Authenticator()
-auth.register({"password": "noobism!", "username": "YEET", "email": "rohroexperiment@gmail.com"})
-auth.register({"password": "noobism!", "username": "YEET2", "email": "rohroexperimenter@gmail.com"})
+auth.register({"password": "noobism!", "username": "yeet", "email": "rohroexperiment@gmail.com"})
+auth.register({"password": "noobism!", "username": "yeet2", "email": "rohroexperimenter@gmail.com"})
 datahandler = DataHandler()
-datahandler.adduser('YEET')
-datahandler.adduser('YEET2')
+datahandler.adduser('yeet')
+datahandler.adduser('yeet2')
+datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
+datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
+datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
+datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
 app = Flask(__name__, static_url_path='/assets/')
 csrf_html_response = """
-<!DOCTYPE html>
-<html>
-<head>
-<title> CSRF Verification failed</title>
-<meta charset='utf-8'/>
-</head>
-<body>
-<h1> CSRF verification failed</h1>
-<p> We could not verify the authenticity of your request and authentication has failed </p>
-</body>
-</html>
-"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title> CSRF Verification failed</title>
+    <meta charset='utf-8'/>
+    </head>
+    <body>
+    <h1> CSRF verification failed</h1>
+    <p> We could not verify the authenticity of your request and authentication has failed </p>
+    </body>
+    </html>
+    """
+
+
+def getuser():
+    return auth.sessidtouser(request.cookies.get('sessid'))
 
 
 @app.route('/csrf_token')
 def gen_csrftok():
     tok = csrf_handler.gentok()
-    resp = jsonify({'token': tok})
+    resp = make_response('')
     resp.set_cookie('csrf_token', tok, max_age=86400)
-    return ''
+    return resp
 
 
 @app.route('/register', methods=['POST'])
@@ -52,6 +59,10 @@ def registeruser():
         username = data.get('username')
         confirm = data.get('confirm')
         passwd = data.get('password')
+        if not username:
+            response['errors']['username'] = "Empty username"
+            error = True
+        username = username.lower().strip()
         if not username:
             response['errors']['username'] = "Empty username"
             error = True
@@ -74,7 +85,7 @@ def registeruser():
             return jsonify(response)
         else:
             auth.register(data)
-            datahandler.adduser(username)
+            datahandler.adduser(data.get('username'))
             resp = make_response(dumps(register_success_template))
             resp.set_cookie('sessid', auth.authenticate(data), max_age=86400)
             return resp
@@ -99,7 +110,7 @@ def isvalidemail(email):
 
 @app.route('/getuser')
 def whoami():
-    x = auth.sessidtouser(request.cookies.get('sessid'))
+    x = getuser()
     return x if x else "<h1>NOT LOGGED IN!!! </h1>"
 
 
@@ -115,6 +126,7 @@ def authenticate():
         data = loads(request.data)
         if True in (not data.get('username'), not data.get('password')):
             return dumps({'status': 'error', 'csrf': False})
+        data['username'] = data['username'].strip().lower()
         sessid = auth.authenticate(data)
         if sessid:
             resp = make_response(dumps({'status': 'success'}))
@@ -128,28 +140,28 @@ def authenticate():
 
 @app.route('/Sign-up.html')
 def signup_html():
-    if auth.sessidtouser(request.cookies.get('sessid')):
+    if getuser():
         return redirect('/Home.html')
     return send_file('Sandbox/Sign-up.html')
 
 
 @app.route('/Home.html')
 def home_html():
-    if auth.sessidtouser(request.cookies.get('sessid')):
+    if getuser():
         return send_file('Sandbox/Home.html')
     return redirect('/Sign-in.html')
 
 
 @app.route('/Sign-in.html')
 def signin_html():
-    if auth.sessidtouser(request.cookies.get('sessid')):
+    if getuser():
         return redirect('/Home.html')
     return send_file('Sandbox/Sign-in.html')
 
 
 @app.route('/Conversation.html')
 def conversation():
-    if auth.sessidtouser(request.cookies.get('sessid')):
+    if getuser():
         return send_file('Sandbox/Conversation.html')
     return redirect('/Sign-in.html')
 
@@ -176,20 +188,36 @@ def signout():
 def newconversation():
     if csrf_verify():
         data = loads(request.data)
-        datahandler.add_conversation(auth.sessidtouser(request.cookies.get('sessid')),
+        datahandler.add_conversation(getuser(),
                                      auth.emails_to_users[data['email']], data['name'])
     else:
         abort(403)
-    return dumps(datahandler.user_get_conversation_info(auth.sessidtouser(request.cookies.get('sessid'))))
+    return dumps(datahandler.user_get_conversation_info(getuser()))
 
 
 @app.route('/Conversations/getall')
 def getconvos():
-    res = dumps(datahandler.user_get_conversation_info(auth.sessidtouser(request.cookies.get('sessid'))))
-    etag = sha3_512(res.encode()).hexdigest()
-    res = make_response(res)
-    res.add_etag(etag)
-    return res
+    return dumps(datahandler.user_get_conversation_info(getuser()))
+
+
+@app.route('/conversations/<cid>', methods=['POLL', 'GET', 'POST', 'DELETE'])
+def conversation_manage(cid):
+    if request.method == 'POLL':
+        abort(501)
+    elif request.method == 'GET':
+        return jsonify(datahandler.user_get_conversation(getuser(), cid))
+    elif request.method == 'POST':
+        datahandler.user_conversation_add_comment(getuser(), cid,
+                                                  loads(request.data)['comment'])
+        return jsonify(datahandler.user_get_conversation(getuser(), cid))
+    elif request.method == 'DELETE':
+        datahandler.user_delete_conversation(getuser(), cid)
+        return jsonify(datahandler.user_get_conversation_info(getuser()))
+
+
+@app.route('/getuserdata')
+def getuserdata():
+    return jsonify({'username': datahandler.get_username(getuser()), 'email': auth.users_to_emails[getuser()]})
 
 
 if __name__ == '__main__':
