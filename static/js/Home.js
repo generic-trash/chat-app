@@ -1,3 +1,4 @@
+$('#sentinel-css').remove()
 modal = $("#newconvopopup");
 modal2 = $("#themepopup");
 function hideModal() {
