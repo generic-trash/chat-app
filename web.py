@@ -7,7 +7,6 @@ from CSRFToken import CSRFTokenHandler
 from errors import *
 from copy import deepcopy
 import re
-from hashlib import sha3_512
 from DataHandler import DataHandler
 
 email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
