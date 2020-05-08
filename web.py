@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import html
 from flask import Flask, request, make_response, redirect, jsonify, send_file, abort
 from json import loads, dumps
 from AuthFrameWork import Authenticator
@@ -62,7 +63,7 @@ def registeruser():
         if not username:
             response['errors']['username'] = "Empty username"
             error = True
-        username = username.lower().strip()
+        username = html.escape(username.lower().strip())
         if not username:
             response['errors']['username'] = "Empty username"
             error = True
@@ -106,12 +107,6 @@ def csrf_fail():
 
 def isvalidemail(email):
     return bool(email_regex.match(email))
-
-
-@app.route('/getuser')
-def whoami():
-    x = getuser()
-    return x if x else "<h1>NOT LOGGED IN!!! </h1>"
 
 
 @app.route('/verify_csrftok')
@@ -168,7 +163,7 @@ def conversation():
 
 @app.route('/')
 def testing():
-    return send_file('Sandbox/Home.html')
+    return redirect('/Home.html')
 
 
 @app.route('/favicon.ico')

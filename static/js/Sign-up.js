@@ -24,7 +24,7 @@ $(function() {
                 if (this.readyState == 4 && this.status == 200) {
                     resp = JSON.parse(this.responseText)
                     if (resp.status == 'success') {
-                        window.location.href = '/getuser'
+                        window.location.href = '/'
                     } else if (resp.csrf == true) {
                         reloadtoken()
                     } else {

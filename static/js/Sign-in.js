@@ -18,7 +18,7 @@ $(function() {
                     inputs.addClass('invalid')
                     err.show()
                 } else {
-                    window.location = '/getuser'
+                    window.location = '/'
                 }
             }
         }
