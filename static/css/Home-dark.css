@@ -1,0 +1,269 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:hover,
+*:focus {
+  outline: none;
+}
+
+:root {
+  --clr-primary: #ff6b00;
+  --clr-neutral: #5252524d;
+  --clr-light: #ffffff;
+
+  --fw-extra-light: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+  --fw-extra-bold: 800;
+  --fw-black: 900;
+}
+
+body {
+  background-color: #242424;
+}
+
+.btn-secondary--dark {
+  color: var(--clr-primary);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: var(--clr-primary);
+  font-weight: var(--fw-semi-bold);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+}
+
+.user {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--clr-neutral);
+}
+
+.conversation {
+  background-color: var(--clr-neutral);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.divider {
+  content: "";
+  border-bottom: 2px solid var(--clr-primary);
+}
+
+/*********
+Modals.css
+**********/
+
+/* The Modal (background) */
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  display: inline-block;
+  background-color: #242424;
+  color: white;
+  margin: auto;
+  padding: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 5px;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+/* The Close Button */
+.close {
+  color: #bcbcbc;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  border-bottom: 1px solid var(--clr-primary);
+  margin-bottom: 20px;
+}
+
+.modal-body,
+.modal-footer {
+  padding: 2px 16px;
+}
+.modal-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--clr-primary);
+  margin-top: 20px;
+}
+
+.modal-content .user {
+  text-align: center;
+}
+
+#themepopup .modal-header {
+  padding-bottom: 20px;
+}
+
+input {
+  border-radius: 5px;
+  border: none;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 95%;
+  margin: 0.7rem 10.2px 1.5rem;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-family: "Nunito", sans-serif;
+}
+
+#startconvo {
+  text-align: center;
+}
+#newconvopopup h2 {
+  font-size: 23px;
+  padding: 14px 0;
+  color: #0094ff;
+}
+#newconvopopup p {
+  font-size: 1rem;
+  padding-left: 1em;
+}
+#startconvo,
+#signout {
+  display: block;
+  margin: 20px auto 10px;
+}
+#newconvopopup .modal-header {
+  text-align: center;
+}
+#newconvopopup .modal-content {
+  max-width: 340px;
+  min-width: 205px;
+}
+#themepopup .modal-header {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#themepopup .modal-content {
+  padding: 0.5rem;
+}
+
+h2 {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 600;
+  text-align: center;
+  font-size: 20px;
+}
+
+.dark-mode {
+  display: flex;
+  align-items: center;
+}
+
+.dark-mode label {
+  margin-left: 0.5em;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: calc(1rem + 3px);
+  color: white;
+}
+
+.modal-user {
+  margin: 1em 0;
+}
+
+.newconvo-heading {
+  padding: 1em 0 0.9em 0;
+}
+
+.input-label {
+  margin-left: 0.7em;
+}
+
+.modal-button {
+  padding: 0.7em 3.7em;
+}
