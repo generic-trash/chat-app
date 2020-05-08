@@ -182,7 +182,7 @@ input {
   border-radius: 5px;
   border: none;
   padding: 1rem;
-  color: white;
+  color: rgba(255, 255, 255, 0.8);
   background-color: rgba(255, 255, 255, 0.1);
   width: 95%;
   margin: 0.7rem 10.2px 1.5rem;
