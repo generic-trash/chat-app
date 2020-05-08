@@ -221,5 +221,12 @@ def getuserdata():
     return jsonify({'username': datahandler.get_username(getuser()), 'email': auth.users_to_emails[getuser()]})
 
 
+@app.route('/darkmode', methods=['POST', 'GET'])
+def getdarkmode():
+    if request.method == 'POST':
+        datahandler.user_toggle_dark_mode(getuser())
+    return jsonify({'darkmode': datahandler.user_get_dark_mode(getuser())})
+
+
 if __name__ == '__main__':
     app.run(debug=True)

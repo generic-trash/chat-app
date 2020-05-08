@@ -26,6 +26,15 @@ window.onclick = function (event) {
       hideModal2()
     }
 };
+function darkmode_handle(isdark) {
+    if(isdark) {
+        $("#path").attr("fill",'#ff6b00')
+        $('#Home-css').attr('href','/assets/css/Home-dark.css')
+    } else {
+        $("#path").attr("fill",'#0094ff')
+        $('#Home-css').attr('href','/assets/css/Home.css')
+    }
+}
 function deleteParent() {
     var xhr2 = new XMLHttpRequest()
     xhr2.onreadystatechange = function() {
@@ -65,6 +74,16 @@ xhr.send()
 var xhr = new XMLHttpRequest()
 xhr.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText)
+            darkmode_handle(data.darkmode)
+    }
+}
+xhr.open('GET', '/darkmode')
+xhr.send()
+
+var xhr = new XMLHttpRequest()
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
         data = JSON.parse(this.responseText)
         $('.content p').text(data.email)
         $('.content h2').text(data.username)
@@ -89,3 +108,16 @@ $('#newconvoform').submit(function(e) {
     xhr3.setRequestHeader('X-CSRF-Token', getcsrftok())
     xhr3.send(JSON.stringify({"email":$('#convouser').val(),'name':$("#convoname").val()}))
 })
+function toggledarkmode() {
+    var xhr4 = new XMLHttpRequest()
+    xhr4.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText)
+            darkmode_handle(data.darkmode)
+        }
+    }
+    xhr4.open('POST', '/darkmode')
+    xhr4.send()
+}
+$('#darkmodesvg').click(toggledarkmode)
+$('#toggle').click(toggledarkmode)

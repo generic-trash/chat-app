@@ -6,6 +6,7 @@ class UserConversationManager:
     def __init__(self, username):
         self.user = username
         self._userdata = {}
+        self.darkmode = False
 
     def add_conversation(self, conversation_name, conversation_handler):
         self._userdata[b32encode(urandom(65)).decode()] = {'name': conversation_name,
@@ -22,3 +23,6 @@ class UserConversationManager:
 
     def delconvo(self, cid):
         del self._userdata[cid]
+
+    def toggledarkmode(self):
+        self.darkmode = not self.darkmode

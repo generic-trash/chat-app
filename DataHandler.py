@@ -30,5 +30,11 @@ class DataHandler:
     def user_delete_conversation(self, user, conversation):
         self._users[user].delconvo(conversation)
 
-    def get_username(self,user):
+    def get_username(self, user):
         return self._users[user].user
+
+    def user_toggle_dark_mode(self, user):
+        self._users[user].toggledarkmode()
+
+    def user_get_dark_mode(self, user):
+        return self._users[user].darkmode
