@@ -99,9 +99,12 @@ $('#newconvoform').submit(function(e) {
         if (this.readyState == 4 && this.status == 200) {
             data = JSON.parse(this.responseText)
             update(data)
+            $('input').val("")
             hideModal()
         } else if (this.readyState == 4 && this.status == 403) {
             reloadtoken()
+        } else if (this.readyState == 4 && this.status == 500) {
+            $('input').val("")
         }
     }
     xhr3.open('POST', '/Conversations/new')
