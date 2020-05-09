@@ -41,7 +41,7 @@ body {
 }
 
 .container {
-  max-width: 97%;
+  max-width: 98%;
   margin: 0 auto;
   padding-top: 1rem;
 }
@@ -126,7 +126,7 @@ body {
 input {
   background-color: var(--clr-neutral);
   height: 5vh;
-  width: 99vw;
+  width: 98.9vw;
   padding: 2em 1.5em;
   border: none;
   color: rgba(255, 255, 255, 0.8);
