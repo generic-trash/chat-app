@@ -40,7 +40,7 @@ body {
 }
 
 .container {
-  max-width: 98%;
+  max-width: 97%;
   margin: 0 auto;
   padding-top: 1rem;
 }
@@ -123,8 +123,8 @@ body {
 input {
   background-color: var(--clr-neutral);
   height: 5vh;
-  width: 100vw;
-  padding: 25px 20px;
+  width: 99vw;
+  padding: 2em 1.5em;
   border: none;
 }
 
