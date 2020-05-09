@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" container="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta container="width=device-width, initial-scale=1.0" name="viewport"/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap"
+            rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/css/Buttons.css" />
-    <link rel="stylesheet" href="/assets/css/Conversation.css" />
+    <link href="/assets/css/Buttons.css" rel="stylesheet"/>
+    <link href="/assets/css/Conversation.css" id="Conversation-css" rel="stylesheet"/>
+    <link href="/assets/css/Conversation-dark.css" id="sentinel-css" rel="stylesheet"/>
     <script
-      src="https://code.jquery.com/jquery-3.5.0.min.js"
-      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
-      crossorigin="anonymous"
+            crossorigin="anonymous"
+            integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+            src="https://code.jquery.com/jquery-3.5.0.min.js"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
     <script src="/assets/js/csrf.js"></script>
     <title>Coversation page</title>
-  </head>
-  <body>
-    <div class="container">
-      <header class="sticky sticky--header">
-        <a class="btn btn-primary" style="margin-top: 10px;" href="/Home.html">
-          Exit conversation
+</head>
+<body>
+<div class="container">
+    <header class="sticky sticky--header">
+        <a class="btn btn-primary" href="/Home.html" style="margin-top: 10px;">
+            Exit conversation
         </a>
-      </header>
-      <div class="separator"></div>
-      <div class="chats scroll">
+    </header>
+    <div class="separator"></div>
+    <div class="chats scroll">
         <span class="u1 chat">Hey sam, whats up?</span>
         <span class="u2 chat">nothing here how 'bout u?</span>
         <span class="u1 chat">
@@ -58,13 +59,15 @@
         <span class="u1 chat">driveing through mcdonalds right now</span>
         <span class="u2 chat">cool! where exactly will you be?</span>
         <span class="u1 chat">up in the ridgway, mt. horab area</span>
-      </div>
-
-      <div class="separator-2"></div>
     </div>
 
-    <footer class="chat-area sticky--footer sticky">
-      <input type="text" placeholder="Type something" />
-    </footer>
-  </body>
+    <div class="separator-2"></div>
+</div>
+
+<footer class="chat-area sticky--footer sticky">
+    <form>
+        <input placeholder="Type something" type="text"/>
+    </form>
+</footer>
+</body>
 </html>
