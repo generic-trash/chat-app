@@ -18,9 +18,6 @@ datahandler = DataHandler()
 datahandler.adduser('yeet')
 datahandler.adduser('yeet2')
 datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
-datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
-datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
-datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
 app = Flask(__name__, static_url_path='/assets/')
 csrf_html_response = """
     <!DOCTYPE html>
@@ -200,11 +197,11 @@ def conversation_manage(cid):
     if request.method == 'POLL':
         abort(501)
     elif request.method == 'GET':
-        return jsonify(datahandler.user_get_conversation(getuser(), cid))
+        return jsonify(datahandler.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
     elif request.method == 'POST':
         datahandler.user_conversation_add_comment(getuser(), cid,
                                                   loads(request.data)['comment'])
-        return jsonify(datahandler.user_get_conversation(getuser(), cid))
+        return jsonify(datahandler.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
     elif request.method == 'DELETE':
         datahandler.user_delete_conversation(getuser(), cid)
         return jsonify(datahandler.user_get_conversation_info(getuser()))

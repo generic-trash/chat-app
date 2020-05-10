@@ -13,10 +13,10 @@ class UserConversationManager:
                                                            'handler': conversation_handler}
 
     def conversation_add_comment(self, comment, conversation_id):
-        self._userdata[conversation_id].add_comment({'comment': comment, 'user': self.user})
+        self._userdata[conversation_id]['handler'].addcomment({'comment': comment, 'user': self.user})
 
     def get_conversation(self, conversation_id):
-        return self._userdata[conversation_id].lst
+        return self._userdata[conversation_id]['handler'].lst
 
     def get_user_conversations(self):
         return self._userdata
