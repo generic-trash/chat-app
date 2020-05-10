@@ -67,4 +67,5 @@ $('form').submit(function(e) {
     }
     xhr3.open('POST','/conversations/'+localStorage.getItem('Conversation'))
     xhr3.send(JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}))
+    $('input').val("")
 })
