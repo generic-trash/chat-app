@@ -69,3 +69,5 @@ $('form').submit(function(e) {
     xhr3.send(JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}))
     $('input').val("")
 })
+getnewcomments()
+setTimeout(getnewcomments, 7000)
