@@ -51,12 +51,13 @@ function getnewcomments() {
                 window.location.href = '/'
         }
     }
-    xhrx.open('POLL','/conversations/'+localStorage.getItem('Conversation'))
+    xhrx.open('POLL','/conversations/'+window.location.search.trimLeft('?'))
     xhrx.send(JSON.stringify({"no_of_convos": convolength}))
 }
 
 $('form').submit(function(e) {
     e.preventDefault()
+    if($('input').val().trim() != "") {
     var xhr3 = new XMLHttpRequest()
     xhr3.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -65,9 +66,10 @@ $('form').submit(function(e) {
                 add_conversation_comments(data)
         }
     }
-    xhr3.open('POST','/conversations/'+localStorage.getItem('Conversation'))
+    xhr3.open('POST','/conversations/'+window.location.search.trimLeft('?'))
     xhr3.send(JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}))
     $('input').val("")
+    }
 })
 getnewcomments()
 setInterval(getnewcomments, 5000)
