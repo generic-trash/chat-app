@@ -12,12 +12,7 @@ from DataHandler import DataHandler
 email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 csrf_handler = CSRFTokenHandler()
 auth = Authenticator()
-auth.register({"password": "noobism!", "username": "yeet", "email": "rohroexperiment@gmail.com"})
-auth.register({"password": "noobism!", "username": "yeet2", "email": "rohroexperimenter@gmail.com"})
 datahandler = DataHandler()
-datahandler.adduser('yeet')
-datahandler.adduser('yeet2')
-datahandler.add_conversation('yeet', 'yeet2', 'yeeters')
 app = Flask(__name__, static_url_path='/assets/')
 csrf_html_response = """
     <!DOCTYPE html>
