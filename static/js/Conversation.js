@@ -41,8 +41,8 @@ function add_conversation_comments(comments) {
     }
 }
 function getnewcomments() {
-    var xhr2 = new XMLHttpRequest()
-    xhr2.onreadystatechange = function() {
+    var xhrx = new XMLHttpRequest()
+    xhrx.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
                 data = JSON.parse(this.responseText)
                 convolength += data.length
@@ -51,8 +51,8 @@ function getnewcomments() {
                 window.location.href = '/'
         }
     }
-    xhr2.open('GET','/conversations/'+localStorage.getItem('Conversation'))
-    xhr2.send(JSON.stringify({"no_of_convos": convolength}))
+    xhrx.open('POLL','/conversations/'+localStorage.getItem('Conversation'))
+    xhrx.send(JSON.stringify({"no_of_convos": convolength}))
 }
 
 $('form').submit(function(e) {
@@ -67,4 +67,7 @@ $('form').submit(function(e) {
     }
     xhr3.open('POST','/conversations/'+localStorage.getItem('Conversation'))
     xhr3.send(JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}))
+    $('input').val("")
 })
+getnewcomments()
+setInterval(getnewcomments, 5000)

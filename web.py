@@ -192,11 +192,9 @@ def getconvos():
     return dumps(datahandler.user_get_conversation_info(getuser()))
 
 
-@app.route('/conversations/<cid>', methods=['POLL', 'GET', 'POST', 'DELETE'])
+@app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])
 def conversation_manage(cid):
     if request.method == 'POLL':
-        abort(501)
-    elif request.method == 'GET':
         return jsonify(datahandler.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
     elif request.method == 'POST':
         datahandler.user_conversation_add_comment(getuser(), cid,
@@ -220,4 +218,4 @@ def getdarkmode():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
