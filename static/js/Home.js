@@ -48,7 +48,7 @@ function deleteParent() {
     xhr2.send()
 }
 function navigateTo() {
-    if ($(event.target).attr('class') == 'conversation') {
+    if ($(event.target).attr('class') == 'conversation' || $(event.target).attr('class') == 'title') {
        localStorage.setItem('Conversation', $(event.target).attr('id'))
        window.location.href = '/Conversation.html'
     }
