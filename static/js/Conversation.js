@@ -70,4 +70,4 @@ $('form').submit(function(e) {
     $('input').val("")
 })
 getnewcomments()
-setInterval(getnewcomments, 7000)
+setInterval(getnewcomments, 5000)
