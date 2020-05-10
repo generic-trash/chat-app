@@ -70,4 +70,4 @@ $('form').submit(function(e) {
     $('input').val("")
 })
 getnewcomments()
-setTimeout(getnewcomments, 7000)
+setInterval(getnewcomments, 7000)
