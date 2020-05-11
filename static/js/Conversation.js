@@ -25,14 +25,6 @@ async function getnewcomments() {
     if (!deferpoll) {
             await fetch('/conversations/'+window.location.search.slice(1), {
                 "credentials": "include",
-                "headers": {
-                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
-                    "Accept": "*/*",
-                    "Accept-Language": "en-US,en;q=0.5",
-                    "Content-Type": "text/plain;charset=UTF-8",
-                    "Pragma": "no-cache",
-                    "Cache-Control": "no-cache"
-                },
                 "body": JSON.stringify({"no_of_convos": convolength}),
                 "method": "POLL",
                 "mode": "cors"
@@ -57,11 +49,6 @@ async function getnewcomments() {
 async function initialize() {
         await fetch("/getuserdata", {
             "credentials": "include",
-            "headers": {
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
-                "Accept": "*/*",
-                "Accept-Language": "en-US,en;q=0.5"
-            },
             "method": "GET",
             "mode": "cors"
         }).then(function (response) {
@@ -75,11 +62,6 @@ async function initialize() {
         });
         await fetch("/darkmode", {
             "credentials": "include",
-            "headers": {
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
-                "Accept": "*/*",
-                "Accept-Language": "en-US,en;q=0.5"
-            },
             "method": "GET",
             "mode": "cors"
         }).then(function (response) {
@@ -100,13 +82,10 @@ convolength = 0
 $('form').submit(async function(e) {
     e.preventDefault()
     if($('input').val().trim() != "") {
-          await fetch("http://localhost:5000/conversations/3VQPQM2ZPNAFGQEYPBEZDR3RWZCISX4NT52ECDNETMJS7XLHY2BK3DO7SULW42Q7CX7IFDIJJYEYQKAWHTHSM2LDP3K2YI4R5GEKYK5D", {
+          await fetch('/conversations/'+window.location.search.slice(1) , {
             "credentials": "include",
             "headers": {
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0",
-                "Accept": "*/*",
-                "Accept-Language": "en-US,en;q=0.5",
-                "Content-Type": "text/plain;charset=UTF-8"
+                "Content-Type": "application/json;charset=UTF-8"
             },
             "body": JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}),
             "method": "POST",
