@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import html
 from flask import Flask, request, make_response, redirect, jsonify, send_file, abort
-from json import loads, dumps
+from json import loads
 from AuthFrameWork import Authenticator
 from CSRFToken import CSRFTokenHandler
 from errors import *
@@ -78,12 +78,12 @@ def registeruser():
         else:
             auth.register(data)
             datahandler.adduser(data.get('username'))
-            resp = make_response(dumps(register_success_template))
+            resp = jsonify(register_success_template)
             resp.set_cookie('sessid', auth.authenticate(data), max_age=86400)
             return resp
     else:
         response['csrf'] = True
-        return dumps(response)
+        return jsonify(response)
 
 
 def csrf_verify():
@@ -103,7 +103,7 @@ def isvalidemail(email):
 @app.route('/verify_csrftok')
 def verifytok():
     csrf_tok = request.data
-    return dumps({'valid': bool(csrf_tok) and csrf_handler.validatetok(csrf_tok)})
+    return jsonify({'valid': bool(csrf_tok) and csrf_handler.validatetok(csrf_tok)})
 
 
 @app.route('/login', methods=['POST'])
@@ -111,17 +111,17 @@ def authenticate():
     if csrf_verify():
         data = loads(request.data)
         if True in (not data.get('username'), not data.get('password')):
-            return dumps({'status': 'error', 'csrf': False})
+            return jsonify({'status': 'error', 'csrf': False})
         data['username'] = data['username'].strip().lower()
         sessid = auth.authenticate(data)
         if sessid:
-            resp = make_response(dumps({'status': 'success'}))
+            resp = make_response(jsonify({'status': 'success'}))
             resp.set_cookie('sessid', sessid)
             return resp
         else:
-            return dumps({'status': 'error', 'csrf': False})
+            return jsonify({'status': 'error', 'csrf': False})
     else:
-        return dumps({'status': 'error', 'csrf': True})
+        return jsonify({'status': 'error', 'csrf': True})
 
 
 @app.route('/Sign-up.html')
@@ -179,12 +179,12 @@ def newconversation():
                                          auth.emails_to_users[data['email']], data['name'])
     else:
         abort(403)
-    return dumps(datahandler.user_get_conversation_info(getuser()))
+    return jsonify(datahandler.user_get_conversation_info(getuser()))
 
 
 @app.route('/Conversations/getall')
 def getconvos():
-    return dumps(datahandler.user_get_conversation_info(getuser()))
+    return jsonify(datahandler.user_get_conversation_info(getuser()))
 
 
 @app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])
