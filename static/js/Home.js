@@ -49,7 +49,7 @@ function deleteParent() {
 }
 function navigateTo() {
     if ($(event.target).attr('class') == 'conversation' || $(event.target).attr('class') == 'title') {
-       window.location.href = '/Conversation.html?'+$(event.target).attr(id)
+       window.location.href = '/Conversation.html?'+$(event.target).attr('id')
     }
 }
 function createConversationElement(id, name) {
