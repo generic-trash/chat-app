@@ -64,7 +64,7 @@ function update(data) {
     }
 }
 async function initialize() {
-    await fetch("http://localhost:5000/Conversations/getall", {
+    await fetch("/Conversations/getall", {
         "credentials": "include",
         "method": "GET",
         "mode": "cors"
@@ -73,7 +73,7 @@ async function initialize() {
             response.json().then(update)
         }
     });
-    await fetch("http://localhost:5000/darkmode", {
+    await fetch("/darkmode", {
         "credentials": "include",
         "method": "GET",
         "mode": "cors"
@@ -84,7 +84,7 @@ async function initialize() {
             })
         }
     });
-    await fetch("http://localhost:5000/getuserdata", {
+    await fetch("/getuserdata", {
         "credentials": "include",
         "method": "GET",
         "mode": "cors"
@@ -101,12 +101,12 @@ async function initialize() {
 initialize()
 $('#newconvoform').submit(async function(e) {
     e.preventDefault()
-    await fetch("http://localhost:5000/Conversations/new", {
+    await fetch("/Conversations/new", {
         "credentials": "include",
         "headers": {
             "X-CSRF-Token": getcsrftok(),
         },
-        "referrer": "http://localhost:5000/Home.html",
+        "referrer": "/Home.html",
         "body": JSON.stringify({"email":$('#convouser').val(),'name':$("#convoname").val()}),
         "method": "POST",
         "mode": "cors"
@@ -125,7 +125,7 @@ $('#newconvoform').submit(async function(e) {
     });
 })
 async function toggledarkmode() {
-    await fetch("http://localhost:5000/darkmode", {
+    await fetch("/darkmode", {
         "credentials": "include",
         "method": "POST",
         "mode": "cors"
