@@ -51,7 +51,7 @@ function getnewcomments() {
                 window.location.href = '/'
         }
     }
-    xhrx.open('POLL','/conversations/'+window.location.search.trimLeft('?'))
+    xhrx.open('POLL','/conversations/'+window.location.search.slice(1))
     xhrx.send(JSON.stringify({"no_of_convos": convolength}))
 }
 
@@ -66,7 +66,7 @@ $('form').submit(function(e) {
                 add_conversation_comments(data)
         }
     }
-    xhr3.open('POST','/conversations/'+window.location.search.trimLeft('?'))
+    xhr3.open('POST','/conversations/'+window.location.search.slice(1))
     xhr3.send(JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}))
     $('input').val("")
     }
