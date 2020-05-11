@@ -36,16 +36,18 @@ function darkmode_handle(isdark) {
         $('#Home-css').attr('href','/assets/css/Home.css')
     }
 }
-function deleteParent() {
-    var xhr2 = new XMLHttpRequest()
-    xhr2.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText)
-            update(data)
+async function deleteParent() {
+    await fetch('/conversations/'+$(event.target).parent().attr('id'), {
+        "credentials": "include",
+        "method": "DELETE",
+        "mode": "cors"
+    }).then(function (response) {
+        if(response.status == 200) {
+            response.json().then(function(data) {
+                update(data)
+            })
         }
-    }
-    xhr2.open('DELETE', '/conversations/'+$(event.target).parent().attr('id'))
-    xhr2.send()
+    });
 }
 function navigateTo() {
     if ($(event.target).attr('class') == 'conversation' || $(event.target).attr('class') == 'title') {
@@ -61,66 +63,79 @@ function update(data) {
         $('#Home-js').before(createConversationElement(key, data[key]))
     }
 }
-var xhr = new XMLHttpRequest()
-xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        data = JSON.parse(this.responseText)
-        update(data)
-    }
+async function initialize() {
+    await fetch("http://localhost:5000/Conversations/getall", {
+        "credentials": "include",
+        "method": "GET",
+        "mode": "cors"
+    }).then(function(response) {
+        if (response.status == 200) {
+            response.json().then(update)
+        }
+    });
+    await fetch("http://localhost:5000/darkmode", {
+        "credentials": "include",
+        "method": "GET",
+        "mode": "cors"
+    }).then(function (response) {
+        if (response.status == 200) {
+            response.json().then(function (data) {
+                 darkmode_handle(data.darkmode)
+            })
+        }
+    });
+    await fetch("http://localhost:5000/getuserdata", {
+        "credentials": "include",
+        "method": "GET",
+        "mode": "cors"
+    }).then(function (response) {
+        if (response.status == 200) {
+            response.json().then(function (data) {
+                 $('.content p').text(data.email)
+                 $('.content h2').text(data.username)
+                 $('.user h1').text(data.username.toUpperCase()[0])
+            })
+        }
+    });
 }
-xhr.open('GET', '/Conversations/getall')
-xhr.send()
-
-var xhr = new XMLHttpRequest()
-xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText)
-            darkmode_handle(data.darkmode)
-    }
-}
-xhr.open('GET', '/darkmode')
-xhr.send()
-
-var xhr = new XMLHttpRequest()
-xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        data = JSON.parse(this.responseText)
-        $('.content p').text(data.email)
-        $('.content h2').text(data.username)
-        $('.user h1').text(data.username.toUpperCase()[0])
-    }
-}
-xhr.open('GET', '/getuserdata')
-xhr.send()
-$('#newconvoform').submit(function(e) {
+initialize()
+$('#newconvoform').submit(async function(e) {
     e.preventDefault()
-    var xhr3 = new XMLHttpRequest()
-    xhr3.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText)
-            update(data)
-            $('input').val("")
-            hideModal()
-        } else if (this.readyState == 4 && this.status == 403) {
+    await fetch("http://localhost:5000/Conversations/new", {
+        "credentials": "include",
+        "headers": {
+            "X-CSRF-Token": getcsrftok(),
+        },
+        "referrer": "http://localhost:5000/Home.html",
+        "body": JSON.stringify({"email":$('#convouser').val(),'name':$("#convoname").val()}),
+        "method": "POST",
+        "mode": "cors"
+    }).then(function (response) {
+        if (response.status == 200) {
+            response.json().then(function (data) {
+                update(data)
+                $('input').val("")
+                hideModal()
+            })
+        } else if (response.status == 403) {
             reloadtoken()
-        } else if (this.readyState == 4 && this.status == 500) {
+        } else if (response.status == 500) {
             $('input').val("")
         }
-    }
-    xhr3.open('POST', '/Conversations/new')
-    xhr3.setRequestHeader('X-CSRF-Token', getcsrftok())
-    xhr3.send(JSON.stringify({"email":$('#convouser').val(),'name':$("#convoname").val()}))
+    });
 })
-function toggledarkmode() {
-    var xhr4 = new XMLHttpRequest()
-    xhr4.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText)
-            darkmode_handle(data.darkmode)
+async function toggledarkmode() {
+    await fetch("http://localhost:5000/darkmode", {
+        "credentials": "include",
+        "method": "POST",
+        "mode": "cors"
+    }).then(function (response) {
+        if (response.status == 200) {
+            response.json().then(function (data) {
+                 darkmode_handle(data.darkmode)
+            })
         }
-    }
-    xhr4.open('POST', '/darkmode')
-    xhr4.send()
+    });
 }
 $('#darkmodesvg').click(toggledarkmode)
 $('#toggle').click(toggledarkmode)

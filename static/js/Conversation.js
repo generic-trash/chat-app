@@ -1,15 +1,5 @@
-user = ""
+window.user = ""
 var deferpoll = false;
-var xhr = new XMLHttpRequest()
-xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        data = JSON.parse(this.responseText)
-        user = data.username
-    }
-}
-xhr.open('GET', '/getuserdata')
-xhr.send()
-$('#sentinel-css').remove()
 function darkmode_handle(isdark) {
     if(isdark) {
         $('#Convo-css').attr('href','/assets/css/Conversation-dark.css')
@@ -17,21 +7,11 @@ function darkmode_handle(isdark) {
         $('#Convo-css').attr('href','/assets/css/Conversation.css')
     }
 }
-var xhr = new XMLHttpRequest()
-xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText)
-            darkmode_handle(data.darkmode)
-    }
-}
-xhr.open('GET', '/darkmode')
-xhr.send()
-convolength = 0
 function add_conversation_comments(comments) {
     for(var i = 0; i < comments.length; i++) {
         span = $("<span>")
         span.addClass('chat')
-        if(comments[i].user == user) {
+        if(comments[i].user == window.user) {
             span.addClass('u2')
         } else {
             span.addClass('u1')
@@ -40,41 +20,87 @@ function add_conversation_comments(comments) {
         $('.chats').append(span)
     }
 }
-function getnewcomments() {
+
+async function getnewcomments() {
     if (!deferpoll) {
-        var xhrx = new XMLHttpRequest()
-        xhrx.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                    data = JSON.parse(this.responseText)
-                    convolength += data.length
-                    add_conversation_comments(data)
-            } else if (this.readyState == 4 && this.status == 500) {
+            await fetch('/conversations/'+window.location.search.slice(1), {
+                "credentials": "include",
+                "body": JSON.stringify({"no_of_convos": convolength}),
+                "method": "POLL",
+                "mode": "cors"
+            }).then(function (response) {
+                if (response.status == 500) {
                     window.location.href = '/'
-            }
-        }
-        xhrx.open('POLL','/conversations/'+window.location.search.slice(1))
-        xhrx.send(JSON.stringify({"no_of_convos": convolength}))
+                } else if (response.status != 200) {
+                    return
+                }
+
+                response.json().then(
+                    function (data) {
+                        convolength += data.length
+                        add_conversation_comments(data)
+                    }
+                )
+            });
     } else {
         deferpoll = false;
     }
 }
+async function initialize() {
+        await fetch("/getuserdata", {
+            "credentials": "include",
+            "method": "GET",
+            "mode": "cors"
+        }).then(function (response) {
+            if (response.status !== 200) {
+                return;
+            }
 
-$('form').submit(function(e) {
+            response.json().then(function (data) {
+                window.user = data.username
+            })
+        });
+        await fetch("/darkmode", {
+            "credentials": "include",
+            "method": "GET",
+            "mode": "cors"
+        }).then(function (response) {
+            if (response.status !== 200) {
+                return;
+            }
+
+            response.json().then(function (data) {
+                darkmode_handle(data.darkmode)
+            })
+        });
+        getnewcomments()
+}
+$('#sentinel-css').remove()
+initialize()
+convolength = 0
+
+$('form').submit(async function(e) {
     e.preventDefault()
     if($('input').val().trim() != "") {
-        var xhr3 = new XMLHttpRequest()
-        xhr3.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                    data = JSON.parse(this.responseText)
-                    convolength += data.length
-                    add_conversation_comments(data)
-            }
-        }
-        xhr3.open('POST','/conversations/'+window.location.search.slice(1))
-        xhr3.send(JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}))
-        $('input').val("")
-        deferpoll = true;
+          await fetch('/conversations/'+window.location.search.slice(1) , {
+            "credentials": "include",
+            "headers": {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            "body": JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}),
+            "method": "POST",
+            "mode": "cors"
+            }).then( function(response)  {
+                if (response.status == 200) {
+                    response.json().then(function (data) {
+                        convolength += data.length
+                        add_conversation_comments(data)
+                    })
+                }
+            });
+            deferpoll = true;
     }
+    $('input').val("")
 })
-getnewcomments()
+window.scrollTo(0, document.body.scrollHeight)
 setInterval(getnewcomments, 5000)
