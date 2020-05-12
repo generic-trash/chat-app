@@ -1,5 +1,4 @@
 window.user = ""
-var deferpoll = false;
 function darkmode_handle(isdark) {
     if(isdark) {
         $('#Convo-css').attr('href','/assets/css/Conversation-dark.css')
@@ -22,29 +21,25 @@ function add_conversation_comments(comments) {
 }
 
 async function getnewcomments() {
-    if (!deferpoll) {
-            await fetch('/conversations/'+window.location.search.slice(1), {
-                "credentials": "include",
-                "body": JSON.stringify({"no_of_convos": convolength}),
-                "method": "POLL",
-                "mode": "cors"
-            }).then(function (response) {
-                if (response.status == 500) {
-                    window.location.href = '/'
-                } else if (response.status != 200) {
-                    return
-                }
+        await fetch('/conversations/'+window.location.search.slice(1), {
+            "credentials": "include",
+            "body": JSON.stringify({"no_of_convos": convolength}),
+            "method": "POLL",
+            "mode": "cors"
+        }).then(function (response) {
+            if (response.status == 500) {
+                window.location.href = '/'
+            } else if (response.status != 200) {
+                return
+            }
 
-                response.json().then(
-                    function (data) {
-                        convolength += data.length
-                        add_conversation_comments(data)
-                    }
-                )
-            });
-    } else {
-        deferpoll = false;
-    }
+            response.json().then(
+                function (data) {
+                    convolength += data.length
+                    add_conversation_comments(data)
+                }
+            )
+        });
 }
 async function initialize() {
         await fetch("/getuserdata", {
@@ -92,14 +87,9 @@ $('form').submit(async function(e) {
             "mode": "cors"
             }).then( function(response)  {
                 if (response.status == 200) {
-                    response.json().then(function (data) {
-                        convolength += data.length
-                        add_conversation_comments(data)
-                    })
+                    $('input').val("")
                 }
             });
-            deferpoll = true;
     }
-    $('input').val("")
 })
 setInterval(getnewcomments, 5000)
