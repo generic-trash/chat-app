@@ -25,8 +25,6 @@ $(function() {
                     resp = JSON.parse(this.responseText)
                     if (resp.status == 'success') {
                         window.location.href = '/'
-                    } else if (resp.csrf == true) {
-                        reloadtoken()
                     } else {
                         userr.text(resp.errors.username)
                         pwerr.text(resp.errors.password)
@@ -40,7 +38,6 @@ $(function() {
                 }
             }
             authxhr.open('POST','/register')
-            authxhr.setRequestHeader('X-CSRF-Token', getcsrftok());
             authxhr.send(body);
         })
 })

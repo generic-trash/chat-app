@@ -12,9 +12,7 @@ $(function() {
         authreq.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 data = JSON.parse(this.responseText)
-                if (data.csrf) {
-                    reloadtoken()
-                } else if (data.status == 'error') {
+                if (data.status == 'error') {
                     inputs.addClass('invalid')
                     err.show()
                 } else {
@@ -23,7 +21,6 @@ $(function() {
             }
         }
         authreq.open('POST', '/login')
-        authreq.setRequestHeader('X-CSRF-Token', getcsrftok())
         authreq.send(body)
     })
 })

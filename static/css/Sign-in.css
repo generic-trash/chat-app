@@ -101,3 +101,7 @@ label {
   color: var(--clr-danger);
   background-color: var(--clr-danger-light);
 }
+
+.separator {
+  clear: both;
+}

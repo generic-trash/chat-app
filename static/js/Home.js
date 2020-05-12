@@ -103,9 +103,6 @@ $('#newconvoform').submit(async function(e) {
     e.preventDefault()
     await fetch("/Conversations/new", {
         "credentials": "include",
-        "headers": {
-            "X-CSRF-Token": getcsrftok(),
-        },
         "referrer": "/Home.html",
         "body": JSON.stringify({"email":$('#convouser').val(),'name':$("#convoname").val()}),
         "method": "POST",
@@ -117,8 +114,6 @@ $('#newconvoform').submit(async function(e) {
                 $('input').val("")
                 hideModal()
             })
-        } else if (response.status == 403) {
-            reloadtoken()
         } else if (response.status == 500) {
             $('input').val("")
         }
