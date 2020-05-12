@@ -24,18 +24,14 @@ def registeruser():
     error = False
     data = loads(request.data)
     email = data.get('email').strip()
-    username = data.get('username')
-    confirm = data.get('confirm').strip()
-    passwd = data.get('password').strip()
+    username = data.get('username').strip().lower()
+    confirm = data.get('confirm')
+    passwd = data.get('password')
     if not username:
         response['errors']['username'] = "Empty username"
         error = True
-    username = html.escape(username.lower().strip())
     if not username:
         response['errors']['username'] = "Empty username"
-        error = True
-    if auth.userexists(username):
-        response['errors']['username'] = "Username in use"
         error = True
     if auth.emailexists(email):
         response['errors']['email'] = "Email in use"
@@ -145,7 +141,7 @@ def conversation_manage(cid):
     elif request.method == 'POST':
         datahandler.user_conversation_add_comment(getuser(), cid,
                                                   loads(request.data)['comment'])
-        return jsonify(datahandler.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
+        return ''
     elif request.method == 'DELETE':
         datahandler.user_delete_conversation(getuser(), cid)
         return jsonify(datahandler.user_get_conversation_info(getuser()))
