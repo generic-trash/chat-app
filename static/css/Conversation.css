@@ -115,9 +115,8 @@ body {
   align-items: center;
 }
 
-.separator-2 {
+.separator {
   clear: both;
-  margin-top: 655px;
 }
 
 input {
@@ -134,12 +133,13 @@ input::placeholder {
 }
 
 .sticky {
-  position: sticky;
+  position: fixed;
   z-index: 1;
 }
 
 .sticky--header {
   top: 0;
+  right: 10px;
 }
 
 .sticky--footer {

@@ -102,5 +102,4 @@ $('form').submit(async function(e) {
     }
     $('input').val("")
 })
-window.scrollTo(0, document.body.scrollHeight)
 setInterval(getnewcomments, 5000)
