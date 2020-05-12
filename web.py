@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import html
 from flask import Flask, request, make_response, redirect, jsonify, send_file, abort
 from json import loads
 from AuthFrameWork import Authenticator
