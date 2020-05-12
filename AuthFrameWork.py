@@ -14,7 +14,7 @@ class Authenticator:
 
     def register(self, user):
         passwd = user.get('password')
-        username = user.get('username')
+        username = user.get('username').lower().strip()
         email = user.get('email')
         if username in self.users_to_emails or email in self.emails_to_users or True in (
                 not passwd, not username, not email):
@@ -31,7 +31,7 @@ class Authenticator:
 
     def authenticate(self, authdata):
         passwd = authdata.get('password')
-        username = authdata.get('username')
+        username = authdata.get('username').lower().strip()
         if username not in self.users_to_emails or not passwd or not username:
             return False
         if self.user_passwds[username] != self._hash_pwd(passwd):

@@ -62,7 +62,7 @@ def isvalidemail(email):
 def authenticate():
     data = loads(request.data)
     if True in (not data.get('username'), not data.get('password')):
-        return jsonify({'status': 'error', 'csrf': False})
+        return jsonify({'status': 'error'})
     data['username'] = data['username'].strip().lower()
     sessid = auth.authenticate(data)
     if sessid:
@@ -70,7 +70,7 @@ def authenticate():
         resp.set_cookie('sessid', sessid)
         return resp
     else:
-        return jsonify({'status': 'error', 'csrf': False})
+        return jsonify({'status': 'error'})
 
 
 @app.route('/Sign-up.html')
