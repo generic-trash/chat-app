@@ -64,7 +64,7 @@ def authenticate():
     data = loads(request.data)
     if True in (not data.get('username'), not data.get('password')):
         return jsonify({'status': 'error', 'csrf': False})
-    data['username'] = auth.emails_to_users(data['username'].strip().lower())
+    data['username'] = data['username'].strip().lower()
     sessid = auth.authenticate(data)
     if sessid:
         resp = make_response(jsonify({'status': 'success'}))
