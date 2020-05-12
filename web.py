@@ -30,8 +30,8 @@ def registeruser():
     if not username:
         response['errors']['username'] = "Empty username"
         error = True
-    if not username:
-        response['errors']['username'] = "Empty username"
+    if auth.userexists(username):
+        response['errors']['username'] = "Username in use"
         error = True
     if auth.emailexists(email):
         response['errors']['email'] = "Email in use"
