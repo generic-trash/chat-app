@@ -23,10 +23,10 @@ def registeruser():
     response = deepcopy(register_errors_template)
     error = False
     data = loads(request.data)
-    email = data.get('email')
+    email = data.get('email').strip()
     username = data.get('username')
-    confirm = data.get('confirm')
-    passwd = data.get('password')
+    confirm = data.get('confirm').strip()
+    passwd = data.get('password').strip()
     if not username:
         response['errors']['username'] = "Empty username"
         error = True
@@ -68,7 +68,7 @@ def authenticate():
     data = loads(request.data)
     if True in (not data.get('username'), not data.get('password')):
         return jsonify({'status': 'error', 'csrf': False})
-    data['username'] = data['username'].strip().lower()
+    data['username'] = auth.emails_to_users(data['username'].strip().lower())
     sessid = auth.authenticate(data)
     if sessid:
         resp = make_response(jsonify({'status': 'success'}))
