@@ -98,6 +98,7 @@ $('form').submit(async function(e) {
                         convolength = data[data.length - 1].id
                         add_conversation_comments(data)
                     }
+                    $('input').val("")
                 }
             )
         })
