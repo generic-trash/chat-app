@@ -8,7 +8,7 @@ class UserConversationManager:
         self._userdata[id] = {'name': conversation_name, 'handler': conversation_handler}
 
     def conversation_add_comment(self, comment, conversation_id):
-        self._userdata[conversation_id]['handler'].addcomment({'comment': comment, 'user': self.user})
+        self._userdata[conversation_id]['handler'].addcomment({'comment': comment, 'user': self.user, 'id': len(self._userdata[conversation_id]['handler'].lst) +1})
 
     def get_conversation(self, conversation_id):
         return self._userdata[conversation_id]['handler'].lst

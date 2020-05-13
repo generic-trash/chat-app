@@ -35,8 +35,10 @@ async function getnewcomments() {
 
             response.json().then(
                 function (data) {
-                    convolength += data.length
-                    add_conversation_comments(data)
+                    if( data.length > 0) {
+                        convolength = data[data.length - 1].id
+                        add_conversation_comments(data)
+                    }
                 }
             )
         });
@@ -85,11 +87,20 @@ $('form').submit(async function(e) {
             "body": JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}),
             "method": "POST",
             "mode": "cors"
-            }).then( function(response)  {
-                if (response.status == 200) {
-                    $('input').val("")
+          }).then(function (response) {
+            if (response.status != 200) {
+                return
+            }
+
+            response.json().then(
+                function (data) {
+                    if( data.length > 0) {
+                        convolength = data[data.length - 1].id
+                        add_conversation_comments(data)
+                    }
                 }
-            });
+            )
+        })
     }
 })
 setInterval(getnewcomments, 5000)
