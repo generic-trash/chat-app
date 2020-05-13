@@ -1,7 +1,9 @@
 from hashlib import sha3_512 as sha512
-from base64 import b64encode
+from base64 import b64encode, b32encode
 from datetime import datetime, timedelta
 from os import urandom
+from UserDataHandler import UserConversationManager
+from Conversation import Conversation
 import re
 
 email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
@@ -32,6 +34,7 @@ class Authenticator:
         self.users_to_emails = {}
         self.sids_times = {}
         self.sids_to_users = {}
+        self.user_data = {}
 
     def register(self, user):
         err = 0
@@ -59,12 +62,13 @@ class Authenticator:
             self.user_passwds[username] = self._hash_pwd(passwd)
             self.users_to_emails[username] = email
             self.emails_to_users[email] = username
+            self.user_data[username] = UserConversationManager(user.get('username').strip())
         return err
 
     def authenticate(self, authdata):
         passwd = authdata.get('password')
         username = authdata.get('username').lower().strip()
-        if isvalidemail(username):
+        if self.emailexists(username):
             username = self.emails_to_users[username]
         if username not in self.users_to_emails or not passwd or not username:
             return False
@@ -110,6 +114,25 @@ class Authenticator:
             del self.emails_to_users[self.users_to_emails[username]]
             del self.users_to_emails[username]
             del self.user_passwds[username]
-        except:
+        except KeyError:
             return False
         return True
+
+    def add_conversation(self, user1, user2):
+        if isvalidemail(user1):
+            user1 = self.emails_to_users[user1]
+        if isvalidemail(user2):
+            user2 = self.emails_to_users[user2]
+        id = b32encode(urandom(65)).decode()
+        conversation = Conversation(id)
+        self.user_data[user1].add_conversation(self.get_username(user2), conversation, id)
+        self.user_data[user2].add_conversation(self.get_username(user1), conversation, id)
+
+    def get_username(self, username):
+        return self.user_data[username].user
+
+    def user_toggle_dark_mode(self, user):
+        self.user_data[user].toggledarkmode()
+
+    def user_get_dark_mode(self, user):
+        return self.user_data[user].darkmode
