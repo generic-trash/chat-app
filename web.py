@@ -29,6 +29,12 @@ def registeruser():
     if not username:
         response['errors']['username'] = "Empty username"
         error = True
+    if isvalidemail(username):
+        response['errors']['username'] = "Username cannot be an email address"
+        error = True
+    if ' ' in username or '\t' in username:
+        response['errors']['username'] = "Username cannot contain whitespace"
+        error = True
     if auth.userexists(username):
         response['errors']['username'] = "Username in use"
         error = True
@@ -64,6 +70,8 @@ def authenticate():
     if True in (not data.get('username'), not data.get('password')):
         return jsonify({'status': 'error'})
     data['username'] = data['username'].strip().lower()
+    if isvalidemail(data['username']):
+        data['username'] = auth.emails_to_users[data['username']]
     sessid = auth.authenticate(data)
     if sessid:
         resp = make_response(jsonify({'status': 'success'}))
@@ -122,9 +130,11 @@ def signout():
 @app.route('/Conversations/new', methods=['POST'])
 def newconversation():
     data = loads(request.data)
+    if auth.userexists(data['email']):
+        data['email'] = auth.users_to_emails[data['email']]
     if getuser() != auth.emails_to_users[data['email']]:
         datahandler.add_conversation(getuser(),
-                                     auth.emails_to_users[data['email']], data['name'])
+                                     auth.emails_to_users[data['email']])
     return jsonify(datahandler.user_get_conversation_info(getuser()))
 
 

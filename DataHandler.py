@@ -9,10 +9,10 @@ class DataHandler:
     def adduser(self, user):
         self._users[user.lower()] = UserConversationManager(user)
 
-    def add_conversation(self, user1, user2, name):
+    def add_conversation(self, user1, user2):
         conversation = Conversation()
-        self._users[user1.lower()].add_conversation(name, conversation)
-        self._users[user2.lower()].add_conversation(name, conversation)
+        self._users[user1.lower()].add_conversation(self.get_username(user2), conversation)
+        self._users[user2.lower()].add_conversation(self.get_username(user1), conversation)
 
     def user_conversation_add_comment(self, user, conversation, comment):
         return self._users[user.lower()].conversation_add_comment(comment, conversation)
