@@ -70,7 +70,7 @@ def authenticate():
     if True in (not data.get('username'), not data.get('password')):
         return jsonify({'status': 'error'})
     data['username'] = data['username'].strip().lower()
-    if isvalidemail(data['username']):
+    if auth.emailexists(data['username']):
         data['username'] = auth.emails_to_users[data['username']]
     sessid = auth.authenticate(data)
     if sessid:

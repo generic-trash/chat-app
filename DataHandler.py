@@ -1,5 +1,7 @@
 from UserDataHandler import UserConversationManager
 from Conversation import Conversation
+from os import urandom
+from base64 import b32encode
 
 
 class DataHandler:
@@ -10,9 +12,10 @@ class DataHandler:
         self._users[user.lower()] = UserConversationManager(user)
 
     def add_conversation(self, user1, user2):
-        conversation = Conversation()
-        self._users[user1.lower()].add_conversation(self.get_username(user2), conversation)
-        self._users[user2.lower()].add_conversation(self.get_username(user1), conversation)
+        id = b32encode(urandom(65)).decode()
+        conversation = Conversation(id)
+        self._users[user1.lower()].add_conversation(self.get_username(user2), conversation, id)
+        self._users[user2.lower()].add_conversation(self.get_username(user1), conversation, id)
 
     def user_conversation_add_comment(self, user, conversation, comment):
         return self._users[user.lower()].conversation_add_comment(comment, conversation)
