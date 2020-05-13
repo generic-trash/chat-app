@@ -1,43 +1,83 @@
-from hashlib import sha3_384 as sha384
+from hashlib import sha3_512 as sha512
 from base64 import b64encode
 from datetime import datetime, timedelta
 from os import urandom
+import re
+
+email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
+
+
+def isvalidemail(email):
+    return bool(email_regex.match(email))
+
+
+CONFIRM_PASSWD_NOMATCH = 1
+PASSWD_LEN_LT8 = 2
+INVALID_EMAIL = 4
+EMAIL_EXISTS = 8
+USERNAME_EXISTS = 16
+USERNAME_IS_EMAIL = 32
+USERNAME_IS_EMPTY = 64
+USERNAME_CONTAINS_WHITESPACE = 128
 
 
 class Authenticator:
+    @staticmethod
+    def _hash_pwd(passwd):
+        return sha512(passwd.encode()).digest()
+
     def __init__(self):
+        self.user_passwds = {}
         self.emails_to_users = {}
         self.users_to_emails = {}
-        self.user_passwds = {}
         self.sids_times = {}
         self.sids_to_users = {}
 
     def register(self, user):
+        err = 0
         passwd = user.get('password')
+        confirm = user.get('confirm')
         username = user.get('username').lower().strip()
-        email = user.get('email')
-        if username in self.users_to_emails or email in self.emails_to_users or True in (
-                not passwd, not username, not email):
-            return False
-        self.emails_to_users[email] = username
-        self.users_to_emails[username] = email
-        pwhash = self._hash_pwd(passwd)
-        self.user_passwds[username] = pwhash
-        return True
-
-    @staticmethod
-    def _hash_pwd(passwd):
-        return sha384(passwd.encode()).hexdigest()
+        email = user.get('email').strip()
+        if passwd != confirm:
+            err |= CONFIRM_PASSWD_NOMATCH
+        if len(passwd) < 8:
+            err |= PASSWD_LEN_LT8
+        if not isvalidemail(email):
+            err |= INVALID_EMAIL
+        if self.emailexists(email):
+            err |= EMAIL_EXISTS
+        if not username:
+            err |= USERNAME_IS_EMPTY
+        if isvalidemail(username):
+            err |= USERNAME_IS_EMAIL
+        if self.userexists(username):
+            err |= USERNAME_EXISTS
+        if ' ' in username or '\t' in username:
+            err |= USERNAME_CONTAINS_WHITESPACE
+        if not err:
+            self.user_passwds[username] = self._hash_pwd(passwd)
+            self.users_to_emails[username] = email
+            self.emails_to_users[email] = username
+        return err
 
     def authenticate(self, authdata):
         passwd = authdata.get('password')
         username = authdata.get('username').lower().strip()
+        if isvalidemail(username):
+            username = self.emails_to_users[username]
         if username not in self.users_to_emails or not passwd or not username:
             return False
         if self.user_passwds[username] != self._hash_pwd(passwd):
             return False
         else:
             return self._gen_sessionid(username)
+
+    def emailexists(self, email):
+        return email in self.emails_to_users
+
+    def userexists(self, user):
+        return user in self.users_to_emails
 
     def _gen_sessionid(self, user):
         token = b64encode(urandom(300)).decode()
@@ -73,9 +113,3 @@ class Authenticator:
         except:
             return False
         return True
-
-    def userexists(self, user):
-        return user in self.user_passwds
-
-    def emailexists(self, email):
-        return email in self.emails_to_users

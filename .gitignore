@@ -2,3 +2,7 @@ venv
 .idea
 __pycache__
 Chat app.zip
+/AuthFrameWork_old.py
+/DataHandler_old.py
+/errors_old.py
+/web_old.py
