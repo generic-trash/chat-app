@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from flask import Flask, request, make_response, redirect, jsonify, send_file, abort
+from flask import Flask, request, make_response, redirect, jsonify, send_file
 from json import loads
 from AuthFrameWork import Authenticator
 from errors import *
