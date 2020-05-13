@@ -195,8 +195,13 @@ input::placeholder {
 #startconvo,
 #signout {
   display: block;
-  margin: 20px auto 30px;
+  margin: 20px auto 10px;
 }
+
+#startconvo {
+  margin-bottom: 30px;
+}
+
 #newconvopopup .modal-header {
   text-align: center;
 }
