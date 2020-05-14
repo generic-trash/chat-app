@@ -1,84 +1,12 @@
 #!/usr/bin/python
-from flask import Flask, request, make_response, redirect, jsonify, send_file, abort
+from flask import Flask, request, redirect, jsonify, send_file, make_response
 from json import loads
-from AuthFrameWork import Authenticator
-from errors import *
-from copy import deepcopy
+from AuthAndData import *
 import re
-from DataHandler import DataHandler
 
 email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 auth = Authenticator()
-datahandler = DataHandler()
 app = Flask(__name__, static_url_path='/assets/')
-
-
-def getuser():
-    return auth.sessidtouser(request.cookies.get('sessid'))
-
-
-@app.route('/register', methods=['POST'])
-def registeruser():
-    response = deepcopy(register_errors_template)
-    error = False
-    data = loads(request.data)
-    email = data.get('email').strip()
-    username = data.get('username').strip().lower()
-    confirm = data.get('confirm')
-    passwd = data.get('password')
-    if not username:
-        response['errors']['username'] = "Empty username"
-        error = True
-    if isvalidemail(username):
-        response['errors']['username'] = "Username cannot be an email address"
-        error = True
-    if ' ' in username or '\t' in username:
-        response['errors']['username'] = "Username cannot contain whitespace"
-        error = True
-    if auth.userexists(username):
-        response['errors']['username'] = "Username in use"
-        error = True
-    if auth.emailexists(email):
-        response['errors']['email'] = "Email in use"
-        error = True
-    if not isvalidemail(email):
-        response['errors']['email'] = "Invalid email"
-        error = True
-    if confirm != passwd:
-        response['errors']['confirm'] = "Passwords do not match"
-        error = True
-    if len(passwd) < 8 or sum(c.isdigit() for c in passwd) < 2:
-        response['errors']['password'] = "There must be at least 8 characters and 2 numbers"
-        error = True
-    if error:
-        return jsonify(response)
-    else:
-        auth.register(data)
-        datahandler.adduser(data.get('username'))
-        resp = jsonify(register_success_template)
-        resp.set_cookie('sessid', auth.authenticate(data), max_age=86400)
-        return resp
-
-
-def isvalidemail(email):
-    return bool(email_regex.match(email))
-
-
-@app.route('/login', methods=['POST'])
-def authenticate():
-    data = loads(request.data)
-    if True in (not data.get('username'), not data.get('password')):
-        return jsonify({'status': 'error'})
-    data['username'] = data['username'].strip().lower()
-    if auth.emailexists(data['username']):
-        data['username'] = auth.emails_to_users[data['username']]
-    sessid = auth.authenticate(data)
-    if sessid:
-        resp = make_response(jsonify({'status': 'success'}))
-        resp.set_cookie('sessid', sessid)
-        return resp
-    else:
-        return jsonify({'status': 'error'})
 
 
 @app.route('/Sign-up.html')
@@ -119,6 +47,54 @@ def favicon():
     return send_file('favicon.ico')
 
 
+def getuser():
+    return auth.sessidtouser(request.cookies.get('sessid'))
+
+
+@app.route('/register', methods=['POST'])
+def registeruser():
+    data = loads(request.data)
+    sessid = auth.register(data)
+    if type(sessid) == str:
+        resp = make_response('')
+        resp.set_cookie('sessid', sessid)
+        return resp
+    if type(sessid) == bool:
+        return '', 400
+    else:
+        return jsonify(sessid), 403
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = loads(request.data)
+    sessid = auth.authenticate(data)
+    if sessid:
+        resp = make_response('')
+        resp.set_cookie('sessid', sessid)
+        return resp
+    else:
+        return '', 403
+
+
+@app.route('/darkmode', methods=['POST', 'GET'])
+def darkmode():
+    try:
+        if request.method == "POST":
+            auth.user_toggle_dark_mode(getuser())
+        return {'darkmode': auth.user_get_dark_mode(getuser())}
+    except KeyError:
+        return '{}', 403
+
+
+@app.route('/getuserdata')
+def userdata():
+    try:
+        return jsonify({'email': auth.users_to_emails[getuser()], 'username': auth.get_username(getuser())})
+    except KeyError:
+        return '{}', 403
+
+
 @app.route('/signout', methods=['POST'])
 def signout():
     auth.deauthenticate(request.cookies.get('sessid'))
@@ -127,45 +103,35 @@ def signout():
     return resp
 
 
-@app.route('/Conversations/new', methods=['POST'])
-def newconversation():
-    data = loads(request.data)
-    if auth.userexists(data['email']):
-        data['email'] = auth.users_to_emails[data['email']]
-    if getuser() != auth.emails_to_users[data['email']]:
-        datahandler.add_conversation(getuser(),
-                                     auth.emails_to_users[data['email']])
-    return jsonify(datahandler.user_get_conversation_info(getuser()))
-
-
 @app.route('/Conversations/getall')
 def getconvos():
-    return jsonify(datahandler.user_get_conversation_info(getuser()))
+    try:
+        return jsonify(auth.get_user_conversation_info(getuser()))
+    except KeyError:
+        return '', 403
+
+
+@app.route('/Conversations/new', methods=['POST'])
+def newconvo():
+    data = loads(request.data)
+    if not auth.add_conversation(getuser(), data['email']):
+        return '', 403
+    return jsonify(auth.get_user_conversation_info(getuser()))
 
 
 @app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])
 def conversation_manage(cid):
-    if request.method == 'POLL':
-        return jsonify(datahandler.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
-    elif request.method == 'POST':
-        datahandler.user_conversation_add_comment(getuser(), cid,
-                                                  loads(request.data)['comment'])
-        return jsonify(datahandler.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
-    elif request.method == 'DELETE':
-        datahandler.user_delete_conversation(getuser(), cid)
-        return jsonify(datahandler.user_get_conversation_info(getuser()))
-
-
-@app.route('/getuserdata')
-def getuserdata():
-    return jsonify({'username': datahandler.get_username(getuser()), 'email': auth.users_to_emails[getuser()]})
-
-
-@app.route('/darkmode', methods=['POST', 'GET'])
-def getdarkmode():
-    if request.method == 'POST':
-        datahandler.user_toggle_dark_mode(getuser())
-    return jsonify({'darkmode': datahandler.user_get_dark_mode(getuser())})
+    try:
+        if request.method == 'POLL':
+            return jsonify(auth.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
+        elif request.method == 'POST':
+            auth.user_conversation_add_comment(getuser(), cid, loads(request.data)['comment'])
+            return jsonify(auth.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
+        elif request.method == 'DELETE':
+            auth.user_delete_conversation(getuser(), cid)
+            return jsonify(auth.get_user_conversation_info(getuser()))
+    except KeyError:
+        return '', 403
 
 
 if __name__ == '__main__':

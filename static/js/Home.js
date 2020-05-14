@@ -104,7 +104,7 @@ $('#newconvoform').submit(async function(e) {
     await fetch("/Conversations/new", {
         "credentials": "include",
         "referrer": "/Home.html",
-        "body": JSON.stringify({"email":$('#convouser').val(),'name':$("#convoname").val()}),
+        "body": JSON.stringify({"email":$('#convouser').val()}),
         "method": "POST",
         "mode": "cors"
     }).then(function (response) {

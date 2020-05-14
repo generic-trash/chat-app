@@ -10,13 +10,10 @@ $('form').submit(function(e) {
     body = JSON.stringify({'username': $('#username').val(), 'password':$('#password').val()})
     authreq.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText)
-            if (data.status == 'error') {
-                inputs.addClass('invalid')
-                err.show()
-            } else {
-                window.location = '/'
-            }
+            window.location = '/'
+        } else if (this.readyState == 4 && this.status == 403) {
+            inputs.addClass('invalid')
+            err.show()
         }
     }
     authreq.open('POST', '/login')
