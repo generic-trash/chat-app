@@ -1,4 +1,6 @@
 window.user = ""
+window.blurred = false
+window.lastuser = ""
 function darkmode_handle(isdark) {
     if(isdark) {
         $('#Convo-css').attr('href','/assets/css/Conversation-dark.css')
@@ -37,6 +39,7 @@ async function getnewcomments() {
                 function (data) {
                     if( data.length > 0) {
                         convolength = data[data.length - 1].id
+                        window.lastuser = data[data.length - 1].user
                         add_conversation_comments(data)
                     }
                 }
@@ -81,9 +84,6 @@ $('form').submit(async function(e) {
     if($('input').val().trim() != "") {
           await fetch('/conversations/'+window.location.search.slice(1) , {
             "credentials": "include",
-            "headers": {
-                "Content-Type": "application/json;charset=UTF-8"
-            },
             "body": JSON.stringify({"no_of_convos": convolength,'comment':$('input').val()}),
             "method": "POST",
             "mode": "cors"
@@ -99,9 +99,26 @@ $('form').submit(async function(e) {
                         add_conversation_comments(data)
                     }
                     $('input').val("")
+                    $("html, body").animate({
+                    scrollTop: $(
+                      'html, body').get(0).scrollHeight
+                    }, 10);
                 }
             )
         })
     }
 })
+setInterval(function() {
+    if (window.blurred && window.lastuser) {
+        document.title = document.title == "Conversation page" ? window.lastuser + " says" : "Conversation page";
+    } else {
+        document.title = "Conversation page"
+    }
+ }, 1000);
 setInterval(getnewcomments, 5000)
+$(window).on("blur",function() {
+  window.blurred = true;
+}).on("focus",function() {
+  window.blurred = false
+  window.lastuser = ""
+});

@@ -128,6 +128,8 @@ class Authenticator:
                 user2 = self.emails_to_users[user2]
             user1 = user1.lower()
             user2 = user2.lower()
+            if user1 == user2:
+                return False
         except KeyError:
             return False
         id = b32encode(urandom(65)).decode()
