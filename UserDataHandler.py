@@ -15,7 +15,10 @@ class UserConversationManager:
         return self._userdata[conversation_id]['handler'].lst
 
     def get_user_conversations(self):
-        return self._userdata
+        data = {}
+        for id, val in self._userdata.items():
+            data[id] = val['name']
+        return data
 
     def delconvo(self, cid):
         del self._userdata[cid]

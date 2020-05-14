@@ -54,28 +54,15 @@ def getuser():
 @app.route('/register', methods=['POST'])
 def registeruser():
     data = loads(request.data)
-    err = auth.register(data)
-    if err == 0:
-        return '', 200
+    sessid = auth.register(data)
+    if type(sessid) == str:
+        resp = make_response('')
+        resp.set_cookie('sessid', sessid)
+        return resp
+    if type(sessid) == bool:
+        return '', 400
     else:
-        error = {'confirm': None, 'password': None, 'username': None, 'email': None}
-        if err & 1:
-            error['confirm'] = "Passwords do not match"
-        if err & 2:
-            error['password'] = 'Password must be at least 8 characters'
-        if err & 4:
-            error['email'] = 'Invalid email'
-        elif err & 8:
-            error['email'] = 'Email in use'
-        if err & 16:
-            error['username'] = 'Username in use'
-        elif err & 32:
-            error['username'] = 'Username cannot be a valid email'
-        elif err & 64:
-            error['username'] = 'Empty username'
-        elif err & 128:
-            error['username'] = 'Username cannot contain whitespace'
-        return jsonify(error), 403
+        return jsonify(sessid), 403
 
 
 @app.route('/login', methods=['POST'])
@@ -92,14 +79,59 @@ def login():
 
 @app.route('/darkmode', methods=['POST', 'GET'])
 def darkmode():
-    if request.method == "POST":
-        auth.user_toggle_dark_mode(getuser())
-    return {'darkmode': auth.user_get_dark_mode(getuser())}
+    try:
+        if request.method == "POST":
+            auth.user_toggle_dark_mode(getuser())
+        return {'darkmode': auth.user_get_dark_mode(getuser())}
+    except KeyError:
+        return '{}', 403
 
 
 @app.route('/getuserdata')
 def userdata():
-    return jsonify({'email': auth.users_to_emails[getuser()], 'username': auth.get_username(getuser())})
+    try:
+        return jsonify({'email': auth.users_to_emails[getuser()], 'username': auth.get_username(getuser())})
+    except KeyError:
+        return '{}', 403
+
+
+@app.route('/signout', methods=['POST'])
+def signout():
+    auth.deauthenticate(request.cookies.get('sessid'))
+    resp = redirect('/Sign-in.html')
+    resp.set_cookie('sessid', '', max_age=0)
+    return resp
+
+
+@app.route('/Conversations/getall')
+def getconvos():
+    try:
+        return jsonify(auth.get_user_conversation_info(getuser()))
+    except KeyError:
+        return '', 403
+
+
+@app.route('/Conversations/new', methods=['POST'])
+def newconvo():
+    data = loads(request.data)
+    if not auth.add_conversation(getuser(), data['email']):
+        return '', 403
+    return jsonify(auth.get_user_conversation_info(getuser()))
+
+
+@app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])
+def conversation_manage(cid):
+    try:
+        if request.method == 'POLL':
+            return jsonify(auth.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
+        elif request.method == 'POST':
+            auth.user_conversation_add_comment(getuser(), cid, loads(request.data)['comment'])
+            return jsonify(auth.user_get_conversation(getuser(), cid)[loads(request.data)['no_of_convos']:])
+        elif request.method == 'DELETE':
+            auth.user_delete_conversation(getuser(), cid)
+            return jsonify(auth.get_user_conversation_info(getuser()))
+    except KeyError:
+        return '', 403
 
 
 if __name__ == '__main__':

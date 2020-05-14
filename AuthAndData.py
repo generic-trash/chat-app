@@ -37,33 +37,35 @@ class Authenticator:
         self.user_data = {}
 
     def register(self, user):
-        err = 0
+        error = {'confirm': None, 'password': None, 'username': None, 'email': None}
         passwd = user.get('password')
         confirm = user.get('confirm')
         username = user.get('username').lower().strip()
         email = user.get('email').strip()
         if passwd != confirm:
-            err |= CONFIRM_PASSWD_NOMATCH
+            error['confirm'] = "Passwords do not match"
         if len(passwd) < 8:
-            err |= PASSWD_LEN_LT8
+            error['password'] = 'Password must be at least 8 characters'
         if not isvalidemail(email):
-            err |= INVALID_EMAIL
+            error['email'] = 'Invalid email'
         if self.emailexists(email):
-            err |= EMAIL_EXISTS
+            error['email'] = 'Email in use'
         if not username:
-            err |= USERNAME_IS_EMPTY
+            error['username'] = 'Empty username'
         if isvalidemail(username):
-            err |= USERNAME_IS_EMAIL
+            error['username'] = 'Username cannot be a valid email'
         if self.userexists(username):
-            err |= USERNAME_EXISTS
+            error['username'] = 'Username in use'
         if ' ' in username or '\t' in username:
-            err |= USERNAME_CONTAINS_WHITESPACE
-        if not err:
+            error['username'] = 'Username cannot contain whitespace'
+
+        if len(set(error.values())) == 1:
             self.user_passwds[username] = self._hash_pwd(passwd)
             self.users_to_emails[username] = email
             self.emails_to_users[email] = username
             self.user_data[username] = UserConversationManager(user.get('username').strip())
-        return err
+            return self.authenticate(user)
+        return error
 
     def authenticate(self, authdata):
         passwd = authdata.get('password')
@@ -119,14 +121,23 @@ class Authenticator:
         return True
 
     def add_conversation(self, user1, user2):
-        if isvalidemail(user1):
-            user1 = self.emails_to_users[user1]
-        if isvalidemail(user2):
-            user2 = self.emails_to_users[user2]
+        try:
+            if isvalidemail(user1):
+                user1 = self.emails_to_users[user1]
+            if isvalidemail(user2):
+                user2 = self.emails_to_users[user2]
+            user1 = user1.lower()
+            user2 = user2.lower()
+        except KeyError:
+            return False
         id = b32encode(urandom(65)).decode()
         conversation = Conversation(id)
-        self.user_data[user1].add_conversation(self.get_username(user2), conversation, id)
-        self.user_data[user2].add_conversation(self.get_username(user1), conversation, id)
+        try:
+            self.user_data[user1].add_conversation(self.get_username(user2), conversation, id)
+            self.user_data[user2].add_conversation(self.get_username(user1), conversation, id)
+        except KeyError:
+            return False
+        return True
 
     def get_username(self, username):
         return self.user_data[username].user
@@ -136,3 +147,15 @@ class Authenticator:
 
     def user_get_dark_mode(self, user):
         return self.user_data[user].darkmode
+
+    def get_user_conversation_info(self, user):
+        return self.user_data[user].get_user_conversations()
+
+    def user_conversation_add_comment(self, user, conversation, comment):
+        return self.user_data[user].conversation_add_comment(comment, conversation)
+
+    def user_get_conversation(self, user, conversation):
+        return self.user_data[user].get_conversation(conversation)
+
+    def user_delete_conversation(self, user, conversation):
+        self.user_data[user].delconvo(conversation)
