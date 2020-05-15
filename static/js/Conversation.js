@@ -1,6 +1,7 @@
 window.user = ""
 window.blurred = false
 window.lastuser = ""
+window.poll = false
 function darkmode_handle(isdark) {
     if(isdark) {
         $('#Convo-css').attr('href','/assets/css/Conversation-dark.css')
@@ -23,6 +24,8 @@ function add_conversation_comments(comments) {
 }
 
 async function getnewcomments() {
+        await while (window.poll);
+        window.poll = true
         await fetch('/conversations/'+window.location.search.slice(1), {
             "credentials": "include",
             "body": JSON.stringify({"no_of_convos": convolength}),
@@ -45,6 +48,7 @@ async function getnewcomments() {
                 }
             )
         });
+        window.poll = false
 }
 async function initialize() {
         await fetch("/getuserdata", {
@@ -81,6 +85,8 @@ convolength = 0
 
 $('form').submit(async function(e) {
     e.preventDefault()
+    await while (window.poll);
+    window.poll = true
     if($('input').val().trim() != "") {
           await fetch('/conversations/'+window.location.search.slice(1) , {
             "credentials": "include",
@@ -107,6 +113,7 @@ $('form').submit(async function(e) {
             )
         })
     }
+    window.poll = false
 })
 setInterval(function() {
     if (window.blurred && window.lastuser) {
