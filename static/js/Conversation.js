@@ -23,7 +23,7 @@ function add_conversation_comments(comments) {
     }
 }
 
-async function getnewcomments() {
+async function getnewcomments(init=false) {
         while (window.poll);
         window.poll = true
         await fetch('/conversations/'+window.location.search.slice(1), {
@@ -42,7 +42,7 @@ async function getnewcomments() {
                 function (data) {
                     if( data.length > 0) {
                         convolength = data[data.length - 1].id
-                        window.lastuser = data[data.length - 1].user
+                        if (!init) window.lastuser = data[data.length - 1].user
                         add_conversation_comments(data)
                     }
                 }
@@ -77,7 +77,7 @@ async function initialize() {
                 darkmode_handle(data.darkmode)
             })
         });
-        getnewcomments()
+        getnewcomments(true);
 }
 $('#sentinel-css').remove()
 initialize()
