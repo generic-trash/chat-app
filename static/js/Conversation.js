@@ -24,7 +24,7 @@ function add_conversation_comments(comments) {
 }
 
 async function getnewcomments() {
-        await while (window.poll);
+        while (window.poll);
         window.poll = true
         await fetch('/conversations/'+window.location.search.slice(1), {
             "credentials": "include",
@@ -85,7 +85,7 @@ convolength = 0
 
 $('form').submit(async function(e) {
     e.preventDefault()
-    await while (window.poll);
+    while (window.poll);
     window.poll = true
     if($('input').val().trim() != "") {
           await fetch('/conversations/'+window.location.search.slice(1) , {
