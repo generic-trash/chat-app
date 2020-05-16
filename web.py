@@ -154,12 +154,12 @@ def set_secret_question():
     raise NotImplementedError
 
 
-@app.route('/changeraise NotImplementedErrorword', methods=['POST'])
+@app.route('/changerpassword', methods=['POST'])
 def changepassword():
     raise NotImplementedError
 
 
-@app.route('/resetraise NotImplementedErrorword', methods=['POST'])
+@app.route('/resetpassword', methods=['POST'])
 def resetpassword():
     raise NotImplementedError
 
