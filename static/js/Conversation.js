@@ -127,7 +127,7 @@ $('form').submit(async function(e) {
 })
 setInterval(function() {
     if (window.blurred && window.lastuser) {
-        document.title = document.title == "Conversation page" ? window.lastuser + " says" : "Conversation page";
+        document.title = document.title == "Illusion Chat Conversation" ? window.lastuser + " says" : "Illusion Chat Conversation";
     } else {
         document.title = "Conversation page"
     }
