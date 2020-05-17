@@ -134,5 +134,35 @@ def conversation_manage(cid):
         return '', 403
 
 
+@app.route('/deluser')
+def deluser():
+    raise NotImplementedError
+
+
+@app.route('/getblocked')
+def getblocked():
+    raise NotImplementedError
+
+
+@app.route('/block')
+def blockuser():
+    raise NotImplementedError
+
+
+@app.route('/secretquestion', methods=['GET', 'PUT'])
+def set_secret_question():
+    raise NotImplementedError
+
+
+@app.route('/changepassword', methods=['POST'])
+def changepassword():
+    raise NotImplementedError
+
+
+@app.route('/resetpassword', methods=['POST'])
+def resetpassword():
+    raise NotImplementedError
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

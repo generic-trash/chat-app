@@ -70,7 +70,7 @@ async function initialize() {
         "mode": "cors"
     }).then(function(response) {
         if (response.status == 200) {
-            response.json().then(update)
+           response.json().then(update)
         }
     });
     await fetch("/darkmode", {
@@ -103,7 +103,6 @@ $('#newconvoform').submit(async function(e) {
     e.preventDefault()
     await fetch("/Conversations/new", {
         "credentials": "include",
-        "referrer": "/Home.html",
         "body": JSON.stringify({"email":$('#convouser').val()}),
         "method": "POST",
         "mode": "cors"

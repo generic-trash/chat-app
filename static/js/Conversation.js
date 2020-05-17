@@ -2,6 +2,16 @@ window.user = ""
 window.blurred = false
 window.lastuser = ""
 window.poll = false
+var waitTillPollComplete = () => new Promise((r, j)=>{
+check = () => {
+    if(!window.poll)
+        r()
+    else {
+        setTimeout(check, 100)
+    }
+}
+setTimeout(check, 100)
+})
 function darkmode_handle(isdark) {
     if(isdark) {
         $('#Convo-css').attr('href','/assets/css/Conversation-dark.css')
@@ -23,8 +33,8 @@ function add_conversation_comments(comments) {
     }
 }
 
-async function getnewcomments() {
-        while (window.poll);
+async function getnewcomments(init=false) {
+        await waitTillPollComplete();
         window.poll = true
         await fetch('/conversations/'+window.location.search.slice(1), {
             "credentials": "include",
@@ -42,7 +52,7 @@ async function getnewcomments() {
                 function (data) {
                     if( data.length > 0) {
                         convolength = data[data.length - 1].id
-                        window.lastuser = data[data.length - 1].user
+                        if (!init) window.lastuser = data[data.length - 1].user
                         add_conversation_comments(data)
                     }
                 }
@@ -77,7 +87,7 @@ async function initialize() {
                 darkmode_handle(data.darkmode)
             })
         });
-        getnewcomments()
+        getnewcomments(true);
 }
 $('#sentinel-css').remove()
 initialize()
@@ -85,7 +95,7 @@ convolength = 0
 
 $('form').submit(async function(e) {
     e.preventDefault()
-    while (window.poll);
+    await waitTillPollComplete();
     window.poll = true
     if($('input').val().trim() != "") {
           await fetch('/conversations/'+window.location.search.slice(1) , {
