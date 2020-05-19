@@ -164,10 +164,5 @@ def resetpassword():
     raise NotImplementedError
 
 
-@app.route('/Settings.html')
-def settingspage():
-    return send_file('Sandbox/Settings.html')
-
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
