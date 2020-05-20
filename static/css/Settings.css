@@ -125,7 +125,7 @@ select {
 }
 
 .answer__button {
-  margin-left: 12.7em;
+  float:right;
 }
 
 
@@ -167,16 +167,22 @@ body {
     background-color: var(--clr-primary);
     width: 2px;
     height: 100vh;
+    flex-shrink: 0;
 }
 .horiz-border {
     background-color: var(--clr-primary);
-    width: 125%;
+    width: 132.5%;
     height: 2px;
-    margin: 2rem 0;
+    margin: 4rem 0 2rem;
     justify-self: center;
+    flex-shrink: 0;
+    clear: both;
 }
 .questn-ans {
-    width: 20%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .blacklist {
     width: 25%;
