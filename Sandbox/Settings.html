@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link href="/assets/css/Settings.css" rel="stylesheet"/>
+    <link href="/assets/css/Buttons.css" rel="stylesheet"/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap"
+            rel="stylesheet"
+    />
+    <title>Change your settings</title>
+</head>
+<body>
+<div class="container">
+    <section class="blacklist">
+        <form id="blacklist-form">
+            <div class="blacklist__header">
+                <h1>Blacklist</h1>
+                <button class="btn btn-primary">Add user</button>
+            </div>
+            <table class="blacklist__table">
+                <tr>
+                    <td class="user">User 1</td>
+                    <td>
+                        <button class="btn btn-primary">Remove</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="user">User 2</td>
+                    <td>
+                        <button class="btn btn-primary">Remove</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="user">User 3</td>
+                    <td>
+                        <button class="btn btn-primary">Remove</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="user">User 4</td>
+                    <td>
+                        <button class="btn btn-primary">Remove</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="user">User 5</td>
+                    <td>
+                        <button class="btn btn-primary">Remove</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </section>
+    <div class="vertical-border"></div>
+    <section class="questn-ans">
+        <form id="secret-question">
+            <h1>Secret question and answer</h1>
+            <div class="questn-ans__question">
+                <label for="question-select">Question</label><br/>
+                <select class="question__select" id="question-select" name="">
+                    <option class="select-option" hidden selected value="select">
+                        Select your question
+                    </option>
+                    <option class="select-option" value="live">
+                        Where do I live?
+                    </option>
+                    <option class="select-option" value="bday">
+                        When is my birthday?
+                    </option>
+                    <option class="select-option" value="hobby">
+                        What is my favourite hobby?
+                    </option>
+                    <option class="select-option" value="sport">
+                        What is my favourite sport?
+                    </option>
+                </select>
+                <div class="select-icon">
+                    <svg class="arrow"
+                         focusable="false"
+                         height="18"
+                         viewBox="0 0 24 24"
+                         width="18"
+                         xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                                d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"
+                        />
+                    </svg>
+                </div>
+            </div>
+            <div class="questn-ans__answer">
+                <label for="answer-input">Answer</label><br/>
+                <input
+                        class="answer__input"
+                        id="answer-input"
+                        placeholder="Enter answer"
+                        type="text"
+                />
+            </div>
+            <button class="btn btn-primary answer__button" type="submit">Done</button>
+        </form>
+        <div class="horiz-border"></div>
+        <form id="deleteaccount">
+            <div class="delete-account__content">
+                <h1>Delete account</h1>
+                <p>Warning: If you delete your account you will lose all your chats</p>
+            </div>
+            <button class="btn btn-danger" type="submit">Delete Account</button>
+        </form>
+    </section>
+    <div class="vertical-border"></div>
+    <section class="chng-password">
+        <form id="change-password">
+            <h1>Change password</h1>
+            <div class="chng-password__old">
+                <label for="old-password">Old password</label><br/>
+                <input
+                        class="old-password"
+                        id="old-password"
+                        placeholder="Enter old password"
+                        type="password"
+                />
+            </div>
+            <div class="chng-password__new">
+                <label for="new-password">New password</label><br/>
+                <input
+                        class="new-password"
+                        id="new-password"
+                        placeholder="Enter password"
+                        type="password"
+                />
+            </div>
+            <div class="chng-password__confirm">
+                <label for="confirm-password">Old password</label><br/>
+                <input
+                        class="confirm-password"
+                        id="confirm-password"
+                        placeholder="Re-enter password"
+                        type="password"
+                />
+            </div>
+            <button class="btn btn-primary password__button">Done</button>
+        </form>
+    </section>
+</div>
+</body>
+</html>

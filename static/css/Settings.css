@@ -1,0 +1,191 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:hover,
+*:focus {
+  outline: none;
+}
+
+:root {
+  --clr-primary: #0094ff;
+  --clr-neutral: #f2f2f2;
+  --clr-light: #ffffff;
+
+  --fw-extra-light: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-semi-bold: 600;
+  --fw-bold: 700;
+  --fw-extra-bold: 800;
+  --fw-black: 900;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  height: 100vh;
+  width: 100vw;
+  align-items: stretch;
+  align-self: center;
+}
+
+h1 {
+  color: #000000;
+  font-weight: var(--fw-semi-bold);
+  font-family: "Nunito", sans-serif;
+}
+
+p {
+  color: #000000;
+  font-weight: var(--fw-regular);
+  font-family: "Nunito", sans-serif;
+}
+
+label {
+  color: #000000;
+  font-weight: var(--fw-regular);
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+}
+
+.user {
+  color: #000000;
+  font-weight: var(--fw-regular);
+  font-family: "Nunito", sans-serif;
+}
+
+
+.blacklist__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.blacklist__table {
+  background-color: var(--clr-neutral);
+  margin-top: 2em;
+  padding: 1em;
+  width: 100%;
+}
+
+tr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+select {
+  display: flex;
+  align-items: center;
+    appearance: none;
+}
+
+
+.questn-ans__question {
+  margin: 1em 0;
+}
+
+.question__select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 1em;
+  width: 100%;
+  border: none;
+  background-color: var(--clr-neutral);
+  font-family: "Nunito", sans-serif;
+  margin-top: 0.5em;
+  border-radius: 5px;
+}
+
+.arrow {
+  fill: var(--clr-primary);
+  float: right;
+  margin-right: 20px;
+}
+
+.answer__input {
+  background-color: var(--clr-neutral);
+  font-family: "Nunito", sans-serif;
+  margin-bottom: 2em;
+  margin-top: 0.5em;
+  padding: 1em;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+}
+
+.answer__input::placeholder {
+  font-family: "Nunito", sans-serif;
+}
+
+.answer__button {
+  margin-left: 12.7em;
+}
+
+
+.btn-danger {
+  margin-top: 1em;
+  float: right;
+}
+
+
+.chng-password__old,
+.chng-password__new,
+.chng-password__confirm {
+  margin: 0.8em 0;
+}
+
+.old-password,
+.new-password,
+.confirm-password {
+  background-color: var(--clr-neutral);
+  padding: 1em;
+  margin-top: 0.5em;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.password__button {
+  margin-top: 1em;
+  float: right;
+}
+section {
+    clear: both;
+}
+body {
+    display: flex;
+    align-items: center;
+}
+.vertical-border {
+    background-color: var(--clr-primary);
+    width: 2px;
+    height: 100vh;
+}
+.horiz-border {
+    background-color: var(--clr-primary);
+    width: 125%;
+    height: 2px;
+    margin: 2rem 0;
+    justify-self: center;
+}
+.questn-ans {
+    width: 20%;
+}
+.blacklist {
+    width: 25%;
+}
+.chng-password {
+    width: 30%;
+}
+.select-icon {
+  pointer-events: none;
+  position: relative;
+  bottom: 35px;
+}
