@@ -62,7 +62,6 @@ label {
 
 .blacklist__header {
   display: flex;
-  position: fixed;
   justify-content: space-between;
   clear: both;
 }
