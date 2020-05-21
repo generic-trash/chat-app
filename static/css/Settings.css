@@ -168,7 +168,7 @@ section {
 .vertical-border {
     background-color: var(--clr-primary);
     width: 2px;
-    height: calc(100vh - 0.625rem);
+    height: calc(100vh-0.625rem);
     flex-shrink: 0;
 }
 .horiz-border {
