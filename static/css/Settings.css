@@ -28,8 +28,8 @@
 .container {
   display: flex;
   justify-content: space-around;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   align-items: stretch;
   align-self: center;
 }
@@ -159,10 +159,6 @@ select {
 section {
     clear: both;
 }
-body {
-    display: flex;
-    align-items: center;
-}
 .vertical-border {
     background-color: var(--clr-primary);
     width: 2px;
@@ -183,15 +179,41 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
 }
 .blacklist {
     width: 25%;
+    max-height: 90%;
+    margin-top: 2rem;
 }
 .chng-password {
     width: 30%;
+    margin-top: 1.9rem;
 }
 .select-icon {
   pointer-events: none;
   position: relative;
-  bottom: 35px;
+  bottom: 2.2em;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 96%;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.user {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--clr-neutral);
+}
+
+.horiz-nav-border {
+    border-bottom: 2px solid var(--clr-primary);
 }
