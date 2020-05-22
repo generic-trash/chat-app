@@ -50,8 +50,10 @@ async function deleteParent() {
     });
 }
 function navigateTo() {
-    if ($(event.target).attr('class') == 'conversation' || $(event.target).attr('class') == 'title') {
+    if ($(event.target).attr('class') == 'conversation' ) {
        window.location.href = '/Conversation.html?'+$(event.target).attr('id')
+    } else if ($(event.target).attr('class') == 'title') {
+        window.location.href = '/Conversation.html?'+$(event.target).parent().attr('id')
     }
 }
 function createConversationElement(id, name) {
