@@ -13,13 +13,13 @@
 </head>
 <body>
 <nav class="nav container">
-      <div class="user" id="themetrig">
+    <div class="user" id="themetrig">
         <h1 class="user-name">A</h1>
-      </div>
-      <a class="btn btn-primary" href="/Home.html">
+    </div>
+    <a class="btn btn-primary" href="/Home.html">
         Start new conversation
-      </a>
-    </nav>
+    </a>
+</nav>
 <div class="horiz-nav-border"></div>
 <div class="container">
     <section class="blacklist">
@@ -30,6 +30,18 @@
             </div>
             <div class="divider"></div>
             <table class="blacklist__table">
+                <thead>
+                <tr>
+                    <td>
+                        <input
+                        id="blacklist-input"
+                        placeholder="Username/Email"
+                        type="text"
+                        />
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <td class="user">User 1</td>
                     <td>
@@ -120,6 +132,7 @@
                         <button class="btn btn-primary">Remove</button>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </form>
     </section>
