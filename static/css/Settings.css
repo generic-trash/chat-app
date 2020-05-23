@@ -7,7 +7,8 @@
 }
 
 *:hover,
-*:focus {
+*:focus,
+*:visited {
   outline: none;
 }
 
@@ -16,7 +17,7 @@
   --clr-primary: #0094ff;
   --clr-neutral: #f2f2f2;
   --clr-light: #ffffff;
-
+  --clr-danger: #DF3232;
   --fw-extra-light: 200;
   --fw-light: 300;
   --fw-regular: 400;
@@ -234,11 +235,21 @@ section {
 }
 
 #blacklist-input {
-    width: 120%;
+    width: 22vw;
     margin: 1em;
     background-color: var(--input-color);
   font-family: "Nunito", sans-serif;
   padding: 1em;
   border: none;
   border-radius: 5px;
+}
+
+.btn-danger {
+    color: var(--clr-neutral);
+    background-color: var(--clr-danger);
+}
+
+.btn-danger:hover {
+    background-color: var(--clr-neutral);
+    color: var(--clr-danger);
 }
