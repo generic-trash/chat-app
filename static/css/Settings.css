@@ -226,7 +226,7 @@ section {
 .blacklist__table tbody {
   padding: 0 1em 1em;
   display:block;
-  max-height: 60vh;
+  max-height: 55vh;
   overflow-y: auto;
 }
 .blacklist__table thead {
