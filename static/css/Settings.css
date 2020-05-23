@@ -128,12 +128,23 @@ select {
   float:right;
 }
 
-
-.btn-danger {
-  margin-top: 1em;
-  float: right;
+#deleteaccount {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
+.btn-danger {
+    margin-top: 1em;
+    float: right;
+    background-color: #DF3232;
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background-color: #FFFFFF;
+    color: #DF3232;
+}
 
 .chng-password__old,
 .chng-password__new,
