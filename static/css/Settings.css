@@ -265,6 +265,46 @@ section {
     color: var(--clr-danger);
 }
 
-@media only screen and (max-width: 900px) {
+@media (max-width: 700px) {
+  .container {
+    display: block;
+    width: 100%;
+  }
 
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+  }
+
+  .blacklist {
+    width: 100%;
+  }
+
+  .blacklist__header {
+    padding: 0 1.5em;
+    margin: 0 auto;
+  }
+
+  #blacklist-input {
+    width: 95vw;
+  }
+
+  .questn-ans {
+    width: 100%;
+  }
+
+  .horiz-border {
+    display: none;
+  }
+
+  .delete-container {
+    padding: 1.5em 2.5em;
+  }
+
+  .chng-password {
+    padding: 0 2.5em;
+    width: 100%;
+    margin-bottom: 6em;
+  }
 }
