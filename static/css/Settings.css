@@ -264,3 +264,7 @@ section {
     background-color: var(--clr-neutral);
     color: var(--clr-danger);
 }
+
+@media only screen and (max-width: 900px) {
+
+}
