@@ -1,4 +1,3 @@
-window.user = ""
 window.blurred = false
 window.lastuser = ""
 window.poll = false
@@ -12,13 +11,6 @@ check = () => {
 }
 setTimeout(check, 100)
 })
-function darkmode_handle(isdark) {
-    if(isdark) {
-        $('#Convo-css').attr('href','/assets/css/Conversation-dark.css')
-    } else {
-        $('#Convo-css').attr('href','/assets/css/Conversation.css')
-    }
-}
 function add_conversation_comments(comments) {
     for(var i = 0; i < comments.length; i++) {
         span = $("<span>")
@@ -60,37 +52,8 @@ async function getnewcomments(init=false) {
         });
         window.poll = false
 }
-async function initialize() {
-        await fetch("/getuserdata", {
-            "credentials": "include",
-            "method": "GET",
-            "mode": "cors"
-        }).then(function (response) {
-            if (response.status !== 200) {
-                return;
-            }
-
-            response.json().then(function (data) {
-                window.user = data.username
-            })
-        });
-        await fetch("/darkmode", {
-            "credentials": "include",
-            "method": "GET",
-            "mode": "cors"
-        }).then(function (response) {
-            if (response.status !== 200) {
-                return;
-            }
-
-            response.json().then(function (data) {
-                darkmode_handle(data.darkmode)
-            })
-        });
-        getnewcomments(true);
-}
 $('#sentinel-css').remove()
-initialize()
+getnewcomments(true);
 convolength = 0
 
 $('form').submit(async function(e) {

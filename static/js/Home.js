@@ -66,7 +66,7 @@ function update(data) {
     }
 }
 async function initialize() {
-    await fetch("/Conversations/getall", {
+    fetch("/Conversations/getall", {
         "credentials": "include",
         "method": "GET",
         "mode": "cors"
@@ -75,7 +75,7 @@ async function initialize() {
            response.json().then(update)
         }
     });
-    await fetch("/darkmode", {
+    /*fetch("/darkmode", {
         "credentials": "include",
         "method": "GET",
         "mode": "cors"
@@ -85,20 +85,7 @@ async function initialize() {
                  darkmode_handle(data.darkmode)
             })
         }
-    });
-    await fetch("/getuserdata", {
-        "credentials": "include",
-        "method": "GET",
-        "mode": "cors"
-    }).then(function (response) {
-        if (response.status == 200) {
-            response.json().then(function (data) {
-                 $('.content p').text(data.email)
-                 $('.content h2').text(data.username)
-                 $('.user h1').text(data.username.toUpperCase()[0])
-            })
-        }
-    });
+    });*/
 }
 initialize()
 $('#newconvoform').submit(async function(e) {

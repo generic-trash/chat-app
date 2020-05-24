@@ -8,8 +8,13 @@
       rel="stylesheet"
     />
     <link href="/assets/css/Buttons.css" rel="stylesheet" />
-    <link href="/assets/css/Home.css" rel="stylesheet" id="Home-css"/>
+    {% if darkmode %}
+    <link href="/assets/css/Home.css" rel="stylesheet" id="sentinel-css">
+    <link href="/assets/css/Home-dark.css" rel="stylesheet" id="Home-css"/>
+    {% else %}
+    <link href="/assets/css/Home.css" rel="stylesheet" id="Home-css">
     <link href="/assets/css/Home-dark.css" rel="stylesheet" id="sentinel-css"/>
+    {% endif %}
     <script
       crossorigin="anonymous"
       integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
@@ -21,7 +26,7 @@
   <body>
     <nav class="nav container">
       <div class="user" id="themetrig">
-        <h1 class="user-name">A</h1>
+        <h1 class="user-name"> {{ username[0].upper() }} </h1>
       </div>
       <button class="btn btn-primary" id="newconvo">
         Start new conversation
@@ -66,12 +71,12 @@
             <span class="close" id="close-theme">&times;</span>
             <div class="flex">
               <div class="user modal-user">
-                <h1 class="username">B</h1>
+                <h1 class="username"> {{ username[0].upper() }} </h1>
               </div>
             </div>
             <div class="content">
-              <h2></h2>
-              <p></p>
+              <h2> {{ username }} </h2>
+              <p> {{ email }}</p>
             </div>
           </div>
           <div class="modal-body">
@@ -86,7 +91,7 @@
                 <path
                   d="M0 12c0 6.627 5.373 12 12 12s12-5.373 12-12-5.373-12-12-12-12 5.373-12 12zm2 0c0-5.514 4.486-10 10-10v20c-5.514 0-10-4.486-10-10z"
                   id="path"
-                  fill="#ff6b00"
+                  fill={% if darkmode %} "#ff6b00" {% else %} "#0094ff" {% endif %}
                 />
               </svg>
               <label id="toggle">&nbsp;Dark Mode</label>

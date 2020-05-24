@@ -1,12 +1,12 @@
 #!/usr/bin/python
-from flask import Flask, request, redirect, jsonify, send_file, make_response
+from flask import Flask, request, redirect, jsonify, send_file, make_response, render_template
 from json import loads
 from AuthAndData import *
 import re
 
 email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 auth = Authenticator()
-app = Flask(__name__, static_url_path='/assets/')
+app = Flask(__name__, static_url_path='/assets/', template_folder='Sandbox')
 
 
 @app.route('/Sign-up.html')
@@ -19,7 +19,8 @@ def signup_html():
 @app.route('/Home.html')
 def home_html():
     if getuser():
-        return send_file('Sandbox/Home.html')
+        return render_template('Home.html', email=auth.users_to_emails[getuser()],
+                               username=auth.get_username(getuser()), darkmode=auth.user_get_dark_mode(getuser()))
     return redirect('/Sign-in.html')
 
 
@@ -33,7 +34,7 @@ def signin_html():
 @app.route('/Conversation.html')
 def conversation():
     if getuser():
-        return send_file('Sandbox/Conversation.html')
+        return render_template('Conversation.html', darkmode=auth.user_get_dark_mode(getuser()), username=getuser())
     return redirect('/Sign-in.html')
 
 
