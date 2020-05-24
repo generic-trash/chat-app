@@ -67,7 +67,7 @@ h6 {
 }
 
 .form-div {
-  display: flex;
+  display: block;
 }
 .input {
   display: flex;
@@ -78,7 +78,7 @@ h6 {
 input {
   border-radius: 5px;
   border: none;
-  min-width: 30rem;
+  width: 50vw;
   padding: 1rem;
   background-color: var(--clr-neutral);
 }
@@ -99,4 +99,18 @@ label {
 .invalid {
   color: var(--clr-danger);
   background-color: var(--clr-danger-light);
+}
+
+@media only screen and (min-width: 992px) {
+  /* For mobile phones: */
+  .form-div {
+        display: flex;
+    }
+    input {
+      border-radius: 5px;
+      border: none;
+      width: 30vw;
+      padding: 1rem;
+      background-color: var(--clr-neutral);
+    }
 }
