@@ -55,7 +55,6 @@ label {
 
 .user {
   color: #000000;
-  text-wrap: wrap;
   font-weight: var(--fw-regular);
   font-family: "Nunito", sans-serif;
 }
@@ -107,7 +106,7 @@ select {
 .arrow {
   fill: var(--clr-primary);
   float: right;
-  margin-right: 20px;
+  margin-right: 1.25rem;
 }
 
 .answer__input {
@@ -181,7 +180,7 @@ section {
 }
 .horiz-border {
     background-color: var(--clr-primary);
-    width: 132.5%;
+    width: 147%;
     height: 2px;
     margin: 4rem 0 2rem;
     justify-self: center;
@@ -189,12 +188,14 @@ section {
     clear: both;
 }
 .questn-ans {
-    width: 25%;
+    width: 23%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     order: 2;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 .blacklist {
     width: 25%;
@@ -202,9 +203,11 @@ section {
     margin-top: 2rem;
 }
 .chng-password {
-    width: 30%;
+    width: 25%;
     margin-top: 1.9rem;
     order: 4;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 .select-icon {
   pointer-events: none;
@@ -239,19 +242,20 @@ section {
 }
 
 .blacklist__table tbody {
+  max-width: 27vw;
   padding: 0 1em 1em;
   display:block;
   max-height: 55vh;
-  overflow-y: auto;
+  overflow: auto;
 }
 .blacklist__table thead {
   padding: 1em 1em 0;
 }
 
 #blacklist-input {
-    width: 22vw;
-    margin: 1em;
-    background-color: var(--input-color);
+  width: 25vw;
+  margin: 1em;
+  background-color: var(--input-color);
   font-family: "Nunito", sans-serif;
   padding: 1em;
   border: none;
@@ -275,8 +279,13 @@ section {
     #secret-border-mobile {
         display: none;
     }
+    .chng-password {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
 }
-@media (max-width: 650px) {
+
+@media (max-width: 600px) {
   .container {
     display: block;
     width: 100%;
@@ -326,9 +335,18 @@ section {
   #delete-account-border {
       display: none;
   }
-  .blacklist__table tbody, .blacklist{
+  .blacklist{
       max-height: 100%;
-      overflow-y: auto;
     }
 
+    .blacklist__table {
+        max-width: 94vw;
+    }
+    .user {
+        max-width: 100%;
+    }
+    .blacklist__table tbody {
+        max-width: 92vw;
+        max-height: 100%;
+    }
 }

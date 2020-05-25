@@ -75,7 +75,7 @@ h6 {
 input {
   border-radius: 5px;
   border: none;
-  min-width: 30em;
+  min-width: 32vw;
   padding: 1em;
   background-color: var(--clr-neutral);
 }
@@ -104,4 +104,19 @@ label {
 
 .separator {
   clear: both;
+}
+
+@media screen and (max-width: 992px) {
+    form {
+        transform: scale(2);
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .nav.container {
+        padding-top: 3em;
+        padding-left: 1em;
+    }
 }
