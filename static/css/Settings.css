@@ -285,6 +285,53 @@ section {
     }
 }
 
+@media (max-width: 900px) {
+    .chng-password {
+        order: 0;
+        width: 30%;
+    }
+    #delete-account-border {
+      display: none;
+  }
+   .container {
+    flex-wrap: wrap;
+   }
+   .blacklist {
+      width: 40%;
+   }
+   .questn-ans {
+   width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+   }
+   #secret-border-mobile {
+   clear: both;
+    display: block;
+    width: 100vw;
+    height: 2px;
+    margin-top: 2rem;
+   }
+   .horiz-border {
+    width: 2px;
+    height: 100%;
+   }
+   #secret-question {
+    width: 35%;
+   }
+   .delete-container {
+    width: 40%;
+   }
+   .blacklist__table {
+        max-height: 11vh;
+   }
+   .blacklist__table tbody {
+        max-width: 40vw;
+   }
+   .blacklist__table input {
+
+   }
+}
+
 @media (max-width: 600px) {
   .container {
     display: block;
