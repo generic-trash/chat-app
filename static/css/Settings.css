@@ -193,6 +193,7 @@ section {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    order: 2;
 }
 .blacklist {
     width: 25%;
@@ -202,6 +203,7 @@ section {
 .chng-password {
     width: 30%;
     margin-top: 1.9rem;
+    order: 4;
 }
 .select-icon {
   pointer-events: none;
@@ -265,7 +267,11 @@ section {
     color: var(--clr-danger);
 }
 
-@media (max-width: 700px) {
+#delete-account-border {
+    order: 3;
+}
+
+@media (max-width: 992px) {
   .container {
     display: block;
     width: 100%;
@@ -287,7 +293,7 @@ section {
   }
 
   #blacklist-input {
-    width: 95vw;
+    width: calc(95vw - 1rem);
   }
 
   .questn-ans {
@@ -300,6 +306,7 @@ section {
 
   .delete-container {
     padding: 1.5em 2.5em;
+    align-items: flex-start;
   }
 
   .chng-password {
