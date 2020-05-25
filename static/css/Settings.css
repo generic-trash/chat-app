@@ -55,6 +55,7 @@ label {
 
 .user {
   color: #000000;
+  text-wrap: wrap;
   font-weight: var(--fw-regular);
   font-family: "Nunito", sans-serif;
 }
