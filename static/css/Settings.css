@@ -270,8 +270,12 @@ section {
 #delete-account-border {
     order: 3;
 }
-
-@media (max-width: 992px) {
+@media (min-width: 651px) {
+    #secret-border-mobile {
+        display: none;
+    }
+}
+@media (max-width: 650px) {
   .container {
     display: block;
     width: 100%;
@@ -300,9 +304,13 @@ section {
     width: 100%;
   }
 
-  .horiz-border {
-    display: none;
-  }
+  .horiz-border, .vertical-border {
+    background-color: var(--clr-primary);
+    width: 100vw;
+    height: 2px;
+    margin: 2rem 0;
+    clear: both;
+}
 
   .delete-container {
     padding: 1.5em 2.5em;
@@ -314,4 +322,12 @@ section {
     width: 100%;
     margin-bottom: 6em;
   }
+  #delete-account-border {
+      display: none;
+  }
+  .blacklist__table tbody, .blacklist{
+      max-height: 100%;
+      overflow-y: auto;
+    }
+
 }
