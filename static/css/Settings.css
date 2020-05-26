@@ -285,7 +285,7 @@ section {
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px) and (min-width: 651px) {
     .chng-password {
         order: 0;
         width: 30%;
