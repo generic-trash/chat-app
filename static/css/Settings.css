@@ -275,7 +275,7 @@ section {
 #delete-account-border {
     order: 3;
 }
-@media (min-width: 651px) {
+@media (min-width: 601px) {
     #secret-border-mobile {
         display: none;
     }
@@ -285,7 +285,7 @@ section {
     }
 }
 
-@media (max-width: 900px) and (min-width: 651px) {
+@media (max-width: 900px) and (min-width: 601px) {
     .chng-password {
         order: 0;
         width: 30%;
@@ -298,7 +298,7 @@ section {
    }
    .blacklist {
       width: 40%;
-      margin-bottom: 2rem;
+      margin-bottom: 4rem;
    }
    .questn-ans {
    width: 100%;
@@ -310,11 +310,11 @@ section {
     display: block;
     width: 100vw;
     height: 2px;
-    margin-top: 2rem;
+    margin-top: 0rem;
    }
    .horiz-border {
     width: 2px;
-    height: 100%;
+    height: 110%;
    }
    #secret-question {
     width: 35%;
