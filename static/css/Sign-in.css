@@ -106,7 +106,7 @@ label {
   clear: both;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 768px) {
     form {
         transform: scale(2);
     }
