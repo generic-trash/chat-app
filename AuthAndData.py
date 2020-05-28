@@ -1,6 +1,5 @@
 from hashlib import sha3_512 as sha512
 from base64 import b64encode, b32encode
-from datetime import datetime, timedelta
 from os import urandom
 from UserDataHandler import UserConversationManager
 from Conversation import Conversation
@@ -11,16 +10,6 @@ email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 
 def isvalidemail(email):
     return bool(email_regex.match(email))
-
-
-CONFIRM_PASSWD_NOMATCH = 1
-PASSWD_LEN_LT8 = 2
-INVALID_EMAIL = 4
-EMAIL_EXISTS = 8
-USERNAME_EXISTS = 16
-USERNAME_IS_EMAIL = 32
-USERNAME_IS_EMPTY = 64
-USERNAME_CONTAINS_WHITESPACE = 128
 
 
 class Authenticator:
@@ -92,11 +81,10 @@ class Authenticator:
         return token
 
     def sessidtouser(self, sessid):
-        return self.sids_to_users[sessid]
+        return self.sids_to_users.get(sessid)
 
     def deauthenticate(self, sessid):
         del self.sids_to_users[sessid]
-        del self.sids_times[sessid]
 
     def deluser(self, username):
         if username not in self.users_to_emails:
@@ -161,3 +149,6 @@ class Authenticator:
             error['new'] = 'Password too short'
         if len(set(error.values())) == 1:
             self.user_passwds[data['username']] = self._hash_pwd(data['new'])
+            return True
+        else:
+            return error

@@ -158,7 +158,12 @@ def set_secret_question():
 @app.route('/changepassword', methods=['POST'])
 def changepassword():
     data = loads(request.data)
-
+    data['username'] = getuser()
+    ret = auth.changepassword(data)
+    if type(ret) == bool:
+        return '', 200
+    else:
+        return ret, 403
 
 @app.route('/resetpassword', methods=['POST'])
 def resetpassword():
