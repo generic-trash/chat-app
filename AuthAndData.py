@@ -32,7 +32,6 @@ class Authenticator:
         self.user_passwds = {}
         self.emails_to_users = {}
         self.users_to_emails = {}
-        self.sids_times = {}
         self.sids_to_users = {}
         self.user_data = {}
 
@@ -87,23 +86,13 @@ class Authenticator:
 
     def _gen_sessionid(self, user):
         token = b64encode(urandom(300)).decode()
-        while token in self.sids_times:  # Always ensure unique token
+        while token in self.sids_to_users:  # Always ensure unique token
             token = b64encode(urandom(300)).decode()
-        time = datetime.now() + timedelta(days=1)
-        self.sids_times[token] = time
         self.sids_to_users[token] = user
         return token
 
     def sessidtouser(self, sessid):
-        tok_tval = self.sids_times.get(sessid)
-        if tok_tval is None:
-            return False
-        elif datetime.now() > tok_tval:
-            del self.sids_to_users[sessid]
-            del self.sids_times[sessid]
-            return False
-        else:
-            return self.sids_to_users[sessid]
+        return self.sids_to_users[sessid]
 
     def deauthenticate(self, sessid):
         del self.sids_to_users[sessid]
@@ -161,3 +150,14 @@ class Authenticator:
 
     def user_delete_conversation(self, user, conversation):
         self.user_data[user].delconvo(conversation)
+
+    def changepassword(self, data):
+        error = {'old': None, 'new': None, 'conf': None}
+        if self._hash_pwd(data['old']) != self.user_passwds[data['username']]:
+            error['old'] = 'Incorrect password'
+        if data['new'] != data['conf']:
+            error['conf'] = 'Passwords do not match'
+        if len(data['conf']) < 8:
+            error['new'] = 'Password too short'
+        if len(set(error.values())) == 1:
+            self.user_passwds[data['username']] = self._hash_pwd(data['new'])

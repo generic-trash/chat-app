@@ -157,7 +157,7 @@ def set_secret_question():
 
 @app.route('/changepassword', methods=['POST'])
 def changepassword():
-    raise NotImplementedError
+    data = loads(request.data)
 
 
 @app.route('/resetpassword', methods=['POST'])
