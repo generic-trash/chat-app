@@ -146,7 +146,7 @@ class Authenticator:
             error['old'] = 'Incorrect password'
         if data['new'] != data['conf']:
             error['conf'] = 'Passwords do not match'
-        if len(data['conf']) < 8:
+        if len(data['new']) < 8:
             error['new'] = 'Password too short'
         if len(set(error.values())) == 1:
             self.user_passwds[data['username']] = self._hash_pwd(data['new'])

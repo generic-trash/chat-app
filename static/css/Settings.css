@@ -12,6 +12,10 @@
   outline: none;
 }
 
+* {
+    font-family: "Nunito";
+}
+
 :root {
   --input-color: #e5e5e5;
   --clr-primary: #0094ff;
@@ -286,7 +290,7 @@ input.invalid {
 h6.invalid {
   font-weight: var(--fw-light);
   color: var(--clr-danger);
-  margin-top: 1.5em;
+  margin-top: 0.5em;
 }
 
 @media (min-width: 601px) {
