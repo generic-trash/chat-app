@@ -135,9 +135,12 @@ def conversation_manage(cid):
         return '', 403
 
 
-@app.route('/deluser')
+@app.route('/deluser', methods=['POST'])
 def deluser():
-    raise NotImplementedError
+    data = loads(request.data)
+    resp = auth.deluser(getuser(), data['password'])
+    auth.deauthenticate(request.cookies.get('sessid'))
+    return jsonify(resp)
 
 
 @app.route('/getblocked')
@@ -165,6 +168,7 @@ def changepassword():
     else:
         return ret, 403
 
+
 @app.route('/resetpassword', methods=['POST'])
 def resetpassword():
     raise NotImplementedError
@@ -172,7 +176,9 @@ def resetpassword():
 
 @app.route('/Settings.html')
 def settingspage():
-    return send_file('Sandbox/Settings.html')
+    if getuser():
+        return send_file('Sandbox/Settings.html')
+    return redirect('/Sign-in.html')
 
 
 if __name__ == '__main__':

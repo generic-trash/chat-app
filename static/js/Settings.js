@@ -37,3 +37,25 @@ $('#change-password').submit(async function(e) {
         }
     })
 })
+$('#delete-account').submit(async function(e) {
+    e.preventDefault();
+    pwd = prompt("To delete your account, type your password")
+    // TODO: Add popup made in HTML
+    if (pwd) {
+        body = JSON.stringify({'password': pwd })
+        await fetch("/deluser" , {
+            "credentials": "include",
+            "body": body,
+            "method": "POST",
+            "mode": "cors"
+        }).then(response => {
+            if (!response.ok) {
+                return Promise.reject(response.status)
+            }
+            return response.json()
+        }).then(success => {
+        console.log(success)
+            if (success) window.location.href = '/'
+        });
+    }
+})

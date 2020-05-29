@@ -86,15 +86,16 @@ class Authenticator:
     def deauthenticate(self, sessid):
         del self.sids_to_users[sessid]
 
-    def deluser(self, username):
-        if username not in self.users_to_emails:
+    def deluser(self, username, pwd):
+        if username not in self.user_passwds or self._hash_pwd(pwd) != self.user_passwds[username]:
             return False
         try:
             del self.emails_to_users[self.users_to_emails[username]]
             del self.users_to_emails[username]
             del self.user_passwds[username]
+            del self.user_data[username]
         except KeyError:
-            return False
+            raise
         return True
 
     def add_conversation(self, user1, user2):
