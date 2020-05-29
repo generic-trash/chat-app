@@ -92,7 +92,7 @@ setInterval(function() {
     if (window.blurred && window.lastuser) {
         document.title = document.title == "Illusion Chat Conversation" ? window.lastuser + " says" : "Illusion Chat Conversation";
     } else {
-        document.title = "Conversation page"
+        document.title = "Illusion Chat Conversation"
     }
  }, 1000);
 setInterval(getnewcomments, 5000)

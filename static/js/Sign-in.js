@@ -12,10 +12,14 @@ $('form').submit(async function(e) {
         "body": body,
         "method": "POST",
         "mode": "cors"
-    }).then(function(response) {
+    }).then(response => {
         if (response.status == 200) {
             window.location = '/'
-        } else if (response.status == 403) {
+        } else {
+            return Promise.reject(response.status)
+        }
+    }).catch(error => {
+        if (error == 403) {
             inputs.addClass('invalid')
             err.show()
         }

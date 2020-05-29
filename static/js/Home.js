@@ -41,13 +41,12 @@ async function deleteParent() {
         "credentials": "include",
         "method": "DELETE",
         "mode": "cors"
-    }).then(function (response) {
-        if(response.status == 200) {
-            response.json().then(function(data) {
-                update(data)
-            })
+    }).then(response => {
+        if(response.status != 200) {
+            return Promise.reject(response)
         }
-    });
+        return response.json()
+    }).then(update);
 }
 function navigateTo() {
     if ($(event.target).attr('class') == 'conversation' ) {
@@ -57,7 +56,7 @@ function navigateTo() {
     }
 }
 function createConversationElement(id, name) {
-    return "<div class='conversation' id='"+id+"' onclick='navigateTo()''> <h1 class='title'>" + name + "</h1> <button class=\"btn btn-secondary deleteconvo\" onclick='deleteParent()' deleteconvo>Delete conversation</button></div><div class='divider'></div> "
+    return "<div class='conversation' id='"+id+"' onclick='navigateTo()''> <h1 class='title'>" + name + "</h1> <button class=\"btn btn-secondary deleteconvo\" onclick='deleteParent()'>Delete conversation</button></div><div class='divider'></div> "
 }
 function update(data) {
     $('.conversation, .divider').remove()
@@ -70,22 +69,12 @@ async function initialize() {
         "credentials": "include",
         "method": "GET",
         "mode": "cors"
-    }).then(function(response) {
-        if (response.status == 200) {
-           response.json().then(update)
+    }).then(response => {
+        if(response.status != 200) {
+            return Promise.reject(response.status)
         }
-    });
-    /*fetch("/darkmode", {
-        "credentials": "include",
-        "method": "GET",
-        "mode": "cors"
-    }).then(function (response) {
-        if (response.status == 200) {
-            response.json().then(function (data) {
-                 darkmode_handle(data.darkmode)
-            })
-        }
-    });*/
+        return response.json()
+    }).then(update);
 }
 initialize()
 $('#newconvoform').submit(async function(e) {
@@ -95,16 +84,17 @@ $('#newconvoform').submit(async function(e) {
         "body": JSON.stringify({"email":$('#convouser').val()}),
         "method": "POST",
         "mode": "cors"
-    }).then(function (response) {
-        if (response.status == 200) {
-            response.json().then(function (data) {
-                update(data)
-                $('input').val("")
-                hideModal()
-            })
-        } else if (response.status == 500) {
-            $('input').val("")
+    }).then(response =>  {
+        if (response.status != 200) {
+            return Promise.reject(response)
         }
+        return response.json()
+    }).then(data => {
+        update(data)
+        $('input').val("")
+        hideModal()
+    }).catch(resp => {
+        //Empty for now
     });
 })
 async function toggledarkmode() {
@@ -112,12 +102,14 @@ async function toggledarkmode() {
         "credentials": "include",
         "method": "POST",
         "mode": "cors"
-    }).then(function (response) {
+    }).then(response => {
         if (response.status == 200) {
-            response.json().then(function (data) {
-                 darkmode_handle(data.darkmode)
-            })
+            response.json()
+        } else {
+            return Promise.reject(response)
         }
+    }).then(data => {
+        darkmode_handle(data.darkmode)
     });
 }
 $('#darkmodesvg').click(toggledarkmode)
