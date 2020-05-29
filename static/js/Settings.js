@@ -1,33 +1,39 @@
-/*var xhr = new XMLHttpRequest()
-xhr.onreadystatechange = function () {
-    if (this.readyState == 4 ) {
-        if (this.status == 200) {
-
-        } else {
-            data = JSON.parse(responseText);
-            if (data.old != null) {
-                $('#old-password').addClass('invalid')
-                $('#old-invalid').text(data.old)
-            } else {
-                $('#old-password').removeClass('invalid')
-
-            }
-        }
-    }
-}*/
-$('#change-password').submit(
+$('#change-password').submit(async function(e) {
+    e.preventDefault()
+    body = JSON.stringify({
+        'old': $('#old-password').val(),
+        'new': $('#new-password').val(),
+        'conf': $('#confirm-password').val()
+    })
+    $('#change-password input').removeClass("invalid")
+    $('#change-password h6').text("")
     await fetch("/changepassword", {
         "credentials": "include",
         "body": body,
         "method": "POST",
         "mode": "cors"
     }).then(response => {
-        if (response.status == 200) {
-            return response.text()
+        if (response.status == 403) {
+            return response.json()
         }
-        return Promise.reject(response)
+        return Promise.reject(response.status)
 
-    }).catch(error => {
-
+    }).then(data => {
+        if (data.old != null) {
+            $('#old-password').addClass('invalid')
+            $('#old-invalid').text(data.old)
+        }
+        if (data.new != null) {
+            $('#new-password').addClass('invalid')
+            $('#new-invalid').text(data.new)
+        }
+        if (data.conf != null) {
+            $('#confirm-password').addClass('invalid')
+            $('#conf-invalid').text(data.conf)
+        }
+    }).catch(err => {
+        if (err == 200) {
+            // Success Handler
+        }
     })
-)
+})
