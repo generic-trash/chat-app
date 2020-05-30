@@ -24,7 +24,7 @@ class Authenticator:
         self.sids_to_users = {}
         self.user_data = {}
 
-    def register(self, user):
+    def register(self, user):  # TODO : Write test
         error = {'confirm': None, 'password': None, 'username': None, 'email': None}
         passwd = user.get('password')
         confirm = user.get('confirm')
@@ -55,7 +55,7 @@ class Authenticator:
             return self.authenticate(user)
         return error
 
-    def authenticate(self, authdata):
+    def authenticate(self, authdata):  # TODO: Write test
         passwd = authdata.get('password')
         username = authdata.get('username').lower().strip()
         if self.emailexists(username):
@@ -86,7 +86,7 @@ class Authenticator:
     def deauthenticate(self, sessid):
         del self.sids_to_users[sessid]
 
-    def deluser(self, username, pwd):
+    def deluser(self, username, pwd):   # TODO: Write test
         if username not in self.user_passwds or self._hash_pwd(pwd) != self.user_passwds[username]:
             return False
         try:
@@ -98,7 +98,7 @@ class Authenticator:
             return False
         return True
 
-    def add_conversation(self, user1, user2):
+    def add_conversation(self, user1, user2):   # TODO: Write test
         try:
             if isvalidemail(user1):
                 user1 = self.emails_to_users[user1]
@@ -122,25 +122,25 @@ class Authenticator:
     def get_username(self, username):
         return self.user_data[username].user
 
-    def user_toggle_dark_mode(self, user):
+    def user_toggle_dark_mode(self, user):   # TODO: Write test
         self.user_data[user].toggledarkmode()
 
-    def user_get_dark_mode(self, user):
+    def user_get_dark_mode(self, user):   # TODO: Write test
         return self.user_data[user].darkmode
 
-    def get_user_conversation_info(self, user):
+    def get_user_conversation_info(self, user):   # TODO: Write test
         return self.user_data[user].get_user_conversations()
 
-    def user_conversation_add_comment(self, user, conversation, comment):
+    def user_conversation_add_comment(self, user, conversation, comment):   # TODO: Write test
         return self.user_data[user].conversation_add_comment(comment, conversation)
 
-    def user_get_conversation(self, user, conversation):
+    def user_get_conversation(self, user, conversation):   # TODO: Write test
         return self.user_data[user].get_conversation(conversation)
 
-    def user_delete_conversation(self, user, conversation):
+    def user_delete_conversation(self, user, conversation):   # TODO: Write test
         self.user_data[user].delconvo(conversation)
 
-    def changepassword(self, data):
+    def changepassword(self, data):   # TODO: Write test
         error = {'old': None, 'new': None, 'conf': None}
         if self._hash_pwd(data['old']) != self.user_passwds[data['username']]:
             error['old'] = 'Incorrect password'

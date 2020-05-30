@@ -1,5 +1,5 @@
 import pytest
-from fixtures import *
+from app_fixtures import *
 # from tests_app_dev import *
 
 
