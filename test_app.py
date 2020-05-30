@@ -1,5 +1,7 @@
 import pytest
 from app_fixtures import *
+
+
 # from tests_app_dev import *
 
 
@@ -27,10 +29,10 @@ def test_register(client):
 
 def test_darkmode(client):
     create_user(client)
-    assert loads(client.post('/darkmode').data)['darkmode'] is True
-    assert loads(client.get('/darkmode').data)['darkmode'] is True
-    assert loads(client.post('/darkmode').data)['darkmode'] is False
-    assert loads(client.get('/darkmode').data)['darkmode'] is False
+    assert client.post('/darkmode').data.get_json()['darkmode'] is True
+    assert client.get('/darkmode').data.get_json()['darkmode'] is True
+    assert client.post('/darkmode').data.get_json()['darkmode'] is False
+    assert client.get('/darkmode').data.get_json()['darkmode'] is False
 
 
 def test_conversation(client):

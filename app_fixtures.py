@@ -1,4 +1,3 @@
-from json import loads
 import pytest
 from web import app
 from inspect import currentframe
