@@ -2,3 +2,4 @@ venv
 .idea
 __pycache__
 Chat app.zip
+.pytest_cache
