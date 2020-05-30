@@ -6,6 +6,7 @@ orbs:
 jobs:
   build-and-test:
     executor: python/default
+    resource_class: small
     steps:
       - checkout
       - python/load-cache
