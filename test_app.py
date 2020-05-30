@@ -29,10 +29,10 @@ def test_register(client):
 
 def test_darkmode(client):
     create_user(client)
-    assert client.post('/darkmode').data.get_json()['darkmode'] is True
-    assert client.get('/darkmode').data.get_json()['darkmode'] is True
-    assert client.post('/darkmode').data.get_json()['darkmode'] is False
-    assert client.get('/darkmode').data.get_json()['darkmode'] is False
+    assert client.post('/darkmode').get_json()['darkmode'] is True
+    assert client.get('/darkmode').get_json()['darkmode'] is True
+    assert client.post('/darkmode').get_json()['darkmode'] is False
+    assert client.get('/darkmode').get_json()['darkmode'] is False
 
 
 def test_conversation(client):
