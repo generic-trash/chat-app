@@ -2,9 +2,7 @@
 from flask import Flask, request, redirect, jsonify, send_file, make_response, render_template
 from json import loads
 from AuthAndData import *
-import re
 
-email_regex = re.compile('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
 auth = Authenticator()
 app = Flask(__name__, static_url_path='/assets/', template_folder='Sandbox')
 
@@ -52,7 +50,7 @@ def getuser():
     return auth.sessidtouser(request.cookies.get('sessid'))
 
 
-@app.route('/register', methods=['POST'])  
+@app.route('/register', methods=['POST'])
 def registeruser():
     data = loads(request.data)
     sessid = auth.register(data)
@@ -66,7 +64,7 @@ def registeruser():
         return jsonify(sessid), 403
 
 
-@app.route('/login', methods=['POST'])  
+@app.route('/login', methods=['POST'])
 def login():
     data = loads(request.data)
     sessid = auth.authenticate(data)
@@ -78,7 +76,7 @@ def login():
         return '', 403
 
 
-@app.route('/darkmode', methods=['POST', 'GET'])  
+@app.route('/darkmode', methods=['POST', 'GET'])
 def darkmode():
     try:
         if request.method == "POST":
@@ -96,7 +94,7 @@ def signout():
     return resp
 
 
-@app.route('/Conversations/getall')  
+@app.route('/Conversations/getall')
 def getconvos():
     try:
         return jsonify(auth.get_user_conversation_info(getuser()))
@@ -104,7 +102,7 @@ def getconvos():
         return '', 403
 
 
-@app.route('/Conversations/new', methods=['POST'])  
+@app.route('/Conversations/new', methods=['POST'])
 def newconvo():
     data = loads(request.data)
     if not auth.add_conversation(getuser(), data['email']):
@@ -112,7 +110,7 @@ def newconvo():
     return jsonify(auth.get_user_conversation_info(getuser()))
 
 
-@app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])  
+@app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])
 def conversation_manage(cid):
     try:
         if request.method == 'POLL':
