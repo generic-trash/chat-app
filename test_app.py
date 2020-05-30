@@ -38,7 +38,7 @@ def test_darkmode(client):
     create_user(client, 'test_darkmode', 'test_darkmode@example.com', 'password')
     assert loads(client.post('/darkmode').data)['darkmode'] is True
     assert loads(client.get('/darkmode').data)['darkmode'] is True
-    assert loads(client.post('/darkmode').data)['darkmode'] is False
+    assert loads(client.post('/darkmode').data)['darkmode'] is True
     assert loads(client.get('/darkmode').data)['darkmode'] is False
 
 
