@@ -95,7 +95,7 @@ class Authenticator:
             del self.user_passwds[username]
             del self.user_data[username]
         except KeyError:
-            raise
+            return False
         return True
 
     def add_conversation(self, user1, user2):

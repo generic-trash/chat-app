@@ -3,3 +3,4 @@ venv
 __pycache__
 Chat app.zip
 .pytest_cache
+tests_app_dev.py

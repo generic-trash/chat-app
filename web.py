@@ -52,7 +52,7 @@ def getuser():
     return auth.sessidtouser(request.cookies.get('sessid'))
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['POST'])  
 def registeruser():
     data = loads(request.data)
     sessid = auth.register(data)
@@ -66,7 +66,7 @@ def registeruser():
         return jsonify(sessid), 403
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])  
 def login():
     data = loads(request.data)
     sessid = auth.authenticate(data)
@@ -78,20 +78,12 @@ def login():
         return '', 403
 
 
-@app.route('/darkmode', methods=['POST', 'GET'])
+@app.route('/darkmode', methods=['POST', 'GET'])  
 def darkmode():
     try:
         if request.method == "POST":
             auth.user_toggle_dark_mode(getuser())
         return {'darkmode': auth.user_get_dark_mode(getuser())}
-    except KeyError:
-        return '{}', 403
-
-
-@app.route('/getuserdata')
-def userdata():
-    try:
-        return jsonify({'email': auth.users_to_emails[getuser()], 'username': auth.get_username(getuser())})
     except KeyError:
         return '{}', 403
 
@@ -104,7 +96,7 @@ def signout():
     return resp
 
 
-@app.route('/Conversations/getall')
+@app.route('/Conversations/getall')  
 def getconvos():
     try:
         return jsonify(auth.get_user_conversation_info(getuser()))
@@ -112,7 +104,7 @@ def getconvos():
         return '', 403
 
 
-@app.route('/Conversations/new', methods=['POST'])
+@app.route('/Conversations/new', methods=['POST'])  
 def newconvo():
     data = loads(request.data)
     if not auth.add_conversation(getuser(), data['email']):
@@ -120,7 +112,7 @@ def newconvo():
     return jsonify(auth.get_user_conversation_info(getuser()))
 
 
-@app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])
+@app.route('/conversations/<cid>', methods=['POLL', 'POST', 'DELETE'])  
 def conversation_manage(cid):
     try:
         if request.method == 'POLL':
@@ -138,22 +130,27 @@ def conversation_manage(cid):
 @app.route('/deluser', methods=['POST'])
 def deluser():
     data = loads(request.data)
-    resp = auth.deluser(getuser(), data['password'])
-    auth.deauthenticate(request.cookies.get('sessid'))
-    return jsonify(resp)
+    experiment = auth.deluser(getuser(), data['password'])
+    resp = jsonify(experiment)
+    if experiment:
+        auth.deauthenticate(request.cookies.get('sessid'))
+        resp.set_cookie('sessid', '', max_age=0)
+        return '', 200
+    else:
+        return '', 403
 
 
-@app.route('/getblocked')
+@app.route('/getblocked')  # TOTEST
 def getblocked():
     raise NotImplementedError
 
 
-@app.route('/block')
+@app.route('/block', methods=['POST'])  # TOTEST
 def blockuser():
     raise NotImplementedError
 
 
-@app.route('/secretquestion', methods=['GET', 'PUT'])
+@app.route('/secretquestion', methods=['GET', 'PUT'])  # TOTEST
 def set_secret_question():
     raise NotImplementedError
 
@@ -169,7 +166,7 @@ def changepassword():
         return ret, 403
 
 
-@app.route('/resetpassword', methods=['POST'])
+@app.route('/resetpassword', methods=['POST'])  # TOTEST
 def resetpassword():
     raise NotImplementedError
 

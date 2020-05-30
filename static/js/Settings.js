@@ -49,13 +49,10 @@ $('#delete-account').submit(async function(e) {
             "method": "POST",
             "mode": "cors"
         }).then(response => {
-            if (!response.ok) {
-                return Promise.reject(response.status)
+            if (response.ok) {
+                window.location.href = '/'
             }
-            return response.json()
-        }).then(success => {
-        console.log(success)
-            if (success) window.location.href = '/'
+            return Promise.reject(response.status)
         });
     }
 })
