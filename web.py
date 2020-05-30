@@ -17,7 +17,7 @@ def signup_html():
 @app.route('/Home.html')
 def home_html():
     if getuser():
-        return render_template('Home.html', email=auth.users_to_emails[getuser()],
+        return render_template('Home.html', email=auth.get_email(getuser()),
                                username=auth.get_username(getuser()), darkmode=auth.user_get_dark_mode(getuser()))
     return redirect('/Sign-in.html')
 
