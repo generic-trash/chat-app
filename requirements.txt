@@ -2,3 +2,4 @@ flask
 pytest
 pytest-parallel
 pytest-flask
+selenium
