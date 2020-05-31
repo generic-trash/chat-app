@@ -4,7 +4,7 @@ from inspect import currentframe
 
 
 @pytest.fixture
-def client():
+def app_client():
     with app.test_client() as app_client:
         yield app_client
 
