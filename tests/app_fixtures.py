@@ -1,11 +1,11 @@
 import pytest
-from web import app
+from web import app as application
 from inspect import currentframe
 
 
 @pytest.fixture
 def app_client():
-    with app.test_client() as app_client:
+    with application.test_client() as app_client:
         yield app_client
 
 
