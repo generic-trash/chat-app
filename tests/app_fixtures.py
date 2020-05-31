@@ -1,12 +1,5 @@
 import pytest
-from web import app as application
 from inspect import currentframe
-
-
-@pytest.fixture
-def app_client():
-    with application.test_client() as app_client:
-        yield app_client
 
 
 def create_user(client, username=None, email=None, pwd="password", conf=None):
