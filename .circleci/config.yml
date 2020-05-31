@@ -5,7 +5,8 @@ orbs:
 
 jobs:
   build-and-test:
-    executor: python/default
+    machine:
+      image: ubuntu-1604:201903-01
     resource_class: small
     steps:
       - checkout
