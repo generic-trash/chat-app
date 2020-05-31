@@ -5,8 +5,8 @@ orbs:
 
 jobs:
   build-and-test:
-    machine:
-      image: circleci/classic:latest
+    executor: python/default
+    resource_class: small
     steps:
       - checkout
       - python/load-cache
