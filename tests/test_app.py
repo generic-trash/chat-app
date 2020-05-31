@@ -20,7 +20,8 @@ def test_register(app_client):
                        pwd='pass').status_code == 403  # Too short password
     assert create_user(app_client, username='test 1').status_code == 403  # Space in username
     assert create_user(app_client, username='test\t1').status_code == 403  # Tab in username
-    assert create_user(app_client, username='new', email='test_register@example.com').status_code == 403  # Duplicate email
+    assert create_user(app_client, username='new',
+                       email='test_register@example.com').status_code == 403  # Duplicate email
     assert create_user(app_client, username='test@email.com',
                        email='test_register@example.com').status_code == 403  # Username is email
     assert create_user(app_client, username='new', email='test_register').status_code == 403  # Invalid email
