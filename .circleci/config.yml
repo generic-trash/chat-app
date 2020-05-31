@@ -6,6 +6,7 @@ orbs:
 jobs:
   build-and-test:
     executor: python/default
+    resource_class: small
     working_directory: /mnt/ramdisk
     steps:
       - checkout
