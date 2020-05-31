@@ -6,8 +6,7 @@ orbs:
 jobs:
   build-and-test:
     machine:
-      image: ubuntu-1604:201903-01
-    resource_class: small
+      image: circleci/classic:latest
     steps:
       - checkout
       - python/load-cache
