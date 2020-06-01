@@ -7,7 +7,7 @@ orbs:
 jobs:
   build-and-test:
     docker:
-      - image: circleci/python:default-browsers
+      - image: circleci/python:jessie-browsers
     resource_class: small
     working_directory: /mnt/ramdisk
     steps:
