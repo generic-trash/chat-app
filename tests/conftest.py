@@ -10,5 +10,5 @@ def app():
 
 @pytest.yield_fixture('session')
 def selenium():
-    with webdriver.Firefox() as driver:
-        yield driver
+    driver = webdriver.Firefox
+    yield driver
