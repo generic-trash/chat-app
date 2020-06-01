@@ -4,4 +4,4 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 def test_register(selenium, live_server):
-    selenium.get(url_for('sign_up', _external=True))
+    selenium.get(url_for('signup_html', _external=True))
