@@ -17,7 +17,7 @@ jobs:
       - python/save-cache
       - run:
             name: Running X virtual framebuffer
-            command: Xvfb -ac :99 -screen 0 1024x768x8 +extension RANDR > /dev/null 2>&1
+            command: Xvfb -ac :1 -screen 0 1024x768x8 +extension RANDR > /dev/null 2>&1
             background: true
       - run:
           command: python -m pytest --workers 7 --tests-per-worker 1
