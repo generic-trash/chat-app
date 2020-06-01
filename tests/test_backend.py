@@ -17,7 +17,7 @@ def test_register_duplicates(client):
     assert create_user(client).status_code == 200  # Normal
     assert create_user(client, email='null@example.com').status_code == 403  # Duplicate username
     assert create_user(client, username='new',
-                       email='test_register@example.com').status_code == 403  # Duplicate email
+                       email='test_register_duplicates@example.com').status_code == 403  # Duplicate email
 
 
 def test_register_password(client):
@@ -34,7 +34,7 @@ def test_register_username(client):
     assert create_user(client, username='test 1').status_code == 403  # Space in username
     assert create_user(client, username='test\t1').status_code == 403  # Tab in username
     assert create_user(client, username='test@email.com',
-                       email='test_register_duplicates@example.com').status_code == 403  # Username is email
+                       email='test_register@example.com').status_code == 403  # Username is email
 
 
 def test_darkmode(client):
