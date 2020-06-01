@@ -17,6 +17,8 @@ jobs:
       - python/save-cache
       - browser-tools/install-firefox
       - browser-tools/install-geckodriver
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run:
           command: python -m pytest --workers 7 --tests-per-worker auto --driver firefox
           name: Test
