@@ -18,7 +18,7 @@ jobs:
       - browser-tools/install-firefox
       - browser-tools/install-geckodriver
       - run:
-          command: python -m pytest --workers 7 --tests-per-worker 1
+          command: python -m pytest --workers 7 --tests-per-worker auto
           name: Test
 
 workflows:
