@@ -21,7 +21,7 @@ jobs:
             command: Xvfb -ac :99 -screen 0 1280x1024x16 +extension RANDR
             background: true
       - run:
-          command: python -m pytest --workers 7 --tests-per-worker auto
+          command: python -m pytest --workers 7 --tests-per-worker auto --driver firefox
           name: Test
 
 workflows:
