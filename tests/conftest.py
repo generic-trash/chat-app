@@ -12,3 +12,4 @@ def app():
 def selenium():
     driver = webdriver.Firefox()
     yield driver
+    driver.close()

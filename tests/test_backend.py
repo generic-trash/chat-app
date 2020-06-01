@@ -13,19 +13,28 @@ def test_login(client):
     assert login(client, 'test_login@example.com').status_code == 200
 
 
-def test_register(client):
+def test_register_duplicates(client):
     assert create_user(client).status_code == 200  # Normal
     assert create_user(client, email='null@example.com').status_code == 403  # Duplicate username
-    assert create_user(client, username='test_register2', email='null@example.com',
-                       pwd='pass').status_code == 403  # Too short password
-    assert create_user(client, username='test 1').status_code == 403  # Space in username
-    assert create_user(client, username='test\t1').status_code == 403  # Tab in username
     assert create_user(client, username='new',
                        email='test_register@example.com').status_code == 403  # Duplicate email
-    assert create_user(client, username='test@email.com',
-                       email='test_register@example.com').status_code == 403  # Username is email
-    assert create_user(client, username='new', email='test_register').status_code == 403  # Invalid email
+
+
+def test_register_password(client):
+    assert create_user(client, username='test_register2', email='null@example.com',
+                       pwd='pass').status_code == 403  # Too short password
     assert create_user(client, conf='lollerbot').status_code == 403  # Passwords do not match
+
+
+def test_register_email(client):
+    assert create_user(client, username='new', email='test_register').status_code == 403  # Invalid email
+
+
+def test_register_username(client):
+    assert create_user(client, username='test 1').status_code == 403  # Space in username
+    assert create_user(client, username='test\t1').status_code == 403  # Tab in username
+    assert create_user(client, username='test@email.com',
+                       email='test_register_duplicates@example.com').status_code == 403  # Username is email
 
 
 def test_darkmode(client):
