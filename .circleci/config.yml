@@ -2,12 +2,11 @@ version: 2.1
 
 orbs:
   python: circleci/python@0.2.1
+  browser-tools: circleci/browser-tools@1.0.0
 
 jobs:
   build-and-test:
-    docker:
-      - image: circleci/python
-      - image: selenium/standalone-firefox
+    executor: python/default-browsers
     resource_class: small
     working_directory: /mnt/ramdisk
     steps:
@@ -15,10 +14,8 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
-      - run:
-            name: Running X virtual framebuffer
-            command: Xvfb -ac :1 -screen 0 1024x768x8 +extension RANDR > /dev/null 2>&1
-            background: true
+      - browser-tools/install-firefox
+      - browser-tools/install-geckodriver
       - run:
           command: python -m pytest --workers 7 --tests-per-worker 1
           name: Test
