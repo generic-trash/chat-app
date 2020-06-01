@@ -11,3 +11,4 @@ def app():
 @pytest.fixture
 def selenium():
     driver = webdriver.Firefox()
+    yield driver
