@@ -96,9 +96,9 @@ setInterval(function() {
     }
  }, 1000);
 setInterval(getnewcomments, 5000)
-$(window).on("blur",function() {
+$(window).on("blur",() => {
   window.blurred = true;
-}).on("focus",function() {
+}).on("focus",() => {
   window.blurred = false
   window.lastuser = ""
 });
