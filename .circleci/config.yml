@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   build-and-test:
-    executor: python/default
+    executor: python/default-browser:firefox
     resource_class: small
     working_directory: /mnt/ramdisk
     steps:
@@ -13,8 +13,12 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
+      - - run:
+            name: Running X virtual framebuffer
+            command: Xvfb -ac :99 -screen 0 1024x768x8 +extension RANDR > /dev/null 2>&1
+            background: true
       - run:
-          command: python -m pytest --workers 4 --tests-per-worker auto
+          command: python -m pytest --workers 7 --tests-per-worker 1
           name: Test
 
 workflows:

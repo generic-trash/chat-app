@@ -8,8 +8,7 @@ def app():
     return application
 
 
-@pytest.fixture
+@pytest.yield_fixture
 def selenium():
-    driver = webdriver.Firefox()
-    yield driver
-    driver.close()
+    with webdriver.Firefox() as driver:
+        yield driver
