@@ -1,6 +1,9 @@
 import pytest
 from selenium import webdriver
 from web import app as application
+import geckodriver_autoinstaller
+
+geckodriver_autoinstaller.install()
 
 
 @pytest.fixture('session')
