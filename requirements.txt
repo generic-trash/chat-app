@@ -3,4 +3,3 @@ pytest
 pytest-parallel
 pytest-flask
 selenium
-geckodriver-autoinstaller

@@ -6,7 +6,8 @@ orbs:
 
 jobs:
   build-and-test:
-    executor: python/default
+    docker:
+      image: circleci/python:default-browsers
     resource_class: small
     working_directory: /mnt/ramdisk
     steps:
@@ -16,10 +17,6 @@ jobs:
       - python/save-cache
       - browser-tools/install-firefox
       - browser-tools/install-geckodriver
-      - run:
-            name: Running X virtual framebuffer
-            command: Xvfb -ac :99 -screen 0 1024x768x8 +extension RANDR > /dev/null 2>&1
-            background: true
       - run:
           command: python -m pytest --workers 7 --tests-per-worker 1
           name: Test
