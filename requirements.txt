@@ -3,3 +3,4 @@ pytest
 pytest-parallel
 pytest-flask
 selenium
+pytest-selenium
