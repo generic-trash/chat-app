@@ -114,3 +114,4 @@ async function toggledarkmode() {
 }
 $('#darkmodesvg').click(toggledarkmode)
 $('#toggle').click(toggledarkmode)
+$("<meta name='jsid' value='homejs'>").appendTo('head')

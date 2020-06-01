@@ -25,3 +25,4 @@ $('form').submit(async function(e) {
         }
     });
 })
+$("<meta name='jsid' value='signinjs'>").appendTo('head')

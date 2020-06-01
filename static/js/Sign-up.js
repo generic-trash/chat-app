@@ -40,3 +40,4 @@ $('form').submit(async function(e) {
         }
     });
 })
+$("<meta name='jsid' value='signupjs'>").appendTo('head')

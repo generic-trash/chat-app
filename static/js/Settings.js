@@ -56,3 +56,4 @@ $('#delete-account').submit(async function(e) {
         });
     }
 })
+$("<meta name='jsid' value='setjs'>").appendTo('head')

@@ -102,3 +102,4 @@ $(window).on("blur",function() {
   window.blurred = false
   window.lastuser = ""
 });
+$("<meta name='jsid' value='convojs'>").appendTo('head')
