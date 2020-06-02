@@ -32,4 +32,9 @@ def register(driver, user=None, email=None, pwd='password', conf=None):
 
 
 def wait_for_url(driver, url):
-    driver.get(url)
+    for i in range(10):
+        try:
+            driver.get(url)
+            break
+        except:
+            sleep(3)

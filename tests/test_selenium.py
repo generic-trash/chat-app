@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 
 def test_register_firefox_4errs(live_server, firefox: webdriver.Firefox):
-    wait_for_url(firefox, url_for('signup_html'))
+    wait_for_url(firefox, url_for('signup_html', _external=True))
     em_err = firefox.find_element(By.CSS_SELECTOR, '#emh6')
     us_err = firefox.find_element(By.CSS_SELECTOR, '#ush6')
     pw_err = firefox.find_element(By.CSS_SELECTOR, '#pwh6')
@@ -23,7 +23,7 @@ def test_register_firefox_4errs(live_server, firefox: webdriver.Firefox):
 
 
 def test_register_firefox_whitespace(live_server, firefox: webdriver.Firefox):
-    wait_for_url(firefox, url_for('signup_html'))
+    wait_for_url(firefox, url_for('signup_html', _external=True))
     us_err = firefox.find_element(By.CSS_SELECTOR, '#ush6')
     register(firefox, 'Hello world', 'testing', pwd='pass', conf='conf')
     WebDriverWait(firefox, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, "h6")))
@@ -31,7 +31,7 @@ def test_register_firefox_whitespace(live_server, firefox: webdriver.Firefox):
 
 
 def test_register_firefox_tab(live_server, firefox: webdriver.Firefox):
-    wait_for_url(firefox, url_for('signup_html'))
+    wait_for_url(firefox, url_for('signup_html', _external=True))
     us_err = firefox.find_element(By.CSS_SELECTOR, '#ush6')
     register(firefox, 'Hello\tworld', 'testing', pwd='pass', conf='conf')
     WebDriverWait(firefox, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, "h6")))
@@ -39,7 +39,7 @@ def test_register_firefox_tab(live_server, firefox: webdriver.Firefox):
 
 
 def test_register_chrome_4errs(live_server, chrome: webdriver.Chrome):
-    wait_for_url(chrome, url_for('signup_html'))
+    wait_for_url(chrome, url_for('signup_html', _external=True))
     em_err = chrome.find_element(By.CSS_SELECTOR, '#emh6')
     us_err = chrome.find_element(By.CSS_SELECTOR, '#ush6')
     pw_err = chrome.find_element(By.CSS_SELECTOR, '#pwh6')
@@ -53,7 +53,7 @@ def test_register_chrome_4errs(live_server, chrome: webdriver.Chrome):
 
 
 def test_register_chrome_whitespace(live_server, chrome: webdriver.Chrome):
-    wait_for_url(chrome, url_for('signup_html'))
+    wait_for_url(chrome, url_for('signup_html', _external=True))
     us_err = chrome.find_element(By.CSS_SELECTOR, '#ush6')
     register(chrome, 'Hello world', 'testing', pwd='pass', conf='conf')
     WebDriverWait(chrome, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, "h6")))
