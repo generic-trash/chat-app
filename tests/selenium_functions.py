@@ -1,6 +1,8 @@
 from inspect import currentframe
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.remote.errorhandler import WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
+from time import sleep
 from selenium.webdriver.common.by import By
 
 
@@ -27,3 +29,14 @@ def register(driver, user=None, email=None, pwd='password', conf=None):
     clear_and_send_keys(pwd_in, pwd)
     clear_and_send_keys(conf_in, conf)
     submit.click()
+
+
+def wait_for_url(driver, url):
+    for i in range(10):
+        try:
+            driver.get(url)
+            break
+        except WebDriverException:
+            sleep(5)
+    else:
+        raise TimeoutError

@@ -3,7 +3,7 @@ from selenium import webdriver
 from web import app as application
 
 
-@pytest.fixture('session')
+@pytest.fixture
 def app():
     return application
 
