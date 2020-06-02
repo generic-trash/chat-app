@@ -3,20 +3,21 @@ from selenium import webdriver
 from web import app as application
 
 
-@pytest.fixture('session')
+@pytest.fixture
 def app():
     return application
 
 
-@pytest.fixture('session')
+@pytest.fixture
 def chrome():
     driver = webdriver.Chrome()
     yield driver
     driver.close()
 
 
-@pytest.fixture('session')
+@pytest.fixture
 def firefox():
     driver = webdriver.Firefox()
     yield driver
     driver.close()
+

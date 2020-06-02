@@ -176,5 +176,10 @@ def settingspage():
     return redirect('/Sign-in.html')
 
 
+@app.route('/Password-reset.html')
+def resetpage():
+    return send_file('Sandbox/Password-reset.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
