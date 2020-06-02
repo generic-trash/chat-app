@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-def test_register_firefox_4errs(firefox: webdriver.Firefox, live_server):
+def test_register_firefox_4errs(live_server, firefox: webdriver.Firefox):
     firefox.get(url_for('signup_html', _external=True))
     em_err = firefox.find_element(By.CSS_SELECTOR, '#emh6')
     us_err = firefox.find_element(By.CSS_SELECTOR, '#ush6')
@@ -21,7 +21,7 @@ def test_register_firefox_4errs(firefox: webdriver.Firefox, live_server):
     assert cp_err.text == 'Passwords do not match'
 
 
-def test_register_firefox_whitespace(firefox, live_server):
+def test_register_firefox_whitespace(live_server, firefox: webdriver.Firefox):
     firefox.get(url_for('signup_html', _external=True))
     us_err = firefox.find_element(By.CSS_SELECTOR, '#ush6')
     register(firefox, 'Hello world', 'testing', pwd='pass', conf='conf')
@@ -29,16 +29,15 @@ def test_register_firefox_whitespace(firefox, live_server):
     assert us_err.text == 'Username cannot contain whitespace'
 
 
-def test_register_firefox_tab(firefox, live_server):
+def test_register_firefox_tab(live_server, firefox: webdriver.Firefox):
     firefox.get(url_for('signup_html', _external=True))
     us_err = firefox.find_element(By.CSS_SELECTOR, '#ush6')
     register(firefox, 'Hello\tworld', 'testing', pwd='pass', conf='conf')
     WebDriverWait(firefox, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, "h6")))
     assert us_err.text == 'Username cannot contain whitespace'
-    register(firefox)
 
 
-def test_register_chrome_4errs(chrome: webdriver.Chrome, live_server):
+def test_register_chrome_4errs(live_server, chrome: webdriver.Chrome):
     chrome.get(url_for('signup_html', _external=True))
     em_err = chrome.find_element(By.CSS_SELECTOR, '#emh6')
     us_err = chrome.find_element(By.CSS_SELECTOR, '#ush6')
@@ -52,7 +51,7 @@ def test_register_chrome_4errs(chrome: webdriver.Chrome, live_server):
     assert cp_err.text == 'Passwords do not match'
 
 
-def test_register_chrome_whitespace(chrome, live_server):
+def test_register_chrome_whitespace(live_server, chrome: webdriver.Chrome):
     chrome.get(url_for('signup_html', _external=True))
     us_err = chrome.find_element(By.CSS_SELECTOR, '#ush6')
     register(chrome, 'Hello world', 'testing', pwd='pass', conf='conf')
@@ -60,13 +59,6 @@ def test_register_chrome_whitespace(chrome, live_server):
     assert us_err.text == 'Username cannot contain whitespace'
 
 
-def test_register_chrome_tab(chrome, live_server):
-    chrome.get(url_for('signup_html', _external=True))
-    us_err = chrome.find_element(By.CSS_SELECTOR, '#ush6')
-    register(chrome, 'Hello\tworld', 'testing', pwd='pass', conf='conf')
-    WebDriverWait(chrome, 10).until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR, "h6")))
-    assert us_err.text == 'Username cannot contain whitespace'
-    register(chrome)
 
 if __name__ == '__main__':
     pytest.main()
