@@ -20,7 +20,7 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
-          command: python -m pytest --workers 7 --tests-per-worker auto
+          command: python -m pytest
           name: Test
 
 workflows:
