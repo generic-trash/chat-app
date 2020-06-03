@@ -2,6 +2,9 @@ from inspect import currentframe
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.remote.errorhandler import WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
+from json import dumps
+import urllib3
+import requests
 from time import sleep
 from selenium.webdriver.common.by import By
 
@@ -36,5 +39,16 @@ def wait_for_url(driver, url):
         try:
             driver.get(url)
             break
-        except:
+        except WebDriverException:
             sleep(3)
+
+
+def login(driver, user=None, pwd='password'):
+    if user is None:
+        user = currentframe().f_back.f_code.co_name
+    username_in = driver.find_element(By.CSS_SELECTOR, '#username')
+    pwd_in = driver.find_element(By.CSS_SELECTOR, '#password')
+    submit = driver.find_element(By.CSS_SELECTOR, '[type=\'submit\'')
+    clear_and_send_keys(username_in, user)
+    clear_and_send_keys(pwd_in, pwd)
+    submit.click()

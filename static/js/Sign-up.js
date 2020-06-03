@@ -8,7 +8,7 @@ pwerr = $('#pwh6')
 cperr = $('#cph6')
 emerr = $('#emh6')
 userr = $('#ush6')
-$('form').submit(async function(e) {
+$('form').submit(function(e) {
         e.preventDefault();
         errors.text(null)
         inputs.attr('class','')
@@ -18,7 +18,7 @@ $('form').submit(async function(e) {
         'password':password.val(),
         'confirm':cpass.val()
     })
-    await fetch("/register", {
+    fetch("/register", {
         "credentials": "include",
         "body": body,
         "method": "POST",

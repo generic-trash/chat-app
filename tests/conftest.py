@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 from web import app as application
+import urllib3
 
 
 @pytest.fixture
