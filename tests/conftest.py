@@ -20,6 +20,7 @@ def chrome():
 def pool():
     pool = urllib3.PoolManager()
     yield pool
+    pool.clear()
 
 
 @pytest.fixture

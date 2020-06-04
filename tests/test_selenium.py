@@ -65,7 +65,7 @@ def test_signup_success(live_server, selenium: webdriver.Firefox):
     register(selenium)
     selenium.execute_script("window.open('');")
     selenium.switch_to.window(selenium.window_handles[1])
-    selenium.get(url_for('home_html', _external=True))
+    wait_for_url(selenium, url_for('home_html', _external=True))
     assert selenium.current_url == url_for('home_html', _external=True)
 
 
@@ -90,7 +90,8 @@ def test_signin_success_username(live_server, selenium: webdriver.Firefox, pool)
     wait_for_url(selenium, url_for('signin_html', _external=True))
     login(selenium)
     selenium.execute_script("window.open('');")
-    selenium
+    wait_for_url(selenium, url_for('home_html', _external=True))
+    assert selenium.current_url == url_for('home_html', _external=True)
 
 
 def test_signin_fail(live_server, selenium: webdriver.Firefox, pool):
