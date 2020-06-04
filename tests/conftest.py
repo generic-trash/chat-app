@@ -17,8 +17,13 @@ def chrome():
 
 
 @pytest.fixture
+def pool():
+    pool = urllib3.PoolManager()
+    yield pool
+
+
+@pytest.fixture
 def firefox():
     driver = webdriver.Firefox()
     yield driver
     driver.quit()
-

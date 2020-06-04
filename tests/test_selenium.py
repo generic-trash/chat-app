@@ -73,41 +73,31 @@ def test_signout(live_server, selenium: webdriver.Firefox):
     wait_for_url(selenium, url_for('signup_html', _external=True))
     register(selenium)
     selenium.execute_script("window.open('');")
+    selenium.switch_to.window(selenium.window_handles[1])
     wait_for_url(selenium, url_for('home_html', _external=True))
     assert selenium.current_url == url_for('home_html', _external=True)
     selenium.find_element(By.CSS_SELECTOR, '#themetrig').click()
+    WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#signout')))
     selenium.find_element(By.CSS_SELECTOR, '#signout').click()
+    selenium.close()
+    selenium.switch_to.window(selenium.window_handles[0])
+    wait_for_url(selenium, url_for('testing', _external=True))
     assert selenium.current_url == url_for('signin_html', _external=True)
 
 
-def test_signin_success(live_server, selenium: webdriver.Firefox):
-    wait_for_url(selenium, url_for('signup_html', _external=True))
-    register(selenium)
-    selenium.execute_script("window.open('');")
-    wait_for_url(selenium, url_for('home_html', _external=True))
-    assert selenium.current_url == url_for('home_html', _external=True)
-    selenium.find_element(By.CSS_SELECTOR, '#themetrig').click()
-    selenium.find_element(By.CSS_SELECTOR, '#signout').click()
-    assert selenium.current_url == url_for('signin_html', _external=True)
+def test_signin_success_username(live_server, selenium: webdriver.Firefox, pool):
+    post(pool, url_for('registeruser', _external=True))
+    wait_for_url(selenium, url_for('signin_html', _external=True))
     login(selenium)
     selenium.execute_script("window.open('');")
-    wait_for_url(selenium, url_for('home_html', _external=True))
-    assert selenium.current_url == url_for('home_html', _external=True)
+    selenium
 
 
-def test_signin_fail(live_server, selenium: webdriver.Firefox):
-    wait_for_url(selenium, url_for('signup_html', _external=True))
-    register(selenium)
-    selenium.execute_script("window.open('');")
-    wait_for_url(selenium, url_for('home_html', _external=True))
-    assert selenium.current_url == url_for('home_html', _external=True)
-    selenium.find_element(By.CSS_SELECTOR, '#themetrig').click()
-    selenium.find_element(By.CSS_SELECTOR, '#signout').click()
-    assert selenium.current_url == url_for('signin_html', _external=True)
-    login(selenium, pwd='PASSWORD')
-    selenium.execute_script("window.open('');")
-    wait_for_url(selenium, url_for('home_html', _external=True))
-    assert selenium.current_url == url_for('signin_html', _external=True)
+def test_signin_fail(live_server, selenium: webdriver.Firefox, pool):
+    post(pool, url_for('registeruser', _external=True))
+    wait_for_url(selenium, url_for('signin_html', _external=True))
+    login(selenium, pwd='PSSWORD')
+    WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'h6')))
 
 
 if __name__ == '__main__':

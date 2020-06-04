@@ -52,3 +52,13 @@ def login(driver, user=None, pwd='password'):
     clear_and_send_keys(username_in, user)
     clear_and_send_keys(pwd_in, pwd)
     submit.click()
+
+
+def post(pool: urllib3.PoolManager, url, user=None, email=None, pwd='password', conf=None):
+    if user is None:
+        user = currentframe().f_back.f_code.co_name
+    if conf is None:
+        conf = pwd
+    if email is None:
+        email = user + '@example.com'
+    return pool.request('POST', url, body=dumps({'username': user, 'email': email, 'password': pwd, 'confirm': conf}))
