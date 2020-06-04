@@ -13,12 +13,12 @@ def app():
 def chrome():
     driver = webdriver.Chrome()
     yield driver
-    driver.close()
+    driver.quit()
 
 
 @pytest.fixture
 def firefox():
     driver = webdriver.Firefox()
     yield driver
-    driver.close()
+    driver.quit()
 

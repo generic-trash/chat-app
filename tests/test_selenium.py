@@ -75,5 +75,100 @@ def test_register_redirect_chrome(live_server, chrome: webdriver.Chrome):
     assert chrome.current_url == url_for('signin_html', _external=True)
 
 
+def test_signin_firefox_nonexistent_username(live_server, firefox: webdriver.Firefox):
+    wait_for_url(firefox, url_for('signin_html', _external=True))
+    login(firefox)
+    WebDriverWait(firefox, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'h6')))
+
+
+def test_signin_chrome_nonexistent_username(live_server, chrome: webdriver.Firefox):
+    wait_for_url(chrome, url_for('signin_html', _external=True))
+    login(chrome)
+    WebDriverWait(chrome, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'h6')))
+
+
+def test_signin_firefox_nonexistent_email(live_server, firefox: webdriver.Firefox):
+    wait_for_url(firefox, url_for('signin_html', _external=True))
+    login(firefox, user='test@example.com')
+    WebDriverWait(firefox, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'h6')))
+
+
+def test_signin_chrome_nonexistent_email(live_server, chrome: webdriver.Firefox):
+    wait_for_url(chrome, url_for('signin_html', _external=True))
+    login(chrome, user='test@example.com')
+    WebDriverWait(chrome, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'h6')))
+
+
+def test_signup_firefox_success(live_server, firefox: webdriver.Firefox):
+    wait_for_url(firefox, url_for('signup_html', _external=True))
+    register(firefox)
+    firefox.execute_script("window.open('');")
+    firefox.switch_to.window(firefox.window_handles[1])
+    firefox.get(url_for('home_html', _external=True))
+    assert firefox.current_url == url_for('home_html', _external=True)
+
+
+def test_signup_chrome_success(live_server, chrome: webdriver.Firefox):
+    wait_for_url(chrome, url_for('signup_html', _external=True))
+    register(chrome)
+    chrome.execute_script("window.open('');")
+    chrome.switch_to.window(chrome.window_handles[1])
+    chrome.get(url_for('home_html', _external=True))
+    assert chrome.current_url == url_for('home_html', _external=True)
+
+
+def test_signout_firefox(live_server, firefox: webdriver.Firefox):
+    wait_for_url(firefox, url_for('signup_html', _external=True))
+    register(firefox)
+    firefox.execute_script("window.open('');")
+    wait_for_url(firefox, url_for('home_html', _external=True))
+    assert firefox.current_url == url_for('home_html', _external=True)
+    firefox.find_element(By.CSS_SELECTOR, '#themetrig').click()
+    firefox.find_element(By.CSS_SELECTOR, '#signout').click()
+    assert firefox.current_url == url_for('signin_html', _external=True)
+
+
+def test_signout_chrome(live_server, chrome: webdriver.Firefox):
+    wait_for_url(chrome, url_for('signup_html', _external=True))
+    register(chrome)
+    chrome.execute_script("window.open('');")
+    wait_for_url(chrome, url_for('home_html', _external=True))
+    assert chrome.current_url == url_for('home_html', _external=True)
+    chrome.find_element(By.CSS_SELECTOR, '#themetrig').click()
+    chrome.find_element(By.CSS_SELECTOR, '#signout').click()
+    assert chrome.current_url == url_for('signin_html', _external=True)
+
+
+def test_signin_firefox_success(live_server, firefox: webdriver.Firefox):
+    wait_for_url(firefox, url_for('signup_html', _external=True))
+    register(firefox)
+    firefox.execute_script("window.open('');")
+    wait_for_url(firefox, url_for('home_html', _external=True))
+    assert firefox.current_url == url_for('home_html', _external=True)
+    firefox.find_element(By.CSS_SELECTOR, '#themetrig').click()
+    firefox.find_element(By.CSS_SELECTOR, '#signout').click()
+    assert firefox.current_url == url_for('signin_html', _external=True)
+    login(firefox)
+    firefox.execute_script("window.open('');")
+    wait_for_url(firefox, url_for('home_html', _external=True))
+    assert firefox.current_url == url_for('home_html', _external=True)
+
+
+def test_signin_chrome_success(live_server, chrome: webdriver.Firefox):
+    wait_for_url(chrome, url_for('signup_html', _external=True))
+    register(chrome)
+    chrome.execute_script("window.open('');")
+    wait_for_url(chrome, url_for('home_html', _external=True))
+    assert chrome.current_url == url_for('home_html', _external=True)
+    chrome.find_element(By.CSS_SELECTOR, '#themetrig').click()
+    chrome.find_element(By.CSS_SELECTOR, '#signout').click()
+    assert chrome.current_url == url_for('signin_html', _external=True)
+    login(chrome)
+    chrome.execute_script("window.open('');")
+    wait_for_url(chrome, url_for('home_html', _external=True))
+    assert chrome.current_url == url_for('home_html', _external=True)
+
+
+
 if __name__ == '__main__':
     pytest.main()
