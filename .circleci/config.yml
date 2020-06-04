@@ -39,6 +39,7 @@ jobs:
 
   backend-test:
     executor: python/default
+    resource_class: small
     steps:
       - checkout-and-python-deps
       - run:
