@@ -12,15 +12,23 @@ commands:
       - python/install-deps
       - python/save-cache
 jobs:
+  build:
+    docker:
+      - image: circleci/python:latest-browsers
+      resource_class: small
+      working_directory: /mnt/ramdisk
+      steps:
+        - checkout-and-python-deps
+        - browser-tools/install-firefox
+        - browser-tools/install-geckodriver
+        - browser-tools/install-chrome
+        - browser-tools/install-chromedriver
   firefox-test:
     docker:
       - image: circleci/python:latest-browsers
     resource_class: small
     working_directory: /mnt/ramdisk
     steps:
-      - checkout-and-python-deps
-      - browser-tools/install-firefox
-      - browser-tools/install-geckodriver
       - run:
           command: python -m pytest tests/test_selenium.py --workers 5 --driver firefox
           name: Test
@@ -30,9 +38,6 @@ jobs:
     resource_class: small
     working_directory: /mnt/ramdisk
     steps:
-      - checkout-and-python-deps
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
       - run:
           command: python -m pytest tests/test_selenium.py --workers 5 --driver chrome
           name: Test
@@ -41,7 +46,6 @@ jobs:
     executor: python/default
     resource_class: small
     steps:
-      - checkout-and-python-deps
       - run:
           command: python -m pytest tests/test_backend.py --workers auto
           name: Test
@@ -50,6 +54,13 @@ jobs:
 workflows:
   main:
     jobs:
-      - backend-test
-      - firefox-test
-      - chrome-test
+      - build
+      - backend-test:
+          requires:
+            - build
+      - firefox-test:
+          requires:
+            - build
+      - chrome-test:
+          requires:
+            - build
