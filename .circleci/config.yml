@@ -22,7 +22,7 @@ jobs:
       - browser-tools/install-firefox
       - browser-tools/install-geckodriver
       - run:
-          command: python -m pytest tests/test_selenium.py --workers auto --driver firefox
+          command: python -m pytest tests/test_selenium.py --workers 5 --driver firefox
           name: Test
   chrome-test:
     docker:
@@ -34,7 +34,7 @@ jobs:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
-          command: python -m pytest tests/test_selenium.py --workers auto --driver chrome
+          command: python -m pytest tests/test_selenium.py --workers 5 --driver chrome
           name: Test
 
   backend-test:
