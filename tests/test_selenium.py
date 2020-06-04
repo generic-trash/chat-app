@@ -32,6 +32,8 @@ def test_register_whitespace(live_server, selenium: webdriver.Firefox):
 
 
 def test_register_tab(live_server, selenium: webdriver.Firefox):
+    if isinstance(selenium, webdriver.Chrome):
+        pytest.skip("Does not work on Chrome")
     wait_for_url(selenium, url_for('signup_html', _external=True))
     us_err = selenium.find_element(By.CSS_SELECTOR, '#ush6')
     register(selenium, 'Hello\tworld', 'testing', pwd='pass', conf='conf')
