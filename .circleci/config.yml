@@ -3,27 +3,52 @@ version: 2.1
 orbs:
   python: circleci/python@0.2.1
   browser-tools: circleci/browser-tools@1.0.0
-
-jobs:
-  build-and-test:
-    docker:
-      - image: circleci/python:latest-browsers
-    resource_class: small
-    working_directory: /mnt/ramdisk
+commands:
+  checkout-and-python-deps:
+    description: "A very simple command for demonstration purposes"
     steps:
       - checkout
       - python/load-cache
       - python/install-deps
       - python/save-cache
+jobs:
+  firefox-test:
+    docker:
+      - image: circleci/python:latest-browsers
+    resource_class: small
+    working_directory: /mnt/ramdisk
+    steps:
+      - checkout-and-python-deps
       - browser-tools/install-firefox
       - browser-tools/install-geckodriver
+      - run:
+          command: python -m pytest tests/test_selenium.py --workers auto --driver firefox
+          name: Test
+  chrome-test:
+    docker:
+      - image: circleci/python:latest-browsers
+    resource_class: small
+    working_directory: /mnt/ramdisk
+    steps:
+      - checkout-and-python-deps
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       - run:
-          command: python -m pytest --workers auto
+          command: python -m pytest tests/test_selenium.py --workers auto --driver chrome
           name: Test
+
+  backend-test:
+    executor: python/default
+    steps:
+      - checkout-and-python-deps
+      - run:
+          command: python -m pytest tests/test_backend.py --workers auto
+          name: Test
+
 
 workflows:
   main:
     jobs:
-      - build-and-test
+      - backend-test
+      - firefox-test
+      - chrome-test

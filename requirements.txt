@@ -1,5 +1,6 @@
 flask
 pytest
 pytest-parallel
+pytest-selenium
 pytest-flask
 selenium
