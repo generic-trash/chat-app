@@ -79,7 +79,6 @@ def test_signout(live_server, selenium: webdriver.Firefox):
     selenium.find_element(By.CSS_SELECTOR, '#themetrig').click()
     WebDriverWait(selenium, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#signout')))
     selenium.find_element(By.CSS_SELECTOR, '#signout').click()
-    selenium.close()
     selenium.switch_to.window(selenium.window_handles[0])
     wait_for_url(selenium, url_for('testing', _external=True))
     assert selenium.current_url == url_for('signin_html', _external=True)
