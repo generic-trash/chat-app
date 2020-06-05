@@ -19,7 +19,7 @@ jobs:
       - browser-tools/install-firefox
       - browser-tools/install-geckodriver
       - run:
-          command: python -m pytest --workers 8 --driver firefox
+          command: python -m pytest --workers 6
           name: Test
 
 
