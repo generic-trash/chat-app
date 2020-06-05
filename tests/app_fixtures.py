@@ -47,5 +47,7 @@ def change_password(client, old='password', new='testerpw', conf=None):
     return client.post('/changepassword', json={'old': old, 'new': new, 'conf': conf})
 
 
-def block_user(client, user):
+def block_user(client, user=None):
+    if user is None:
+        user = currentframe().f_back.f_code.co_name
     return client.post('/block', json={'user': user})

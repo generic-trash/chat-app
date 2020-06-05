@@ -28,21 +28,23 @@
     <div class="horiz-nav-border"></div>
     <div class="container">
       <section class="blacklist">
-        <form id="blacklist-form">
+
           <div class="blacklist__header">
             <h1>Blacklist</h1>
-            <button class="btn btn-primary">Add user</button>
+            <button class="btn btn-primary" type="submit" form="blacklist-form">Add user</button>
           </div>
           <div class="divider"></div>
           <table class="blacklist__table">
             <thead>
               <tr>
                 <td>
-                  <input
-                    id="blacklist-input"
-                    placeholder="Username/Email"
-                    type="text"
-                  />
+                    <form id="blacklist-form">
+                      <input
+                        id="blacklist-input"
+                        placeholder="Username/Email"
+                        type="text"
+                      />
+                    </form>
                 </td>
               </tr>
             </thead>
@@ -139,7 +141,7 @@
               </tr>
             </tbody>
           </table>
-        </form>
+
       </section>
       <div class="vertical-border"></div>
       <div class="vertical-border" id="delete-account-border"></div>
@@ -244,6 +246,51 @@
           </form>
         </div>
       </section>
+    </div>
+    <div class="modal" id="themepopup">
+      <!-- Modal content -->
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close" id="close-theme">&times;</span>
+            <div class="flex">
+              <div class="user-nav modal-user">
+                <h1 class="username"> {{ username[0].upper() }} </h1>
+              </div>
+            </div>
+            <div class="content">
+              <h2> {{ username }} </h2>
+              <p> {{ email }}</p>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="dark-mode">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                id="darkmodesvg"
+              >
+                <path
+                  d="M0 12c0 6.627 5.373 12 12 12s12-5.373 12-12-5.373-12-12-12-12 5.373-12 12zm2 0c0-5.514 4.486-10 10-10v20c-5.514 0-10-4.486-10-10z"
+                  id="path"
+                  fill={% if darkmode %} "#ff6b00" {% else %} "#0094ff" {% endif %}
+                />
+              </svg>
+              <label id="toggle">&nbsp;Dark Mode</label>
+              <br />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <form class="button" action="/signout" method="POST">
+              <button class="btn btn-primary" id="signout" type="submit">
+                Sign out
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   <script src="/assets/js/Settings.js"></script>
   </body>

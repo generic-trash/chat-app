@@ -105,7 +105,9 @@ def getconvos():
 @app.route('/Conversations/new', methods=['POST'])
 def newconvo():
     data = loads(request.data)
-    if not auth.add_conversation(getuser(), data['email']):
+    ret = auth.add_conversation(getuser(), data['email'])
+    print(ret)
+    if isinstance(ret, str):
         return '', 403
     return jsonify(auth.get_user_conversation_info(getuser()))
 
@@ -140,12 +142,25 @@ def deluser():
 
 @app.route('/getblocked')  # TOTEST
 def getblocked():
-    raise NotImplementedError
+    return jsonify(auth.user_get_blocked(getuser()))
 
 
 @app.route('/block', methods=['POST'])  # TOTEST
 def blockuser():
-    raise NotImplementedError
+    data = loads(request.data)
+    if auth.block(getuser(), data['user']):
+        return jsonify(auth.user_get_blocked(getuser()))
+    else:
+        return '', 403
+
+
+@app.route('/unblock', methods=['POST'])
+def unblock():
+    data = loads(request.data)
+    if auth.unblock(getuser(), data['user']):
+        return '', 200
+    else:
+        return '', 403
 
 
 @app.route('/secretquestion', methods=['GET', 'PUT'])  # TOTEST
@@ -172,7 +187,8 @@ def resetpassword():
 @app.route('/Settings.html')
 def settingspage():
     if getuser():
-        return send_file('Sandbox/Settings.html')
+        return render_template('Settings.html', darkmode=auth.user_get_dark_mode(getuser()),
+                               email=auth.get_email(getuser()), username=getuser())
     return redirect('/Sign-in.html')
 
 

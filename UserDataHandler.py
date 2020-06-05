@@ -5,6 +5,7 @@ class UserConversationManager:
         self.darkmode = False
         self.pwd_hash = pwd_hash
         self.email = email
+        self.blocklist = []
 
     def add_conversation(self, conversation_name, conversation_handler, id):
         self._userdata[id] = {'name': conversation_name, 'handler': conversation_handler}
@@ -33,3 +34,19 @@ class UserConversationManager:
 
     def set_passwd(self, hash):
         self.pwd_hash = hash
+
+    def block(self, user):
+        if not self.isblocked(user):
+            self.blocklist.append(user)
+
+    def isblocked(self, user):
+        return user in self.blocklist
+
+    def unblock(self, user):
+        try:
+            self.blocklist.remove(user)
+        except ValueError:
+            pass
+
+    def get_blocked(self):
+        return self.blocklist

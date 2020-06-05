@@ -104,7 +104,7 @@ async function toggledarkmode() {
         "mode": "cors"
     }).then(response => {
         if (response.status == 200) {
-            response.json()
+            return response.json()
         } else {
             return Promise.reject(response)
         }

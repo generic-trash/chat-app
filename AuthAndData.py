@@ -1,6 +1,8 @@
 from hashlib import sha3_512 as sha512
 from base64 import b64encode, b32encode
 from os import urandom
+from typing import Dict
+
 from UserDataHandler import UserConversationManager
 from Conversation import Conversation
 import re
@@ -13,6 +15,8 @@ def isvalidemail(email):
 
 
 class Authenticator:
+    user_data: Dict[str, UserConversationManager]
+
     @staticmethod
     def _hash_pwd(passwd):
         return sha512(passwd.encode()).digest()
@@ -102,16 +106,18 @@ class Authenticator:
             user1 = user1.lower()
             user2 = user2.lower()
             if user1 == user2:
-                return False
+                return "You cannot create a conversation with yourself"
         except KeyError:
-            return False
+            return "User does not exist"
+        if self.isblocked(user1, user2) or self.isblocked(user2, user1):
+            return "User has blocked you"
         id = b32encode(urandom(65)).decode()
         conversation = Conversation(id)
         try:
             self.user_data[user1].add_conversation(self.get_username(user2), conversation, id)
             self.user_data[user2].add_conversation(self.get_username(user1), conversation, id)
         except KeyError:
-            return False
+            return "User does not exist"
         return True
 
     def get_username(self, username):
@@ -151,3 +157,30 @@ class Authenticator:
 
     def get_email(self, user):
         return self.user_data[user].email
+
+    def block(self, blocker, blocked):
+        try:
+            blocked = blocked.lower()
+            if isvalidemail(blocked):
+                blocked = self.emails_to_users[blocked]
+            assert self.user_data.get(blocked) is not None
+            self.user_data[blocker].block(blocked)
+            return True
+        except (KeyError, AssertionError):
+            return False
+
+    def isblocked(self, blocker, blocked):
+        try:
+            return self.user_data[blocker].isblocked(blocked)
+        except KeyError:
+            return None
+
+    def unblock(self, blocker, blocked):
+        try:
+            self.user_data[blocker].unblock(blocked)
+            return True
+        except KeyError:
+            return False
+
+    def user_get_blocked(self, user):
+        return self.user_data[user].get_blocked()
