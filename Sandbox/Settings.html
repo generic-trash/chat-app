@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     {% if darkmode %}
-    <link href="/assets/css/Settings.css" rel="stylesheet" id="Settings-css"/>
-    <link href="/assets/css/Settings-dark.css" rel="stylesheet" id="sentinel-css"/>
-    {% else %}
-    <link href="/assets/css/Settings.css" rel="stylesheet" id="sentinel-css"/>
     <link href="/assets/css/Settings-dark.css" rel="stylesheet" id="Settings-css"/>
+    <link href="/assets/css/Settings.css" rel="stylesheet" id="sentinel-css"/>
+    {% else %}
+    <link href="/assets/css/Settings-dark.css" rel="stylesheet" id="sentinel-css"/>
+    <link href="/assets/css/Settings.css" rel="stylesheet" id="Settings-css"/>
     {% endif %}
     <link href="/assets/css/Buttons.css" rel="stylesheet" />
     <link
@@ -281,7 +281,7 @@
                 <path
                   d="M0 12c0 6.627 5.373 12 12 12s12-5.373 12-12-5.373-12-12-12-12 5.373-12 12zm2 0c0-5.514 4.486-10 10-10v20c-5.514 0-10-4.486-10-10z"
                   id="path"
-                  fill={% if darkmode %} "#ff6b00" {% else %} "#0094ff" {% endif %}
+                  fill={% if darkmode %}"#ff6b00"{% else %}"#0094ff"{% endif %}
                 />
               </svg>
               <label id="toggle">&nbsp;Dark Mode</label>
