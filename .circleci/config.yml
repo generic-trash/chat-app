@@ -2,12 +2,10 @@ version: 2.1
 
 orbs:
   python: circleci/python@0.2.1
-  browser-tools: circleci/browser-tools@1.0.0
 
 jobs:
   test:
-    docker:
-      - image: circleci/python:latest-browsers
+    executor: python/default
 
     resource_class: small
     working_directory: /mnt/ramdisk
@@ -16,8 +14,6 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
-      - browser-tools/install-firefox
-      - browser-tools/install-geckodriver
       - run:
           command: python -m pytest --workers 6
           name: Test
