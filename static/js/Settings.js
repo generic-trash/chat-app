@@ -120,6 +120,7 @@ function hideModal() {
 function showModal() {
     modal.show();
 }
+hideModal()
 $("#themetrig").click(showModal);
 $("#close-theme").click(hideModal);
 $("<meta name='jsid' value='setjs'>").appendTo('head')
