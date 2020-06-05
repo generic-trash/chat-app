@@ -164,6 +164,7 @@ class Authenticator:
             if isvalidemail(blocked):
                 blocked = self.emails_to_users[blocked]
             assert self.user_data.get(blocked) is not None
+            assert blocker != blocked
             self.user_data[blocker].block(blocked)
             return True
         except (KeyError, AssertionError):

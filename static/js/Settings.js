@@ -77,16 +77,19 @@ function initialize() {
 initialize();
 $('#blacklist-form').submit(function (e) {
     e.preventDefault()
+    $('#blacklist-form input').removeClass('invalid')
     fetch('/block', {
         "credentials": "include",
         "method": "POST",
         "body": JSON.stringify({'user': $('#blacklist-form input').val()})
     }).then(response => {
         if (!response.ok) {
-            return Promise.reject(response)
+            return Promise.reject(response.status)
         }
         return response.json()
-    }).then(blacklist_update)
+    }).then(blacklist_update).catch(resp => {
+        $('#blacklist-form input').addClass('invalid')
+    })
 })
 function darkmode_handle(isdark) {
     if(isdark) {

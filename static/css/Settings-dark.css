@@ -291,10 +291,6 @@ section {
 #delete-account-border {
   order: 3;
 }
-input.invalid {
-  color: var(--clr-danger-2);
-  background-color: var(--clr-danger-light);
-}
 
 .modal {
   display: block; /* Hidden by default */
@@ -425,6 +421,10 @@ h6.invalid {
   font-weight: var(--fw-light);
   color: var(--clr-danger);
   margin-top: 0.5em;
+}
+input.invalid {
+  color: var(--clr-danger-2);
+  background-color: var(--clr-danger-light) !important;
 }
 
 @media (min-width: 601px) {
