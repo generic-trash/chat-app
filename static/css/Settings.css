@@ -81,6 +81,7 @@ label {
   background-color: var(--clr-neutral);
   margin-top: 2em;
   width: 100%;
+  border-radius: 10px;
 }
 
 tr {
@@ -244,6 +245,11 @@ section {
   background-color: var(--clr-neutral);
 }
 
+.user-icon {
+    color: var(--clr-primary)
+}
+
+
 .horiz-nav-border {
     border-bottom: 2px solid var(--clr-primary);
 }
@@ -289,6 +295,9 @@ section {
 input.invalid {
   color: var(--clr-danger-2);
   background-color: var(--clr-danger-light);
+}
+.modal-user .user-icon {
+    font-size: 1.5rem;
 }
 
 .modal {
@@ -363,7 +372,9 @@ input.invalid {
   border-bottom: 1px solid #bcbcbc;
   margin-bottom: 20px;
 }
-
+.modal-header h2 {
+    font-size: 1.25em;
+}
 .modal-body,
 .modal-footer {
   padding: 2px 16px;

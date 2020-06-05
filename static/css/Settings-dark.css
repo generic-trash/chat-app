@@ -19,7 +19,7 @@
 :root {
   --input-color: #e5e5e5;
   --clr-primary: #ff6b00;
-  --clr-neutral: #727272;
+  --clr-neutral: #7272724d;
   --clr-light: #ffffff;
   --clr-danger: #df3232;
   --clr-danger-light: #ffb4b4;
@@ -48,6 +48,13 @@ h1 {
   color: #ffffff;
   font-weight: var(--fw-semi-bold);
   font-family: "Nunito", sans-serif;
+}
+.modal-user .user-icon {
+    font-size: 1.5rem;
+}
+
+.user-icon {
+    color: var(--clr-primary)
 }
 
 p {
@@ -83,6 +90,7 @@ label {
 
 .blacklist__table {
   background-color: var(--clr-neutral);
+  border-radius: 10px;
   margin-top: 2em;
   width: 100%;
 }
@@ -244,7 +252,11 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--clr-primary);
+  background-color: var(--clr-neutral);
+}
+.modal-header h2 {
+    color: #ffffff;
+    font-size: 1.25em;
 }
 
 .horiz-nav-border {
@@ -302,7 +314,7 @@ input.invalid {
 .modal-content {
   position: relative;
   display: inline-block;
-  background-color: #fefefe;
+  background-color: #242424;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
@@ -402,7 +414,7 @@ input.invalid {
   font-style: normal;
   font-weight: normal;
   font-size: calc(1rem + 3px);
-  color: #000000;
+  color: #ffffff;
 }
 
 .modal-user {
