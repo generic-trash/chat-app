@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link href="/assets/css/Settings.css" rel="stylesheet" />
+    {% if darkmode %}
+    <link href="/assets/css/Settings.css" rel="stylesheet" id="Settings-css"/>
+    <link href="/assets/css/Settings-dark.css" rel="stylesheet" id="sentinel-css"/>
+    {% else %}
+    <link href="/assets/css/Settings.css" rel="stylesheet" id="sentinel-css"/>
+    <link href="/assets/css/Settings-dark.css" rel="stylesheet" id="Settings-css"/>
+    {% endif %}
     <link href="/assets/css/Buttons.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap"

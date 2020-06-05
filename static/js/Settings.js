@@ -1,3 +1,4 @@
+$('#sentinel-css').remove()
 $('#change-password').submit(async function(e) {
     e.preventDefault()
     body = JSON.stringify({
@@ -90,10 +91,10 @@ $('#blacklist-form').submit(function (e) {
 function darkmode_handle(isdark) {
     if(isdark) {
         $("#path").attr("fill",'#ff6b00')
-        $('#Home-css').attr('href','/assets/css/Home-dark.css')
+        $('#Settings-css').attr('href','/assets/css/Settings-dark.css')
     } else {
         $("#path").attr("fill",'#0094ff')
-        $('#Home-css').attr('href','/assets/css/Home.css')
+        $('#Settings-css').attr('href','/assets/css/Settings.css')
     }
 }
 async function toggledarkmode() {
