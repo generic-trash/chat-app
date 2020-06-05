@@ -65,6 +65,11 @@ label {
   font-family: "Nunito", sans-serif;
 }
 
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .blacklist__header {
   display: flex;
