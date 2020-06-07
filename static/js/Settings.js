@@ -87,9 +87,12 @@ $('#blacklist-form').submit(function (e) {
             return Promise.reject(response.status)
         }
         return response.json()
-    }).then(blacklist_update).catch(resp => {
+    }).then(blacklist_update)
+    .then(() => $('#blacklist-form input').val(""))
+    .catch(resp => {
         $('#blacklist-form input').addClass('invalid')
     })
+
 })
 function darkmode_handle(isdark) {
     if(isdark) {
@@ -115,8 +118,7 @@ async function toggledarkmode() {
         darkmode_handle(data.darkmode)
     });
 }
-$('#darkmodesvg').click(toggledarkmode)
-$('#toggle').click(toggledarkmode)
+$('.dark-mode').click(toggledarkmode)
 modal = $("#themepopup");
 function hideModal() {
     modal.hide();
@@ -127,4 +129,18 @@ function showModal() {
 hideModal()
 $("#themetrig").click(showModal);
 $("#close-theme").click(hideModal);
+function remove_user() {
+    user = $(event.target).parent().parent().children('.user').text()
+    fetch("/unblock", {
+        "credentials": "include",
+        "method": "POST",
+        "body": JSON.stringify({'user': user}),
+        "mode": "cors"
+    }).then(response => {
+        if (!response.ok) {
+            return Promise.reject(response)
+        }
+        return response.json()
+    }).then(blacklist_update)
+}
 $("<meta name='jsid' value='setjs'>").appendTo('head')

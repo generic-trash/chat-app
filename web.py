@@ -158,7 +158,7 @@ def blockuser():
 def unblock():
     data = loads(request.data)
     if auth.unblock(getuser(), data['user']):
-        return '', 200
+        return jsonify(auth.user_get_blocked(getuser()))
     else:
         return '', 403
 

@@ -112,6 +112,5 @@ async function toggledarkmode() {
         darkmode_handle(data.darkmode)
     });
 }
-$('#darkmodesvg').click(toggledarkmode)
-$('#toggle').click(toggledarkmode)
+$('.dark-mode').click(toggledarkmode)
 $("<meta name='jsid' value='homejs'>").appendTo('head')
